@@ -129,6 +129,18 @@
       <!-- Controles: Exportar, Modo Oscuro y Reinicio -->
       <div class="flex items-center space-x-2">
         
+        <!-- Botón Acceso Rápido a Autómatas -->
+        <a
+          href="#seccionAutomatas"
+          class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-indigo-500/10 dark:bg-indigo-400/15 hover:bg-indigo-500/20 text-xs font-semibold text-indigo-700 dark:text-indigo-300 transition-all active:scale-95 border border-indigo-500/20 dark:border-indigo-400/30"
+          title="Ver Modelos Formales de Autómatas (AFD y AP)"
+        >
+          <svg class="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
+          </svg>
+          <span class="hidden sm:inline">Modelos de</span> Autómatas
+        </a>
+
         <!-- Botón Exportar Reporte JSON -->
         <button
           onclick="exportarAuditoriaJSON()"
@@ -138,7 +150,7 @@
           <svg class="w-3.5 h-3.5 text-[#0071E3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
           </svg>
-          <span>Exportar Auditoría</span>
+          <span>Exportar</span>
         </button>
 
         <!-- Conmutador Dark Mode -->
@@ -555,6 +567,167 @@
             class="w-full font-mono text-xs sm:text-sm p-4 bg-transparent text-[#34C759] overflow-x-auto leading-relaxed min-h-[160px] whitespace-pre"
           ></pre>
         </div>
+      </div>
+
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- FASE 6 / TEORÍA: FUNDAMENTACIÓN DE AUTÓMATAS (AFD & AP)  -->
+    <!-- ======================================================== -->
+    <section id="seccionAutomatas" class="bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-2xl border border-indigo-500/20 dark:border-indigo-500/30 rounded-[30px] p-5 sm:p-7 shadow-apple-card dark:shadow-apple-card-dark space-y-6">
+      
+      <!-- Encabezado de la Sección de Autómatas -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-black/[0.06] dark:border-white/10">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-indigo-500"></span>
+            <h2 class="text-base sm:text-lg font-bold text-[#1D1D1F] dark:text-white tracking-tight">
+              Fundamentación Teórica: Modelos de Autómatas Implementados
+            </h2>
+          </div>
+          <p class="text-xs text-[#6E6E73] dark:text-white/60 mt-0.5">
+            Mapeo formal del proyecto a la <strong>Jerarquía de Chomsky</strong> (Autómatas Finitos y Autómatas de Pila).
+          </p>
+        </div>
+
+        <span class="px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 text-xs font-bold border border-indigo-500/20 self-start sm:self-auto">
+          Teoría de la Computación
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- TARJETA 1: AUTÓMATAS FINITOS DETERMINISTAS (AFD) -->
+        <div class="p-5 rounded-[24px] bg-slate-50/80 dark:bg-[#151518] border border-black/5 dark:border-white/5 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-sm text-[#1D1D1F] dark:text-white flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-[#0071E3] text-white flex items-center justify-center text-xs font-mono font-bold">M1</span>
+              Autómata Finito Determinista (AFD)
+            </h3>
+            <span class="text-[10px] font-mono font-bold bg-[#0071E3]/10 text-[#0071E3] px-2 py-0.5 rounded-full">Fase Léxica (Chomsky Tipo 3)</span>
+          </div>
+
+          <p class="text-xs text-[#6E6E73] dark:text-white/60 leading-relaxed">
+            El <strong>Lexer</strong> está modelado matemáticamente como una 5-tupla formal: <br>
+            <code class="font-mono text-[11px] text-[#0071E3] font-bold bg-white dark:bg-black/30 px-2 py-0.5 rounded border border-black/5 dark:border-white/5 inline-block mt-1">M = (Q, Σ, δ, q₀, F)</code>
+          </p>
+
+          <div class="space-y-1.5 text-xs text-[#3C3C43] dark:text-white/80 font-mono text-[11px]">
+            <p>• <strong>Q</strong>: Conjunto finito de estados {q₀, q₁, q₂, q₃, q₄, q_error}</p>
+            <p>• <strong>Σ</strong>: Alfabeto {Letras [A-Z], Dígitos [0-9], '=', '-'}</p>
+            <p>• <strong>q₀</strong>: Estado inicial de lectura de caracteres</p>
+            <p>• <strong>F</strong>: Estados de aceptación donde se emite cada Token</p>
+          </div>
+
+          <!-- Diagrama de Estados Visual: Reconocedor de Habitación -->
+          <div class="space-y-2 pt-2">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-[#86868B] dark:text-white/50 block">Diagrama de Transición: TOKEN_HAB_ID (H + 3 Dígitos)</span>
+            <div class="p-3.5 rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/5 dark:border-white/10 overflow-x-auto">
+              <div class="flex items-center space-x-1.5 min-w-[340px] text-[11px] font-mono">
+                <!-- q0 -->
+                <div class="px-2.5 py-1 rounded-full bg-slate-200 dark:bg-white/10 text-[#1D1D1F] dark:text-white font-bold border border-black/10">q₀</div>
+                <span class="text-[#0071E3] font-bold">──'H'──▶</span>
+                <!-- q1 -->
+                <div class="px-2.5 py-1 rounded-full bg-slate-200 dark:bg-white/10 text-[#1D1D1F] dark:text-white font-bold border border-black/10">q₁</div>
+                <span class="text-[#0071E3] font-bold">──[0-9]──▶</span>
+                <!-- q2 -->
+                <div class="px-2.5 py-1 rounded-full bg-slate-200 dark:bg-white/10 text-[#1D1D1F] dark:text-white font-bold border border-black/10">q₂</div>
+                <span class="text-[#0071E3] font-bold">──[0-9]──▶</span>
+                <!-- q3 -->
+                <div class="px-2.5 py-1 rounded-full bg-slate-200 dark:bg-white/10 text-[#1D1D1F] dark:text-white font-bold border border-black/10">q₃</div>
+                <span class="text-[#0071E3] font-bold">──[0-9]──▶</span>
+                <!-- q4 Aceptación -->
+                <div class="px-3 py-1 rounded-full bg-emerald-500 text-white font-bold shadow-sm ring-2 ring-emerald-300 dark:ring-emerald-700">((q₄))</div>
+              </div>
+              <p class="text-[10px] text-emerald-600 dark:text-emerald-400 font-mono mt-2">
+                ✓ Al alcanzar ((q₄)) se emite el token <strong>TOKEN_HAB_ID</strong>.
+              </p>
+            </div>
+          </div>
+
+          <!-- Diagrama de Estados: Asignación y Error -->
+          <div class="space-y-2">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-[#86868B] dark:text-white/50 block">Diagrama de Transición: TOKEN_IGUAL y Estado Trampa</span>
+            <div class="p-3.5 rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/5 dark:border-white/10 overflow-x-auto text-[11px] font-mono space-y-2">
+              <div class="flex items-center space-x-2">
+                <div class="px-2 py-0.5 rounded-full bg-slate-200 dark:bg-white/10 font-bold">q₀</div>
+                <span class="text-purple-600 dark:text-purple-400 font-bold">──'='──▶</span>
+                <div class="px-2.5 py-0.5 rounded-full bg-purple-600 text-white font-bold ring-2 ring-purple-300 dark:ring-purple-700">((q_op))</div>
+                <span class="text-[10px] text-[#6E6E73] dark:text-white/60">→ Emite TOKEN_IGUAL</span>
+              </div>
+              <div class="flex items-center space-x-2">
+                <div class="px-2 py-0.5 rounded-full bg-slate-200 dark:bg-white/10 font-bold">q₀</div>
+                <span class="text-rose-600 dark:text-rose-400 font-bold">──[@, #, $]──▶</span>
+                <div class="px-2.5 py-0.5 rounded-full bg-rose-600 text-white font-bold ring-2 ring-rose-300 dark:ring-rose-700">((q_err))</div>
+                <span class="text-[10px] text-rose-600 dark:text-rose-400">→ Estado Trampa (TOKEN_ERROR)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TARJETA 2: AUTÓMATA DE PILA (PUSH DOWN AUTOMATON) -->
+        <div class="p-5 rounded-[24px] bg-slate-50/80 dark:bg-[#151518] border border-black/5 dark:border-white/5 space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-sm text-[#1D1D1F] dark:text-white flex items-center gap-2">
+              <span class="w-6 h-6 rounded-lg bg-[#AF52DE] text-white flex items-center justify-center text-xs font-mono font-bold">M2</span>
+              Autómata de Pila Determinista (AP)
+            </h3>
+            <span class="text-[10px] font-mono font-bold bg-[#AF52DE]/10 text-[#AF52DE] px-2 py-0.5 rounded-full">Fase Sintáctica (Chomsky Tipo 2)</span>
+          </div>
+
+          <p class="text-xs text-[#6E6E73] dark:text-white/60 leading-relaxed">
+            El <strong>Parser</strong> implementa un <em>Autómata de Pila</em> para reconocer la <strong>Gramática Libre de Contexto (GLC)</strong> mediante una 7-tupla formal: <br>
+            <code class="font-mono text-[11px] text-[#AF52DE] font-bold bg-white dark:bg-black/30 px-2 py-0.5 rounded border border-black/5 dark:border-white/5 inline-block mt-1">M = (Q, Σ, Γ, δ, q₀, Z₀, F)</code>
+          </p>
+
+          <div class="space-y-1.5 text-xs text-[#3C3C43] dark:text-white/80 font-mono text-[11px]">
+            <p>• <strong>Γ (Alfabeto de Pila)</strong>: {&lt;Reserva&gt;, CLIENTE, HABITACION, FECHA, NOCHES, PERSONAS, Z₀}</p>
+            <p>• <strong>Z₀</strong>: Símbolo inicial en el fondo de la pila</p>
+            <p>• <strong>Operaciones</strong>: <em>Push</em> (apilar regla gramatical) y <em>Pop</em> (desapilar token verificado)</p>
+          </div>
+
+          <!-- Simulación Visual de la Pila (Call Stack) -->
+          <div class="space-y-2 pt-2">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-[#86868B] dark:text-white/50 block">Mecanismo de Desapilado de la GLC (Push / Pop)</span>
+            <div class="p-3.5 rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/5 dark:border-white/10 space-y-2 text-xs font-mono">
+              
+              <div class="space-y-1 text-[11px]">
+                <div class="flex items-center justify-between p-2 rounded-xl bg-purple-50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-800/40">
+                  <span class="text-[#AF52DE] font-bold">1. Expansión Inicial:</span>
+                  <span class="text-[#1D1D1F] dark:text-white">Push(&lt;Reserva&gt;) sobre Z₀</span>
+                </div>
+                <div class="flex items-center justify-between p-2 rounded-xl bg-slate-50 dark:bg-white/5 border border-black/5 dark:border-white/5">
+                  <span class="text-[#6E6E73] dark:text-white/60">2. Consumo Token:</span>
+                  <span>match('RESERVA') ➔ Pop('RESERVA')</span>
+                </div>
+                <div class="flex items-center justify-between p-2 rounded-xl bg-slate-50 dark:bg-white/5 border border-black/5 dark:border-white/5">
+                  <span class="text-[#6E6E73] dark:text-white/60">3. Secuencia de Campos:</span>
+                  <span>Pop(CLIENTE) ➔ Pop(HAB) ➔ Pop(FECHA)...</span>
+                </div>
+                <div class="flex items-center justify-between p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/40 text-emerald-700 dark:text-emerald-300 font-bold">
+                  <span>4. Criterio de Parada:</span>
+                  <span>Pila vacía en Z₀ + EOF ➔ ¡Cadena Aceptada!</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Resumen Comparativo de Chomsky -->
+      <div class="p-4 rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/5 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+        <div>
+          <span class="font-bold text-[#1D1D1F] dark:text-white">¿Por qué usamos dos autómatas distintos?</span>
+          <p class="text-[#6E6E73] dark:text-white/60 text-[11px] mt-0.5">
+            Los AFD no tienen memoria para validar que <em>CLIENTE</em> anteceda estrictamente a <em>HABITACION</em> y <em>FECHA</em>. Por ello, la combinación de <strong>AFD (Léxico)</strong> + <strong>Autómata de Pila (Sintáctico)</strong> conforma la arquitectura canónica de un compilador.
+          </p>
+        </div>
+        <span class="px-3 py-1 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-bold font-mono text-[11px] shrink-0 border border-emerald-500/20">
+          Chomsky: Tipo 3 ➔ Tipo 2
+        </span>
       </div>
 
     </section>

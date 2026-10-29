@@ -62,6 +62,28 @@ A diferencia de un simple validador sintáctico, este proyecto implementa el **p
 
 ---
 
+## 📐 Fundamentación Formal de Autómatas
+
+El proyecto implementa explícitamente la **Jerarquía de Chomsky**:
+
+### 1. Autómata Finito Determinista (AFD) — Nivel 3 (Fase Léxica)
+* **Definición Formal**: $M = (Q, \Sigma, \delta, q_0, F)$
+* **Función de Transición ($\delta$)**: Reconoce cada token caracter por caracter.
+  * Reconocedor de Habitación: `(q0) --'H'--> (q1) --dígito--> (q2) --dígito--> (q3) --dígito--> ((q4: TOKEN_HAB_ID))`
+  * Reconocedor de Operador: `(q0) --'='--> ((q_op: TOKEN_IGUAL))`
+  * Manejo de Errores: Cualquier símbolo no perteneciente al alfabeto cae en un estado sumidero / trampa emitiendo `TOKEN_ERROR`.
+
+### 2. Autómata de Pila (AP) — Nivel 2 (Fase Sintáctica)
+* **Definición Formal**: $M = (Q, \Sigma, \Gamma, \delta, q_0, Z_0, F)$
+* **Alfabeto de Pila ($\Gamma$)**: Contiene los no-terminales de la Gramática Libre de Contexto (GLC).
+* **Mecanismo Push / Pop**:
+  1. Apila la regla de producción `<Reserva>`.
+  2. A medida que el lexer entrega cada token (`RESERVA`, `CLIENTE`, `HABITACION`...), el parser realiza `match()` desapilando los elementos de la memoria auxiliar (la pila de llamadas del sistema).
+  3. Si la pila queda reducida al símbolo base $Z_0$ y se alcanza el token `EOF`, la cadena es **Aceptada Formalmente**.
+  * **Payload JSON**: Objeto estructurado para consumo inmediato en APIs REST / Microservicios.
+
+---
+
 ## 🎨 Características UI / UX Apple
 
 * **Conmutador de Tema (Modo Claro / Modo Oscuro)**: Persistencia en `localStorage` con acabado titanio y negro profundo.
