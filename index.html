@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HotelSys • Compilador de Reservas Hoteleras</title>
-  <!-- Tailwind CSS CDN -->
+  <title>HotelSys • Compilador Profesional de Reservas</title>
+  <!-- Tailwind CSS CDN con soporte de Dark Mode por clase -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           fontFamily: {
@@ -31,8 +32,6 @@
           },
           colors: {
             apple: {
-              bg: '#F5F5F7',
-              surface: 'rgba(255, 255, 255, 0.85)',
               blue: '#0071E3',
               blueHover: '#0077ED',
               indigo: '#5856D6',
@@ -42,39 +41,42 @@
               orange: '#FF9500',
               pink: '#FF2D55',
               purple: '#AF52DE',
-              red: '#FF3B30',
-              label: '#1D1D1F',
-              secondary: '#6E6E73',
-              tertiary: '#86868B',
-              quaternary: '#F2F2F7',
-              border: 'rgba(0, 0, 0, 0.08)',
-              glassBorder: 'rgba(255, 255, 255, 0.8)'
+              red: '#FF3B30'
             }
           },
           boxShadow: {
             'apple-sm': '0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02)',
             'apple-card': '0 12px 32px -4px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03)',
-            'apple-glow': '0 8px 24px -4px rgba(0, 113, 227, 0.3)',
-            'apple-success': '0 8px 24px -4px rgba(52, 199, 89, 0.3)',
-            'apple-error': '0 8px 24px -4px rgba(255, 59, 48, 0.3)'
+            'apple-card-dark': '0 12px 32px -4px rgba(0, 0, 0, 0.4), 0 0 1px 1px rgba(255, 255, 255, 0.08)',
+            'apple-glow': '0 8px 24px -4px rgba(0, 113, 227, 0.35)',
+            'apple-success': '0 8px 24px -4px rgba(52, 199, 89, 0.35)',
+            'apple-error': '0 8px 24px -4px rgba(255, 59, 48, 0.35)'
           }
         }
       }
     }
   </script>
   <style>
-    /* Suavizado de tipografía Apple */
     * {
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
     }
 
-    /* Fondo reticular sutil estilo Blueprint / Apple Developer */
-    .bg-grid-pattern {
+    /* Fondo blueprint sutil en modo claro */
+    .bg-grid-light {
       background-size: 32px 32px;
       background-image: 
-        linear-gradient(to right, rgba(0, 0, 0, 0.025) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0, 0, 0, 0.025) 1px, transparent 1px);
+        linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+    }
+
+    /* Fondo blueprint sutil en modo oscuro */
+    .dark .bg-grid-dark {
+      background-size: 32px 32px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
     }
 
     /* Scrollbars ultradelgadas */
@@ -94,15 +96,15 @@
     }
   </style>
 </head>
-<body class="bg-[#F5F5F7] bg-grid-pattern text-[#1D1D1F] min-h-screen flex flex-col relative overflow-x-hidden selection:bg-[#0071E3] selection:text-white">
+<body class="bg-[#F5F5F7] dark:bg-[#0A0A0C] bg-grid-light dark:bg-grid-dark text-[#1D1D1F] dark:text-[#F5F5F7] min-h-screen flex flex-col relative overflow-x-hidden selection:bg-[#0071E3] selection:text-white">
 
   <!-- ======================================================== -->
   <!-- 1. BARRA SUPERIOR FLOTANTE ESTILO APPLE ISLAND           -->
   <!-- ======================================================== -->
   <header class="sticky top-3.5 z-40 px-4 sm:px-6 max-w-7xl w-full mx-auto">
-    <nav class="bg-white/80 backdrop-blur-2xl border border-white/90 rounded-full px-5 py-3 shadow-apple-card flex items-center justify-between transition-all duration-300">
+    <nav class="bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-2xl border border-white/90 dark:border-white/10 rounded-full px-5 py-3 shadow-apple-card dark:shadow-apple-card-dark flex items-center justify-between">
       
-      <!-- Identidad Visual -->
+      <!-- Logo e Identidad -->
       <div class="flex items-center space-x-3.5">
         <div class="w-10 h-10 rounded-[14px] bg-gradient-to-tr from-[#0071E3] via-[#5856D6] to-[#AF52DE] p-[1.5px] shadow-sm flex items-center justify-center shrink-0">
           <div class="w-full h-full bg-[#0071E3] rounded-[13px] flex items-center justify-center text-white">
@@ -113,74 +115,108 @@
         </div>
         <div>
           <div class="flex items-center gap-2">
-            <h1 class="text-[15px] sm:text-base font-bold tracking-tight text-[#1D1D1F]">
+            <h1 class="text-[15px] sm:text-base font-bold tracking-tight text-[#1D1D1F] dark:text-white">
               HotelSys <span class="text-[#0071E3]">Compiler</span>
             </h1>
-            <span class="text-[10px] font-semibold px-2.5 py-0.5 rounded-full bg-black/[0.04] text-[#6E6E73] border border-black/5">
-              Fase Léxica & Sintáctica
+            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-black/[0.04] dark:bg-white/10 text-[#6E6E73] dark:text-white/70 border border-black/5 dark:border-white/5">
+              Pipeline v2.0
             </span>
           </div>
-          <p class="text-[11px] text-[#86868B] hidden sm:block">Automatización de gramática libre de contexto para reservas hoteleras</p>
+          <p class="text-[11px] text-[#86868B] dark:text-white/50 hidden sm:block">Léxico • Sintáctico • Semántico • Generación de Código SQL/JSON</p>
         </div>
       </div>
 
-      <!-- Estado y Acciones Rápidas -->
+      <!-- Controles: Exportar, Modo Oscuro y Reinicio -->
       <div class="flex items-center space-x-2">
-        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[11px] font-semibold text-emerald-700">
-          <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#34C759] opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-[#34C759]"></span>
-          </span>
-          <span>Motor JS Activo</span>
-        </div>
-        <button onclick="reiniciarTodo()" class="text-xs text-[#6E6E73] hover:text-[#1D1D1F] px-3 py-1.5 rounded-full hover:bg-black/5 transition-all hidden sm:inline-flex items-center gap-1">
+        
+        <!-- Botón Exportar Reporte JSON -->
+        <button
+          onclick="exportarAuditoriaJSON()"
+          class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/[0.04] dark:bg-white/10 hover:bg-black/[0.08] dark:hover:bg-white/15 text-xs font-semibold text-[#1D1D1F] dark:text-white transition-all active:scale-95 border border-black/5 dark:border-white/10"
+          title="Descargar Auditoría Completa"
+        >
+          <svg class="w-3.5 h-3.5 text-[#0071E3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+          </svg>
+          <span>Exportar Auditoría</span>
+        </button>
+
+        <!-- Conmutador Dark Mode -->
+        <button
+          id="btnThemeToggle"
+          onclick="toggleDarkMode()"
+          class="p-2 rounded-full bg-black/[0.04] dark:bg-white/10 hover:bg-black/[0.08] dark:hover:bg-white/15 text-[#1D1D1F] dark:text-white transition-all active:scale-90 border border-black/5 dark:border-white/10"
+          title="Cambiar Modo Claro/Oscuro"
+        >
+          <svg id="iconSun" class="w-4 h-4 hidden dark:block text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 9H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+          </svg>
+          <svg id="iconMoon" class="w-4 h-4 block dark:hidden text-[#1D1D1F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+          </svg>
+        </button>
+
+        <!-- Botón Reiniciar -->
+        <button onclick="reiniciarTodo()" class="text-xs text-[#6E6E73] dark:text-white/60 hover:text-[#1D1D1F] dark:hover:text-white px-2.5 py-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-all hidden sm:inline-flex items-center gap-1">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
           </svg>
           <span>Reiniciar</span>
         </button>
+
       </div>
 
     </nav>
   </header>
 
   <!-- ======================================================== -->
-  <!-- 2. PIPELINE DE COMPILACIÓN (UX STEPPER PROGRESS)         -->
+  <!-- 2. PIPELINE DE 4 FASES DE COMPILACIÓN (STEPPER UX)       -->
   <!-- ======================================================== -->
   <section class="max-w-7xl w-full mx-auto px-4 sm:px-6 pt-5 pb-2">
-    <div class="bg-white/70 backdrop-blur-xl border border-white/90 rounded-[24px] p-4 shadow-apple-sm">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+    <div class="bg-white/70 dark:bg-[#1C1C1E]/70 backdrop-blur-xl border border-white/90 dark:border-white/10 rounded-[24px] p-3.5 sm:p-4 shadow-apple-sm">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3">
 
-        <!-- Paso 1 -->
-        <div id="stepCard1" class="flex items-center gap-3 p-2.5 rounded-2xl bg-white border border-black/5 shadow-sm transition-all">
-          <div id="stepIcon1" class="w-8 h-8 rounded-xl bg-[#0071E3] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">
+        <!-- Paso 1: Entrada -->
+        <div id="stepCard1" class="flex items-center gap-2.5 p-2.5 rounded-2xl bg-white dark:bg-[#2C2C2E] border border-black/5 dark:border-white/5 shadow-sm transition-all">
+          <div id="stepIcon1" class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#0071E3] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">
             1
           </div>
-          <div>
-            <h4 class="text-xs font-bold text-[#1D1D1F]">Entrada de Código</h4>
-            <p class="text-[11px] text-[#86868B]">Cadena fuente en lenguaje formal</p>
+          <div class="min-w-0">
+            <h4 class="text-xs font-bold text-[#1D1D1F] dark:text-white truncate">1. Entrada</h4>
+            <p class="text-[10px] sm:text-[11px] text-[#86868B] dark:text-white/50 truncate">Código Fuente</p>
           </div>
         </div>
 
-        <!-- Paso 2 -->
-        <div id="stepCard2" class="flex items-center gap-3 p-2.5 rounded-2xl bg-white border border-black/5 shadow-sm transition-all">
-          <div id="stepIcon2" class="w-8 h-8 rounded-xl bg-[#34C759] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">
+        <!-- Paso 2: Léxico -->
+        <div id="stepCard2" class="flex items-center gap-2.5 p-2.5 rounded-2xl bg-white dark:bg-[#2C2C2E] border border-black/5 dark:border-white/5 shadow-sm transition-all">
+          <div id="stepIcon2" class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#34C759] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">
             ✓
           </div>
-          <div>
-            <h4 class="text-xs font-bold text-[#1D1D1F]">Análisis Léxico</h4>
-            <p id="stepText2" class="text-[11px] text-[#86868B]">11 tokens reconocidos sin errores</p>
+          <div class="min-w-0">
+            <h4 class="text-xs font-bold text-[#1D1D1F] dark:text-white truncate">2. Léxico</h4>
+            <p id="stepText2" class="text-[10px] sm:text-[11px] text-[#86868B] dark:text-white/50 truncate">Tokens OK</p>
           </div>
         </div>
 
-        <!-- Paso 3 -->
-        <div id="stepCard3" class="flex items-center gap-3 p-2.5 rounded-2xl bg-white border border-black/5 shadow-sm transition-all">
-          <div id="stepIcon3" class="w-8 h-8 rounded-xl bg-[#34C759] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">
+        <!-- Paso 3: Sintáctico -->
+        <div id="stepCard3" class="flex items-center gap-2.5 p-2.5 rounded-2xl bg-white dark:bg-[#2C2C2E] border border-black/5 dark:border-white/5 shadow-sm transition-all">
+          <div id="stepIcon3" class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#34C759] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">
             ✓
           </div>
-          <div>
-            <h4 class="text-xs font-bold text-[#1D1D1F]">Análisis Sintáctico</h4>
-            <p id="stepText3" class="text-[11px] text-[#86868B]">Árbol de derivación generado</p>
+          <div class="min-w-0">
+            <h4 class="text-xs font-bold text-[#1D1D1F] dark:text-white truncate">3. Sintaxis</h4>
+            <p id="stepText3" class="text-[10px] sm:text-[11px] text-[#86868B] dark:text-white/50 truncate">AST Generado</p>
+          </div>
+        </div>
+
+        <!-- Paso 4: Semántico y Código Destino -->
+        <div id="stepCard4" class="flex items-center gap-2.5 p-2.5 rounded-2xl bg-white dark:bg-[#2C2C2E] border border-black/5 dark:border-white/5 shadow-sm transition-all">
+          <div id="stepIcon4" class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#34C759] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">
+            ✓
+          </div>
+          <div class="min-w-0">
+            <h4 class="text-xs font-bold text-[#1D1D1F] dark:text-white truncate">4. Semántica & SQL</h4>
+            <p id="stepText4" class="text-[10px] sm:text-[11px] text-[#86868B] dark:text-white/50 truncate">Compilado OK</p>
           </div>
         </div>
 
@@ -189,79 +225,77 @@
   </section>
 
   <!-- ======================================================== -->
-  <!-- 3. CONTENIDO PRINCIPAL EN DASHBOARD ESTRUCTURADO        -->
+  <!-- 3. CONTENIDO PRINCIPAL                                    -->
   <!-- ======================================================== -->
   <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 py-4 space-y-6">
 
     <!-- ======================================================== -->
-    <!-- SECCIÓN A: ENTRADA Y CASOS PREDEFINIDOS                 -->
+    <!-- FASE 1: ENTRADA Y CASOS PREDEFINIDOS                     -->
     <!-- ======================================================== -->
-    <section class="bg-white/80 backdrop-blur-2xl border border-white/90 rounded-[30px] p-5 sm:p-6 shadow-apple-card space-y-4">
+    <section class="bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-2xl border border-white/90 dark:border-white/10 rounded-[30px] p-5 sm:p-6 shadow-apple-card dark:shadow-apple-card-dark space-y-4">
       
-      <!-- Encabezado con Comentario Explicativo de la Sección -->
-      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pb-3 border-b border-black/[0.06]">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pb-3 border-b border-black/[0.06] dark:border-white/10">
         <div>
           <div class="flex items-center gap-2">
             <span class="w-2.5 h-2.5 rounded-full bg-[#0071E3]"></span>
-            <h2 class="text-base font-bold text-[#1D1D1F] tracking-tight">Fase 1: Entrada y Carga de la Sentencia</h2>
+            <h2 class="text-base font-bold text-[#1D1D1F] dark:text-white tracking-tight">Fase 1: Entrada y Carga de la Sentencia</h2>
           </div>
-          <!-- Comentario Pedagógico / Explicación UX -->
-          <p class="text-xs text-[#6E6E73] mt-0.5">
-            <strong class="text-[#1D1D1F]">Comentario de la Sección:</strong> Corresponde al código fuente que ingresa al compilador. La sentencia debe iniciar con la palabra clave <code class="px-1.5 py-0.5 rounded bg-black/[0.04] text-[#0071E3] font-mono text-[11px]">RESERVA</code> seguida estrictamente por los 5 atributos obligatorios con sus operadores de asignación (<code class="font-mono text-[#0071E3]">=</code>).
+          <p class="text-xs text-[#6E6E73] dark:text-white/60 mt-0.5">
+            <strong class="text-[#1D1D1F] dark:text-white">Comentario Didáctico:</strong> Punto de ingreso del código fuente en el lenguaje formal de reservas hoteleras. Requiere la instrucción <code class="px-1.5 py-0.5 rounded bg-black/[0.04] dark:bg-white/10 text-[#0071E3] font-mono text-[11px]">RESERVA</code> seguida de sus 5 argumentos con operador de asignación (<code class="font-mono text-[#0071E3]">=</code>).
           </p>
         </div>
 
-        <!-- Presets Pills -->
+        <!-- Botones de Muestras Rápidas -->
         <div class="flex flex-wrap items-center gap-1.5">
-          <span class="text-[11px] font-semibold text-[#86868B] uppercase tracking-wider mr-1">Cargar Casos:</span>
-          <button onclick="loadSample('valid')" class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 text-xs font-semibold transition-all active:scale-95 flex items-center gap-1.5">
+          <span class="text-[11px] font-semibold text-[#86868B] dark:text-white/50 uppercase tracking-wider mr-1">Casos:</span>
+          <button onclick="loadSample('valid')" class="px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-200 dark:border-emerald-800/60 text-xs font-semibold transition-all active:scale-95 flex items-center gap-1">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Correcto 1
           </button>
-          <button onclick="loadSample('valid2')" class="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 text-xs font-semibold transition-all active:scale-95 flex items-center gap-1.5">
+          <button onclick="loadSample('valid2')" class="px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-200 dark:border-emerald-800/60 text-xs font-semibold transition-all active:scale-95 flex items-center gap-1">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Correcto 2
           </button>
-          <button onclick="loadSample('err_hab')" class="px-3 py-1 rounded-full bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 text-xs font-semibold transition-all active:scale-95 flex items-center gap-1.5">
+          <button onclick="loadSample('err_sem_fecha')" class="px-2.5 py-1 rounded-full bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/60 border border-purple-200 dark:border-purple-800/60 text-xs font-semibold transition-all active:scale-95 flex items-center gap-1" title="Sintaxis correcta pero 30 de febrero no existe">
+            <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> Err. Semántico (30 Feb)
+          </button>
+          <button onclick="loadSample('err_sem_noches')" class="px-2.5 py-1 rounded-full bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/60 border border-purple-200 dark:border-purple-800/60 text-xs font-semibold transition-all active:scale-95 flex items-center gap-1" title="0 noches no es una estancia válida">
+            <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> Err. Semántico (0 Noches)
+          </button>
+          <button onclick="loadSample('err_hab')" class="px-2.5 py-1 rounded-full bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 hover:bg-rose-100 dark:hover:bg-rose-900/60 border border-rose-200 dark:border-rose-800/60 text-xs font-semibold transition-all active:scale-95 flex items-center gap-1">
             <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Err. Habitación
           </button>
-          <button onclick="loadSample('err_fecha')" class="px-3 py-1 rounded-full bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 text-xs font-semibold transition-all active:scale-95 flex items-center gap-1.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Err. Fecha
-          </button>
-          <button onclick="loadSample('err_lex')" class="px-3 py-1 rounded-full bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200 text-xs font-semibold transition-all active:scale-95 flex items-center gap-1.5">
+          <button onclick="loadSample('err_lex')" class="px-2.5 py-1 rounded-full bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/60 border border-amber-200 dark:border-amber-800/60 text-xs font-semibold transition-all active:scale-95 flex items-center gap-1">
             <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Err. Léxico (@)
-          </button>
-          <button onclick="loadSample('err_missing')" class="px-3 py-1 rounded-full bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 text-xs font-semibold transition-all active:scale-95 flex items-center gap-1.5">
-            <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Falta Campo
           </button>
         </div>
       </div>
 
-      <!-- Editor de Código Monospace estilo Xcode -->
+      <!-- Editor de Código -->
       <div class="space-y-3">
-        <div class="rounded-[22px] bg-[#1C1C1E] p-1 border border-black/10 shadow-inner">
+        <div class="rounded-[22px] bg-[#1C1C1E] dark:bg-[#121214] p-1 border border-black/10 dark:border-white/10 shadow-inner">
           <div class="px-4 py-2 border-b border-white/10 flex items-center justify-between text-xs text-white/50">
             <div class="flex items-center space-x-2">
               <span class="w-2.5 h-2.5 rounded-full bg-[#FF5F56] inline-block"></span>
               <span class="w-2.5 h-2.5 rounded-full bg-[#FFBD2E] inline-block"></span>
               <span class="w-2.5 h-2.5 rounded-full bg-[#27C93F] inline-block"></span>
-              <span class="ml-2 font-mono text-[11px] text-white/70">sentencia_reserva.txt</span>
+              <span class="ml-2 font-mono text-[11px] text-white/70">sentencia_reserva.hotel</span>
             </div>
             <span id="charCount" class="font-mono text-[11px] text-[#64D2FF]">75 caracteres</span>
           </div>
           <textarea
             id="cadenaReserva"
-            rows="4"
+            rows="3"
             class="w-full font-mono text-sm sm:text-base p-4 bg-transparent text-[#64D2FF] border-none focus:outline-none placeholder:text-neutral-500 resize-y leading-relaxed tracking-wide"
-            placeholder="Escriba aquí la sentencia de reserva..."
+            placeholder="Ingrese la sentencia de reserva..."
             spellcheck="false"
           >RESERVA CLIENTE=CARLOS HABITACION=H203 FECHA=2026-10-15 NOCHES=3 PERSONAS=2</textarea>
         </div>
 
         <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p class="text-xs text-[#86868B] flex items-center gap-1.5">
+          <p class="text-xs text-[#86868B] dark:text-white/50 flex items-center gap-1.5">
             <svg class="w-4 h-4 text-[#0071E3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
-            Soporta espacios libres entre tokens y operadores.
+            Espaciado flexible y saltos de línea soportados.
           </p>
 
           <button
@@ -272,7 +306,7 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
-            <span>Ejecutar Análisis Completo</span>
+            <span>Compilar Sentencia Completa</span>
           </button>
         </div>
       </div>
@@ -280,7 +314,7 @@
     </section>
 
     <!-- ======================================================== -->
-    <!-- SECCIÓN B: BANNER DE RESULTADO GLOBAL                   -->
+    <!-- BANNER DE DIAGNÓSTICO GLOBAL                            -->
     <!-- ======================================================== -->
     <div id="statusBanner" class="p-4 sm:p-5 rounded-[26px] border transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-emerald-500/10 border-emerald-500/25 shadow-apple-success">
       <div class="flex items-center space-x-3.5">
@@ -290,35 +324,33 @@
           </svg>
         </div>
         <div>
-          <h4 id="statusBannerTitle" class="font-bold text-sm sm:text-base tracking-tight text-[#1D1D1F]">Sentencia Válida y Confirmada</h4>
-          <p id="statusBannerDesc" class="text-xs text-[#6E6E73]">El código fue aceptado en las etapas léxica y sintáctica conforme a la gramática.</p>
+          <h4 id="statusBannerTitle" class="font-bold text-sm sm:text-base tracking-tight text-[#1D1D1F] dark:text-white">Compilación Exitosa (100% Válida)</h4>
+          <p id="statusBannerDesc" class="text-xs text-[#6E6E73] dark:text-white/60">La sentencia superó el análisis léxico, sintáctico, la validación semántica y generó el código destino.</p>
         </div>
       </div>
       <div class="flex items-center gap-2 self-start sm:self-auto">
-        <span id="statTime" class="text-xs font-mono font-bold px-3 py-1 rounded-full bg-white/70 text-[#1D1D1F] border border-black/5">
+        <span id="statTime" class="text-xs font-mono font-bold px-3 py-1 rounded-full bg-white/70 dark:bg-white/10 text-[#1D1D1F] dark:text-white border border-black/5 dark:border-white/10">
           &lt; 1 ms
         </span>
         <span id="statusBannerBadge" class="px-3.5 py-1 text-xs font-bold rounded-full bg-[#34C759] text-white shadow-sm">
-          ACEPTADA
+          CONFIRMADA
         </span>
       </div>
     </div>
 
     <!-- ======================================================== -->
-    <!-- SECCIÓN C: ANÁLISIS LÉXICO (SCANNER & TOKENS)            -->
+    <!-- FASE 2: ANÁLISIS LÉXICO (SCANNER & TOKENS)               -->
     <!-- ======================================================== -->
-    <section class="bg-white/80 backdrop-blur-2xl border border-white/90 rounded-[30px] p-5 sm:p-6 shadow-apple-card space-y-4">
+    <section class="bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-2xl border border-white/90 dark:border-white/10 rounded-[30px] p-5 sm:p-6 shadow-apple-card dark:shadow-apple-card-dark space-y-4">
       
-      <!-- Encabezado con Comentario Explicativo -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-black/[0.06]">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-black/[0.06] dark:border-white/10">
         <div>
           <div class="flex items-center gap-2">
             <span class="w-2.5 h-2.5 rounded-full bg-[#5856D6]"></span>
-            <h3 class="text-base font-bold text-[#1D1D1F] tracking-tight">Fase 2: Análisis Léxico (Scanner / Tokenizer)</h3>
+            <h3 class="text-base font-bold text-[#1D1D1F] dark:text-white tracking-tight">Fase 2: Análisis Léxico (Scanner / Tokenizer)</h3>
           </div>
-          <!-- Comentario Pedagógico -->
-          <p class="text-xs text-[#6E6E73] mt-0.5">
-            <strong class="text-[#1D1D1F]">Comentario de la Sección:</strong> El analizador léxico escanea secuencialmente cada caracter de la cadena fuente, descarta los separadores (espacios) y agrupa los caracteres en <em>lexemas</em> para asignarles su respectivo <em>token</em> según expresiones regulares.
+          <p class="text-xs text-[#6E6E73] dark:text-white/60 mt-0.5">
+            <strong class="text-[#1D1D1F] dark:text-white">Comentario Didáctico:</strong> Escanea el flujo de caracteres para identificar y etiquetar cada componente atómico según patrones de expresiones regulares.
           </p>
         </div>
 
@@ -326,25 +358,25 @@
           <span id="badgeLexerCount" class="px-3 py-1 text-xs font-bold rounded-full bg-[#0071E3]/10 text-[#0071E3] border border-[#0071E3]/20">
             11 Tokens
           </span>
-          <span id="badgeLexerState" class="px-3 py-1 text-xs font-bold rounded-full bg-emerald-500/10 text-emerald-700 border border-emerald-500/20">
+          <span id="badgeLexerState" class="px-3 py-1 text-xs font-bold rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
             0 Errores Léxicos
           </span>
         </div>
       </div>
 
-      <!-- Tabla de Tokens estilizada -->
-      <div class="overflow-x-auto rounded-[20px] border border-black/5 max-h-72 overflow-y-auto">
+      <!-- Tabla de Tokens -->
+      <div class="overflow-x-auto rounded-[20px] border border-black/5 dark:border-white/10 max-h-64 overflow-y-auto">
         <table class="w-full text-left text-xs sm:text-sm">
-          <thead class="bg-black/[0.03] text-[#86868B] uppercase font-mono text-[11px] sticky top-0 z-10 backdrop-blur-md border-b border-black/5">
+          <thead class="bg-black/[0.03] dark:bg-white/[0.05] text-[#86868B] dark:text-white/50 uppercase font-mono text-[11px] sticky top-0 z-10 backdrop-blur-md border-b border-black/5 dark:border-white/10">
             <tr>
-              <th scope="col" class="py-3 px-4 font-bold text-center w-12">#</th>
-              <th scope="col" class="py-3 px-4 font-bold">Lexema Hallado</th>
-              <th scope="col" class="py-3 px-4 font-bold">Token Reconocido</th>
-              <th scope="col" class="py-3 px-4 font-bold">Categoría Léxica</th>
-              <th scope="col" class="py-3 px-4 font-bold text-center">Posición</th>
+              <th scope="col" class="py-2.5 px-4 font-bold text-center w-12">#</th>
+              <th scope="col" class="py-2.5 px-4 font-bold">Lexema</th>
+              <th scope="col" class="py-2.5 px-4 font-bold">Token Identificado</th>
+              <th scope="col" class="py-2.5 px-4 font-bold">Categoría Léxica</th>
+              <th scope="col" class="py-2.5 px-4 font-bold text-center">Posición</th>
             </tr>
           </thead>
-          <tbody id="tablaTokensBody" class="divide-y divide-black/[0.04] font-mono">
+          <tbody id="tablaTokensBody" class="divide-y divide-black/[0.04] dark:divide-white/[0.05] font-mono">
             <!-- Rellenado dinámicamente -->
           </tbody>
         </table>
@@ -353,38 +385,34 @@
     </section>
 
     <!-- ======================================================== -->
-    <!-- SECCIÓN D: ANÁLISIS SINTÁCTICO (PARSER & AST)            -->
+    <!-- FASE 3: ANÁLISIS SINTÁCTICO (PARSER & ÁRBOL AST)        -->
     <!-- ======================================================== -->
-    <section class="bg-white/80 backdrop-blur-2xl border border-white/90 rounded-[30px] p-5 sm:p-6 shadow-apple-card space-y-4">
+    <section class="bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-2xl border border-white/90 dark:border-white/10 rounded-[30px] p-5 sm:p-6 shadow-apple-card dark:shadow-apple-card-dark space-y-4">
       
-      <!-- Encabezado con Comentario Explicativo -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-black/[0.06]">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-black/[0.06] dark:border-white/10">
         <div>
           <div class="flex items-center gap-2">
             <span class="w-2.5 h-2.5 rounded-full bg-[#AF52DE]"></span>
-            <h3 class="text-base font-bold text-[#1D1D1F] tracking-tight">Fase 3: Análisis Sintáctico (Parser & AST)</h3>
+            <h3 class="text-base font-bold text-[#1D1D1F] dark:text-white tracking-tight">Fase 3: Análisis Sintáctico (Parser & AST)</h3>
           </div>
-          <!-- Comentario Pedagógico -->
-          <p class="text-xs text-[#6E6E73] mt-0.5">
-            <strong class="text-[#1D1D1F]">Comentario de la Sección:</strong> El parser toma la secuencia de tokens producida por el lexer y valida que cumpla las reglas de producción de la Gramática Libre de Contexto (GLC). Si la sentencia es válida, construye el Árbol de Derivación Sintáctica (AST).
+          <p class="text-xs text-[#6E6E73] dark:text-white/60 mt-0.5">
+            <strong class="text-[#1D1D1F] dark:text-white">Comentario Didáctico:</strong> Evalúa si la secuencia de tokens satisface la Gramática Libre de Contexto (GLC) y construye el Árbol de Derivación Sintáctica (AST).
           </p>
         </div>
 
-        <button
-          id="btnCopiarArbol"
-          onclick="copiarArbolTexto()"
-          class="self-start sm:self-auto inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black/[0.04] hover:bg-black/[0.08] text-[#1D1D1F] text-xs font-semibold transition-all active:scale-95"
-          title="Copiar Árbol"
-        >
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-          </svg>
-          <span>Copiar Árbol (AST)</span>
-        </button>
+        <!-- Conmutador entre Vista Gráfica de Nodos y Vista de Texto -->
+        <div class="flex items-center p-1 rounded-full bg-black/[0.04] dark:bg-white/10 border border-black/5 dark:border-white/5 text-xs font-semibold">
+          <button id="btnTabTreeVisual" onclick="setTreeTab('visual')" class="px-3 py-1 rounded-full bg-white dark:bg-[#2C2C2E] shadow-sm text-[#0071E3] transition-all">
+            🌳 Árbol Gráfico
+          </button>
+          <button id="btnTabTreeText" onclick="setTreeTab('text')" class="px-3 py-1 rounded-full text-[#6E6E73] dark:text-white/70 hover:text-[#1D1D1F] dark:hover:text-white transition-all">
+            📜 Vista Monospace
+          </button>
+        </div>
       </div>
 
-      <!-- Alerta en caso de Error Sintáctico -->
-      <div id="errorSintacticoContainer" class="hidden p-5 rounded-[22px] bg-rose-50 border border-rose-200 text-[#1D1D1F] space-y-2">
+      <!-- Alerta de Error Sintáctico (Oculto si OK) -->
+      <div id="errorSintacticoContainer" class="hidden p-5 rounded-[22px] bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-[#1D1D1F] dark:text-white space-y-2">
         <div class="flex items-start space-x-3.5">
           <div class="p-2 bg-[#FF3B30] text-white rounded-full shrink-0 shadow-sm mt-0.5">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -393,72 +421,140 @@
           </div>
           <div class="space-y-1">
             <h4 class="font-bold text-sm text-[#FF3B30]">Discrepancia Gramatical Detectada</h4>
-            <p id="errorSintacticoMensaje" class="text-xs sm:text-sm text-[#1D1D1F] leading-relaxed font-mono">
-              <!-- Mensaje de error -->
-            </p>
-            <p class="text-[11px] text-[#6E6E73] pt-1">
-              💡 <em>Sugerencia: Compara la posición del error con la estructura esperada:</em> <code class="bg-white px-2 py-0.5 rounded border border-black/10 font-mono text-[#0071E3]">RESERVA CLIENTE=&lt;ID&gt; HABITACION=H&lt;3D&gt; FECHA=&lt;YYYY-MM-DD&gt; NOCHES=&lt;NUM&gt; PERSONAS=&lt;NUM&gt;</code>
+            <p id="errorSintacticoMensaje" class="text-xs sm:text-sm text-[#1D1D1F] dark:text-white/90 leading-relaxed font-mono">
+              <!-- Mensaje dinámico de error -->
             </p>
           </div>
         </div>
       </div>
 
-      <!-- Vista Dual: Ficha Semántica + Árbol Sintáctico -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-        
-        <!-- Ficha de Reserva (Apple Wallet Pass / Datos Semánticos) -->
-        <div id="resumenReservaCard" class="lg:col-span-5 bg-gradient-to-br from-[#1C1C1E] via-[#2A2A2E] to-[#1C1C1E] text-white rounded-[26px] p-5 shadow-apple-card border border-white/10 space-y-4">
-          <div class="flex items-center justify-between pb-3 border-b border-white/10 text-xs">
-            <span class="flex items-center gap-1.5 font-bold text-[#34C759]">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
-              </svg>
-              Ficha Semántica Aprobada
-            </span>
-            <span class="text-[10px] bg-white/10 px-2.5 py-0.5 rounded-full text-white/80 font-mono font-medium">Hotel Pass</span>
-          </div>
+      <!-- CONTENEDOR 1: VISTA ÁRBOL GRÁFICO INTERACTIVO -->
+      <div id="treeVisualContainer" class="p-4 sm:p-6 rounded-[24px] bg-slate-50/70 dark:bg-[#121214] border border-black/5 dark:border-white/5 overflow-x-auto">
+        <div id="visualTreeContent" class="min-w-[650px] flex flex-col items-center space-y-4">
+          <!-- Se inyecta dinámicamente el diagrama de nodos SVG/DOM -->
+        </div>
+      </div>
 
-          <div class="space-y-3 text-xs">
-            <div class="bg-white/5 p-3 rounded-2xl border border-white/5 flex items-center justify-between">
-              <span class="text-white/60 text-[11px]">Huésped Titular:</span>
-              <span id="cardCliente" class="font-bold text-white text-sm font-mono">-</span>
-            </div>
-            <div class="bg-white/5 p-3 rounded-2xl border border-white/5 flex items-center justify-between">
-              <span class="text-white/60 text-[11px]">Habitación Asignada:</span>
-              <span id="cardHabitacion" class="font-bold text-[#64D2FF] text-sm font-mono">-</span>
-            </div>
-            <div class="bg-white/5 p-3 rounded-2xl border border-white/5 flex items-center justify-between">
-              <span class="text-white/60 text-[11px]">Fecha de Entrada:</span>
-              <span id="cardFecha" class="font-bold text-white text-sm font-mono">-</span>
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-              <div class="bg-white/5 p-3 rounded-2xl border border-white/5">
-                <span class="text-white/60 text-[10px] block">Estancia:</span>
-                <span id="cardNoches" class="font-bold text-white text-sm font-mono">-</span>
-              </div>
-              <div class="bg-white/5 p-3 rounded-2xl border border-white/5">
-                <span class="text-white/60 text-[10px] block">Huéspedes:</span>
-                <span id="cardPersonas" class="font-bold text-white text-sm font-mono">-</span>
-              </div>
-            </div>
+      <!-- CONTENEDOR 2: VISTA MONOSPACE (AST TEXTO CON BOTÓN COPIAR) -->
+      <div id="treeTextContainer" class="hidden space-y-2">
+        <div class="flex items-center justify-between text-xs text-[#86868B] dark:text-white/50 px-1">
+          <span class="font-semibold uppercase tracking-wider text-[11px]">Estructura de Derivación ASCII</span>
+          <button onclick="copiarArbolTexto()" class="text-[#0071E3] hover:underline flex items-center gap-1">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+            </svg>
+            Copiar al Portapapeles
+          </button>
+        </div>
+        <div class="rounded-[22px] bg-[#1C1C1E] dark:bg-[#121214] p-1 border border-black/10 dark:border-white/10 shadow-inner">
+          <pre
+            id="arbolSintacticoPre"
+            class="w-full font-mono text-xs p-4 bg-transparent text-[#64D2FF] overflow-x-auto leading-relaxed min-h-[180px] whitespace-pre"
+          ></pre>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- FASE 4: ANÁLISIS SEMÁNTICO & TABLA DE SÍMBOLOS           -->
+    <!-- ======================================================== -->
+    <section class="bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-2xl border border-white/90 dark:border-white/10 rounded-[30px] p-5 sm:p-6 shadow-apple-card dark:shadow-apple-card-dark space-y-4">
+      
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-black/[0.06] dark:border-white/10">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-[#00C7BE]"></span>
+            <h3 class="text-base font-bold text-[#1D1D1F] dark:text-white tracking-tight">Fase 4: Análisis Semántico & Tabla de Símbolos</h3>
           </div>
+          <p class="text-xs text-[#6E6E73] dark:text-white/60 mt-0.5">
+            <strong class="text-[#1D1D1F] dark:text-white">Comentario Didáctico:</strong> Comprueba la coherencia lógica de los datos (existencia de la fecha en el calendario, valores mayores a cero) y registra los identificadores en la Tabla de Símbolos con dirección de memoria simulada.
+          </p>
         </div>
 
-        <!-- Árbol Sintáctico (AST Preformateado) -->
-        <div class="lg:col-span-7 space-y-2">
-          <div class="flex items-center justify-between text-xs text-[#86868B] px-1">
-            <span class="font-semibold uppercase tracking-wider text-[11px]">Derivación del Árbol Sintáctico (AST)</span>
-            <span class="font-mono text-[10px]">Estructura Jerárquica</span>
-          </div>
+        <span id="badgeSemState" class="px-3 py-1 text-xs font-bold rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
+          Semántica Válida
+        </span>
+      </div>
 
-          <div class="rounded-[22px] bg-[#1C1C1E] p-1 border border-black/10 shadow-inner">
-            <pre
-              id="arbolSintacticoPre"
-              class="w-full font-mono text-xs p-4 bg-transparent text-[#64D2FF] overflow-x-auto leading-relaxed min-h-[220px] whitespace-pre"
-            ></pre>
+      <!-- Alerta Semántica en caso de fallo -->
+      <div id="errorSemanticoContainer" class="hidden p-4 rounded-[20px] bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800/60 text-[#1D1D1F] dark:text-white space-y-1">
+        <div class="flex items-start gap-2.5">
+          <span class="p-1 rounded-full bg-purple-600 text-white shrink-0 text-xs">⚠️</span>
+          <div>
+            <h4 class="font-bold text-xs sm:text-sm text-purple-800 dark:text-purple-300">Violación de Regla Semántica</h4>
+            <p id="errorSemanticoMensaje" class="text-xs text-purple-900 dark:text-purple-200 font-mono"></p>
           </div>
         </div>
+      </div>
 
+      <!-- Tabla de Símbolos Formal -->
+      <div class="overflow-x-auto rounded-[20px] border border-black/5 dark:border-white/10 max-h-60 overflow-y-auto">
+        <table class="w-full text-left text-xs sm:text-sm">
+          <thead class="bg-black/[0.03] dark:bg-white/[0.05] text-[#86868B] dark:text-white/50 uppercase font-mono text-[11px] sticky top-0 z-10 backdrop-blur-md border-b border-black/5 dark:border-white/10">
+            <tr>
+              <th scope="col" class="py-2.5 px-3 font-bold text-center w-10">#</th>
+              <th scope="col" class="py-2.5 px-3 font-bold">Símbolo (Lexema)</th>
+              <th scope="col" class="py-2.5 px-3 font-bold">Tipo Inferido</th>
+              <th scope="col" class="py-2.5 px-3 font-bold text-center">Offset Memoria</th>
+              <th scope="col" class="py-2.5 px-3 font-bold">Ámbito (Scope)</th>
+              <th scope="col" class="py-2.5 px-3 font-bold">Valor Semántico / Desglose</th>
+              <th scope="col" class="py-2.5 px-3 font-bold text-center">Validación</th>
+            </tr>
+          </thead>
+          <tbody id="tablaSimbolosBody" class="divide-y divide-black/[0.04] dark:divide-white/[0.05] font-mono text-xs">
+            <!-- Rellenado dinámicamente -->
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- FASE 5: GENERACIÓN DE CÓDIGO DESTINO (SQL & REST JSON)   -->
+    <!-- ======================================================== -->
+    <section class="bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-2xl border border-white/90 dark:border-white/10 rounded-[30px] p-5 sm:p-6 shadow-apple-card dark:shadow-apple-card-dark space-y-4">
+      
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-black/[0.06] dark:border-white/10">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-[#34C759]"></span>
+            <h3 class="text-base font-bold text-[#1D1D1F] dark:text-white tracking-tight">Fase 5: Generación de Código Destino (SQL & JSON API)</h3>
+          </div>
+          <p class="text-xs text-[#6E6E73] dark:text-white/60 mt-0.5">
+            <strong class="text-[#1D1D1F] dark:text-white">Comentario Didáctico:</strong> Cierre del ciclo de compilación. El analizador traduce la reserva abstracta a código objeto ejecutable: una consulta SQL estructurada y un objeto de transporte JSON para microservicios.
+          </p>
+        </div>
+
+        <!-- Pestañas de Código Generado -->
+        <div class="flex items-center p-1 rounded-full bg-black/[0.04] dark:bg-white/10 border border-black/5 dark:border-white/5 text-xs font-semibold">
+          <button id="btnTabCodeGenSQL" onclick="setCodeTab('sql')" class="px-3 py-1 rounded-full bg-white dark:bg-[#2C2C2E] shadow-sm text-[#0071E3] transition-all">
+            Consultas SQL
+          </button>
+          <button id="btnTabCodeGenJSON" onclick="setCodeTab('json')" class="px-3 py-1 rounded-full text-[#6E6E73] dark:text-white/70 hover:text-[#1D1D1F] dark:hover:text-white transition-all">
+            Payload JSON
+          </button>
+        </div>
+      </div>
+
+      <!-- Visualizador de Código Destino -->
+      <div class="space-y-2">
+        <div class="flex items-center justify-between text-xs text-[#86868B] dark:text-white/50 px-1">
+          <span id="labelCodeTitle" class="font-semibold uppercase tracking-wider text-[11px]">Sentencia SQL DML Compilada</span>
+          <button id="btnCopiarCodigo" onclick="copiarCodigoDestino()" class="text-[#0071E3] hover:underline flex items-center gap-1 font-semibold">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+            </svg>
+            Copiar Código Generado
+          </button>
+        </div>
+
+        <div class="rounded-[22px] bg-[#1C1C1E] dark:bg-[#121214] p-1 border border-black/10 dark:border-white/10 shadow-inner">
+          <pre
+            id="codigoGeneradoPre"
+            class="w-full font-mono text-xs sm:text-sm p-4 bg-transparent text-[#34C759] overflow-x-auto leading-relaxed min-h-[160px] whitespace-pre"
+          ></pre>
+        </div>
       </div>
 
     </section>
@@ -466,29 +562,32 @@
   </main>
 
   <!-- ======================================================== -->
-  <!-- 4. PIE DE PÁGINA INSTITUCIONAL                           -->
+  <!-- 4. PIE DE PÁGINA                                         -->
   <!-- ======================================================== -->
-  <footer class="mt-auto py-6 text-center text-xs text-[#86868B] border-t border-black/5 bg-white/40 backdrop-blur-md">
+  <footer class="mt-auto py-6 text-center text-xs text-[#86868B] dark:text-white/40 border-t border-black/5 dark:border-white/10 bg-white/40 dark:bg-black/20 backdrop-blur-md">
     <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-      <p>Proyecto de Compiladores e Intérpretes • Análisis Léxico y Sintáctico de Reservas</p>
-      <p class="font-mono text-[11px] text-[#86868B]">Motor Vanilla JS • Tailwind CSS • UX Apple HIG</p>
+      <p>Proyecto de Compiladores e Intérpretes • Pipeline Completo de Traducción Formal</p>
+      <p class="font-mono text-[11px]">Diseño Apple Human Interface • Vanilla JS • Tailwind CSS</p>
     </div>
   </footer>
 
   <!-- ======================================================== -->
-  <!-- TOAST FLOTANTE ESTILO DYNAMIC ISLAND                     -->
+  <!-- TOAST NOTIFICATION FLOTANTE                              -->
   <!-- ======================================================== -->
-  <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 bg-black/85 backdrop-blur-2xl text-white text-xs font-semibold px-5 py-2.5 rounded-full shadow-2xl border border-white/10 -translate-y-20 opacity-0 transition-all duration-300 pointer-events-none z-50 flex items-center gap-2">
+  <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 bg-black/85 dark:bg-white/90 backdrop-blur-2xl text-white dark:text-black text-xs font-semibold px-5 py-2.5 rounded-full shadow-2xl border border-white/10 dark:border-black/10 -translate-y-20 opacity-0 transition-all duration-300 pointer-events-none z-50 flex items-center gap-2">
     <svg class="w-4 h-4 text-[#34C759]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
     </svg>
-    <span id="toastMsg">Árbol sintáctico copiado al portapapeles</span>
+    <span id="toastMsg">Acción completada con éxito</span>
   </div>
 
   <!-- ======================================================== -->
-  <!-- MOTOR COMPILADOR JAVASCRIPT: LEXER + PARSER              -->
+  <!-- LÓGICA JAVASCRIPT: COMPILADOR INTEGRAL                   -->
   <!-- ======================================================== -->
   <script>
+    /**
+     * DICCIONARIO DE TOKENS
+     */
     const TOKENS = {
       RESERVA: 'TOKEN_RESERVA',
       CLIENTE: 'TOKEN_CLIENTE',
@@ -515,7 +614,7 @@
     };
 
     /**
-     * ANALIZADOR LÉXICO (LEXER)
+     * 1. ANALIZADOR LÉXICO (LEXER)
      */
     class Lexer {
       constructor(input) {
@@ -549,35 +648,35 @@
 
           const remaining = this.input.slice(this.position);
 
-          // 1. Fecha (YYYY-MM-DD)
+          // Fecha (YYYY-MM-DD)
           const dateMatch = remaining.match(/^(\d{4}-\d{2}-\d{2})\b/);
           if (dateMatch) {
             const val = dateMatch[1];
             this.tokens.push({
               type: TOKENS.FECHA_VAL,
               value: val,
-              category: 'Valor de Fecha',
+              category: 'Valor de Fecha ISO',
               pos: this.position
             });
             this.position += val.length;
             continue;
           }
 
-          // 2. Habitación (H + 3 dígitos)
+          // Habitación (H seguido de 3 dígitos)
           const roomMatch = remaining.match(/^(H\d{3})\b/);
           if (roomMatch) {
             const val = roomMatch[1];
             this.tokens.push({
               type: TOKENS.HAB_ID,
               value: val,
-              category: 'Identificador Habitación',
+              category: 'Código Habitación',
               pos: this.position
             });
             this.position += val.length;
             continue;
           }
 
-          // 3. Número entero
+          // Número entero
           const intMatch = remaining.match(/^(\d+)\b/);
           if (intMatch) {
             const val = intMatch[1];
@@ -591,7 +690,7 @@
             continue;
           }
 
-          // 4. Palabra reservada o identificador
+          // Palabras Reservadas o Identificadores
           const wordMatch = remaining.match(/^([A-Za-z0-9_]+)\b/);
           if (wordMatch) {
             const word = wordMatch[1];
@@ -608,7 +707,7 @@
               this.tokens.push({
                 type: TOKENS.IDENTIFICADOR,
                 value: word,
-                category: 'Identificador Alfanumérico',
+                category: 'Identificador Huésped',
                 pos: this.position
               });
             }
@@ -616,11 +715,11 @@
             continue;
           }
 
-          // 5. Error léxico
+          // Carácter inválido
           this.tokens.push({
             type: TOKENS.ERROR,
             value: char,
-            category: 'Símbolo Inválido',
+            category: 'Símbolo No Admitido',
             pos: this.position
           });
           this.errors.push({
@@ -634,7 +733,7 @@
         this.tokens.push({
           type: TOKENS.EOF,
           value: 'EOF',
-          category: 'Fin de Archivo',
+          category: 'Fin de Entrada',
           pos: this.position
         });
 
@@ -646,7 +745,7 @@
     }
 
     /**
-     * ANALIZADOR SINTÁCTICO (PARSER)
+     * 2. ANALIZADOR SINTÁCTICO (PARSER)
      */
     class Parser {
       constructor(tokens) {
@@ -662,7 +761,7 @@
         const token = this.current();
 
         if (token.type === TOKENS.ERROR) {
-          throw new Error(`Error Léxico en pos. ${token.pos}: Símbolo '${token.value}' no admitido. Corrija los errores léxicos primero.`);
+          throw new Error(`Error Léxico en pos. ${token.pos}: Símbolo inválido '${token.value}'.`);
         }
 
         if (token.type === expectedType) {
@@ -676,7 +775,7 @@
 
       parse() {
         if (this.current().type === TOKENS.EOF) {
-          throw new Error("La entrada está vacía. Ingrese una sentencia de reserva para iniciar el análisis.");
+          throw new Error("La entrada está vacía. Ingrese una sentencia de reserva.");
         }
 
         const reservaTok = this.match(TOKENS.RESERVA, "la palabra clave 'RESERVA'");
@@ -687,7 +786,7 @@
 
         const habKey = this.match(TOKENS.HABITACION, "la clave 'HABITACION'");
         const igualHab = this.match(TOKENS.IGUAL, "el operador '=' para HABITACION");
-        const habVal = this.match(TOKENS.HAB_ID, "un código de habitación válido (H seguido de 3 dígitos, ej. H203)");
+        const habVal = this.match(TOKENS.HAB_ID, "un código de habitación válido (H seguido de 3 números, ej. H203)");
 
         const fechaKey = this.match(TOKENS.FECHA, "la clave 'FECHA'");
         const igualFecha = this.match(TOKENS.IGUAL, "el operador '=' para FECHA");
@@ -703,7 +802,7 @@
 
         if (this.current().type !== TOKENS.EOF) {
           const extra = this.current();
-          throw new Error(`Tokens inesperados al final: '${extra.value}' (${extra.type}) en la pos. ${extra.pos}. La estructura ya estaba completa.`);
+          throw new Error(`Tokens inesperados al final: '${extra.value}' (${extra.type}) en la pos. ${extra.pos}.`);
         }
 
         return {
@@ -731,6 +830,149 @@
     }
 
     /**
+     * 3. ANALIZADOR SEMÁNTICO (SEMANTIC ANALYZER)
+     */
+    function analizarSemantica(data) {
+      const errors = [];
+      const warnings = [];
+
+      // Validar Noches
+      const nochesNum = parseInt(data.noches, 10);
+      if (isNaN(nochesNum) || nochesNum <= 0) {
+        errors.push(`La cantidad de noches debe ser un número entero mayor a 0 (recibido: ${data.noches}).`);
+      } else if (nochesNum > 60) {
+        warnings.push(`Estancia prolongada (${nochesNum} noches).`);
+      }
+
+      // Validar Personas
+      const personasNum = parseInt(data.personas, 10);
+      if (isNaN(personasNum) || personasNum <= 0) {
+        errors.push(`La cantidad de personas debe ser al menos 1 huésped (recibido: ${data.personas}).`);
+      } else if (personasNum > 6) {
+        warnings.push(`Ocupación grupal (${personasNum} personas).`);
+      }
+
+      // Validar Fecha Real en Calendario
+      const parts = data.fecha.split('-');
+      const y = parseInt(parts[0], 10);
+      const m = parseInt(parts[1], 10);
+      const d = parseInt(parts[2], 10);
+
+      if (m < 1 || m > 12) {
+        errors.push(`Mes inválido (${m}). Debe encontrarse entre 01 y 12.`);
+      } else {
+        const testDate = new Date(y, m - 1, d);
+        if (testDate.getFullYear() !== y || testDate.getMonth() !== (m - 1) || testDate.getDate() !== d) {
+          errors.push(`La fecha '${data.fecha}' no existe en el calendario (días no válidos para el mes ${m}).`);
+        }
+      }
+
+      // Desglose Semántico de Habitación
+      const floor = parseInt(data.habitacion.charAt(1), 10);
+      const roomNum = parseInt(data.habitacion.slice(2), 10);
+
+      return {
+        isValid: errors.length === 0,
+        errors,
+        warnings,
+        semanticDetails: {
+          piso: floor === 0 ? "Planta Baja" : `Piso ${floor}`,
+          pisoNum: floor,
+          numero: roomNum,
+          nochesInt: nochesNum,
+          personasInt: personasNum
+        }
+      };
+    }
+
+    /**
+     * 4. GENERADOR DE CÓDIGO DESTINO (CODE GENERATOR)
+     */
+    function generarCodigoDestino(data, semDetails) {
+      // Sentencia SQL DML
+      const sql = `-- Código Destino Generado por HotelSys Compiler\nINSERT INTO reservas (\n  cliente_nombre,\n  habitacion_codigo,\n  piso_nivel,\n  habitacion_numero,\n  fecha_llegada,\n  total_noches,\n  total_personas,\n  estado_reserva\n) VALUES (\n  '${data.cliente}',\n  '${data.habitacion}',\n  ${semDetails.pisoNum},\n  ${semDetails.numero},\n  '${data.fecha}',\n  ${semDetails.nochesInt},\n  ${semDetails.personasInt},\n  'CONFIRMADA'\n);`;
+
+      // Payload JSON para API REST
+      const json = JSON.stringify({
+        compiler: "HotelSys Compiler v2.0",
+        timestamp: new Date().toISOString(),
+        payload: {
+          reservationCode: `RES-${semDetails.pisoNum}${semDetails.numero}-${data.cliente}`,
+          guest: {
+            identifier: data.cliente,
+            category: "TITULAR"
+          },
+          room: {
+            code: data.habitacion,
+            floor: semDetails.piso,
+            door: semDetails.numero
+          },
+          booking: {
+            checkIn: data.fecha,
+            nights: semDetails.nochesInt,
+            guests: semDetails.personasInt
+          },
+          status: "ACCEPTED"
+        }
+      }, null, 2);
+
+      return { sql, json };
+    }
+
+    /**
+     * 5. TABLA DE SÍMBOLOS
+     */
+    function construirTablaSimbolos(data, semDetails, semValid) {
+      return [
+        {
+          id: 1,
+          simbolo: data.cliente,
+          tipo: 'VARCHAR(60)',
+          offset: '0x0040',
+          scope: 'Scope_Reserva',
+          valorSem: `Titular Huésped: "${data.cliente}"`,
+          estado: 'Válido'
+        },
+        {
+          id: 2,
+          simbolo: data.habitacion,
+          tipo: 'ROOM_ID',
+          offset: '0x0048',
+          scope: 'Scope_Reserva',
+          valorSem: `${semDetails.piso}, Habitación ${semDetails.numero}`,
+          estado: 'Válido'
+        },
+        {
+          id: 3,
+          simbolo: data.fecha,
+          tipo: 'DATE_ISO8601',
+          offset: '0x0050',
+          scope: 'Scope_Reserva',
+          valorSem: `Fecha Calendario: ${data.fecha}`,
+          estado: semValid ? 'Válido' : 'Inválido'
+        },
+        {
+          id: 4,
+          simbolo: data.noches,
+          tipo: 'INT_POSITIVE',
+          offset: '0x0058',
+          scope: 'Scope_Reserva',
+          valorSem: `${semDetails.nochesInt} noche(s) estancia`,
+          estado: semDetails.nochesInt > 0 ? 'Válido' : 'Inválido'
+        },
+        {
+          id: 5,
+          simbolo: data.personas,
+          tipo: 'INT_POSITIVE',
+          offset: '0x0060',
+          scope: 'Scope_Reserva',
+          valorSem: `${semDetails.personasInt} persona(s) ocupación`,
+          estado: semDetails.personasInt > 0 ? 'Válido' : 'Inválido'
+        }
+      ];
+    }
+
+    /**
      * GENERADOR DEL ÁRBOL SINTÁCTICO EN TEXTO
      */
     function generarArbolAscii(ast) {
@@ -755,19 +997,79 @@
     }
 
     /**
-     * CONTROLADOR DE LA INTERFAZ
+     * GENERADOR DEL ÁRBOL GRÁFICO INTERACTIVO DE NODOS
      */
+    function renderizarArbolVisual(ast) {
+      const container = document.getElementById("visualTreeContent");
+      container.innerHTML = "";
+
+      if (!ast) {
+        container.innerHTML = `
+          <div class="py-10 text-center text-rose-500 font-mono text-xs">
+            [Árbol No Disponible] - Ocurrió un error en la fase sintáctica.
+          </div>
+        `;
+        return;
+      }
+
+      // Nodo Raíz
+      const rootHtml = `
+        <div class="flex flex-col items-center">
+          <div class="px-5 py-2.5 rounded-2xl bg-[#0071E3] text-white shadow-md font-mono text-xs font-bold flex items-center gap-2 border border-blue-400/30">
+            <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
+            ${ast.node}
+          </div>
+          <div class="w-0.5 h-6 bg-slate-300 dark:bg-white/20"></div>
+          <div class="px-4 py-1.5 rounded-xl bg-[#5856D6] text-white shadow-sm font-mono text-xs font-bold">
+            ${ast.command}
+          </div>
+          <div class="w-0.5 h-6 bg-slate-300 dark:bg-white/20"></div>
+        </div>
+      `;
+
+      // Hijos (Campos)
+      let childrenHtml = `<div class="grid grid-cols-1 sm:grid-cols-5 gap-3 w-full">`;
+
+      ast.fields.forEach(field => {
+        childrenHtml += `
+          <div class="flex flex-col items-center p-3 rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/5 dark:border-white/10 shadow-sm space-y-2">
+            <span class="px-2.5 py-1 rounded-lg bg-[#AF52DE]/10 text-[#AF52DE] font-mono text-[11px] font-bold">
+              ${field.node}
+            </span>
+            <div class="w-full flex flex-col items-center space-y-1 font-mono text-[10px]">
+              <span class="px-2 py-0.5 rounded bg-black/[0.04] dark:bg-white/5 text-[#1D1D1F] dark:text-white/80 w-full text-center truncate">
+                ${field.keyword}
+              </span>
+              <span class="text-[#86868B] dark:text-white/40 font-bold">${field.operator}</span>
+              <span class="px-2 py-1 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold w-full text-center truncate border border-emerald-500/20">
+                ${escapeHtml(field.value)}
+              </span>
+            </div>
+          </div>
+        `;
+      });
+
+      childrenHtml += `</div>`;
+
+      container.innerHTML = rootHtml + childrenHtml;
+    }
+
+    /**
+     * CONTROLADOR PRINCIPAL DE COMPILACIÓN
+     */
+    let globalCompilationState = null;
+    let currentCodeTab = 'sql';
+
     function ejecutarAnalisis() {
       const startTime = performance.now();
       const input = document.getElementById("cadenaReserva").value;
 
-      // 1. Análisis Léxico
+      // Fase 1 & 2: Léxico
       const lexer = new Lexer(input);
       const { tokens, errors: lexErrors } = lexer.tokenize();
-
       renderizarTablaTokens(tokens);
 
-      // 2. Análisis Sintáctico
+      // Fase 3: Sintáctico
       const parser = new Parser(tokens);
       let parseResult = null;
       let syntaxError = null;
@@ -778,12 +1080,43 @@
         syntaxError = err.message;
       }
 
+      // Fase 4: Semántico
+      let semanticResult = { isValid: false, errors: [], warnings: [], semanticDetails: { piso: '-', pisoNum: 0, numero: 0, nochesInt: 0, personasInt: 0 } };
+      if (parseResult) {
+        semanticResult = analizarSemantica(parseResult.data);
+      }
+
+      // Fase 5: Generación de Código
+      let codeGen = { sql: "-- No generado", json: "{}" };
+      let tablaSimbolos = [];
+      if (parseResult && semanticResult.isValid) {
+        codeGen = generarCodigoDestino(parseResult.data, semanticResult.semanticDetails);
+        tablaSimbolos = construirTablaSimbolos(parseResult.data, semanticResult.semanticDetails, semanticResult.isValid);
+      } else if (parseResult) {
+        tablaSimbolos = construirTablaSimbolos(parseResult.data, semanticResult.semanticDetails, false);
+      }
+
+      renderizarTablaSimbolos(tablaSimbolos);
+
       const endTime = performance.now();
       const elapsed = Math.max(0.1, (endTime - startTime)).toFixed(1);
       document.getElementById("statTime").innerText = `${elapsed} ms`;
 
-      // 3. Renderizar Vistas y Pipeline Stepper
-      actualizarVistas(tokens, lexErrors, parseResult, syntaxError);
+      // Guardar estado global para exportar y cambiar de pestañas
+      globalCompilationState = {
+        input,
+        tokens,
+        lexErrors,
+        parseResult,
+        syntaxError,
+        semanticResult,
+        codeGen,
+        tablaSimbolos,
+        elapsed
+      };
+
+      // Actualizar visualizaciones
+      actualizarVistas();
     }
 
     function renderizarTablaTokens(tokens) {
@@ -794,45 +1127,75 @@
       document.getElementById("badgeLexerCount").innerText = `${displayTokens.length} Tokens`;
 
       if (displayTokens.length === 0) {
-        tbody.innerHTML = `
-          <tr>
-            <td colspan="5" class="text-center py-6 text-[#86868B] font-sans">
-              No se han ingresado tokens para analizar.
-            </td>
-          </tr>
-        `;
+        tbody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-[#86868B] dark:text-white/40">No hay tokens ingresados.</td></tr>`;
         return;
       }
 
       displayTokens.forEach((tok, idx) => {
         const tr = document.createElement("tr");
-        tr.className = "hover:bg-black/[0.02] transition-colors";
+        tr.className = "hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors";
 
-        let badgeColor = "bg-black/[0.04] text-[#1D1D1F]";
+        let badgeColor = "bg-black/[0.04] dark:bg-white/5 text-[#1D1D1F] dark:text-white";
         if (tok.category === 'Palabra Reservada') badgeColor = "bg-[#0071E3]/10 text-[#0071E3] border border-[#0071E3]/20";
         else if (tok.category === 'Operador Asignación') badgeColor = "bg-[#AF52DE]/10 text-[#AF52DE] border border-[#AF52DE]/20";
-        else if (tok.category === 'Identificador Habitación') badgeColor = "bg-[#5856D6]/10 text-[#5856D6] border border-[#5856D6]/20";
-        else if (tok.category === 'Valor de Fecha') badgeColor = "bg-[#34C759]/10 text-[#34C759] border border-[#34C759]/20";
+        else if (tok.category === 'Código Habitación') badgeColor = "bg-[#5856D6]/10 text-[#5856D6] border border-[#5856D6]/20";
+        else if (tok.category === 'Valor de Fecha ISO') badgeColor = "bg-[#34C759]/10 text-[#34C759] border border-[#34C759]/20";
         else if (tok.category === 'Constante Entera') badgeColor = "bg-[#FF9500]/10 text-[#FF9500] border border-[#FF9500]/20";
-        else if (tok.category === 'Identificador Alfanumérico') badgeColor = "bg-[#00C7BE]/10 text-[#00C7BE] border border-[#00C7BE]/20";
-        else if (tok.category === 'Símbolo Inválido') badgeColor = "bg-[#FF3B30]/15 text-[#FF3B30] border border-[#FF3B30]/30 animate-pulse font-bold";
+        else if (tok.category === 'Identificador Huésped') badgeColor = "bg-[#00C7BE]/10 text-[#00C7BE] border border-[#00C7BE]/20";
+        else if (tok.category === 'Símbolo No Admitido') badgeColor = "bg-[#FF3B30]/15 text-[#FF3B30] border border-[#FF3B30]/30 animate-pulse font-bold";
 
         tr.innerHTML = `
-          <td class="py-2.5 px-4 text-center text-[#86868B] font-semibold">${idx + 1}</td>
-          <td class="py-2.5 px-4 font-bold text-[#1D1D1F] font-mono">${escapeHtml(tok.value)}</td>
-          <td class="py-2.5 px-4 font-mono font-medium text-[#1D1D1F]">${tok.type}</td>
+          <td class="py-2.5 px-4 text-center text-[#86868B] dark:text-white/40 font-semibold">${idx + 1}</td>
+          <td class="py-2.5 px-4 font-bold text-[#1D1D1F] dark:text-white font-mono">${escapeHtml(tok.value)}</td>
+          <td class="py-2.5 px-4 font-mono font-medium text-[#1D1D1F] dark:text-white/90">${tok.type}</td>
           <td class="py-2.5 px-4">
             <span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-semibold ${badgeColor}">
               ${tok.category}
             </span>
           </td>
-          <td class="py-2.5 px-4 text-center text-[#86868B] font-mono text-xs">${tok.pos}</td>
+          <td class="py-2.5 px-4 text-center text-[#86868B] dark:text-white/40 font-mono text-xs">${tok.pos}</td>
         `;
         tbody.appendChild(tr);
       });
     }
 
-    function actualizarVistas(tokens, lexErrors, parseResult, syntaxError) {
+    function renderizarTablaSimbolos(simbolos) {
+      const tbody = document.getElementById("tablaSimbolosBody");
+      tbody.innerHTML = "";
+
+      if (simbolos.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center py-6 text-[#86868B] dark:text-white/40">Tabla de símbolos no generada.</td></tr>`;
+        return;
+      }
+
+      simbolos.forEach(s => {
+        const tr = document.createElement("tr");
+        tr.className = "hover:bg-black/[0.02] dark:hover:bg-white/[0.02] transition-colors";
+
+        const badgeState = s.estado === 'Válido'
+          ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20'
+          : 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20';
+
+        tr.innerHTML = `
+          <td class="py-2.5 px-3 text-center text-[#86868B] dark:text-white/40">${s.id}</td>
+          <td class="py-2.5 px-3 font-bold text-[#1D1D1F] dark:text-white font-mono">${escapeHtml(s.simbolo)}</td>
+          <td class="py-2.5 px-3 text-[#5856D6] dark:text-purple-300 font-semibold">${s.tipo}</td>
+          <td class="py-2.5 px-3 text-center font-mono text-[#0071E3]">${s.offset}</td>
+          <td class="py-2.5 px-3 text-[#6E6E73] dark:text-white/60">${s.scope}</td>
+          <td class="py-2.5 px-3 text-[#1D1D1F] dark:text-white/90">${s.valorSem}</td>
+          <td class="py-2.5 px-3 text-center">
+            <span class="inline-block px-2 py-0.5 rounded-full text-[10px] font-bold border ${badgeState}">
+              ${s.estado}
+            </span>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function actualizarVistas() {
+      const { lexErrors, parseResult, syntaxError, semanticResult, codeGen, tokens } = globalCompilationState;
+
       const banner = document.getElementById("statusBanner");
       const bannerIcon = document.getElementById("statusBannerIcon");
       const bannerTitle = document.getElementById("statusBannerTitle");
@@ -843,92 +1206,253 @@
       const errorContainer = document.getElementById("errorSintacticoContainer");
       const errorMsg = document.getElementById("errorSintacticoMensaje");
       const arbolPre = document.getElementById("arbolSintacticoPre");
-      const resumenCard = document.getElementById("resumenReservaCard");
-      const btnCopiar = document.getElementById("btnCopiarArbol");
 
-      // Stepper Elements
+      const errorSemContainer = document.getElementById("errorSemanticoContainer");
+      const errorSemMsg = document.getElementById("errorSemanticoMensaje");
+      const badgeSemState = document.getElementById("badgeSemState");
+
+      // Steppers
       const stepIcon2 = document.getElementById("stepIcon2");
       const stepText2 = document.getElementById("stepText2");
       const stepIcon3 = document.getElementById("stepIcon3");
       const stepText3 = document.getElementById("stepText3");
+      const stepIcon4 = document.getElementById("stepIcon4");
+      const stepText4 = document.getElementById("stepText4");
 
-      // 1. Estado Léxico
+      // Estado Léxico
       if (lexErrors.length > 0) {
-        lexBadge.className = "px-3 py-1 text-xs font-bold rounded-full bg-[#FF3B30]/10 text-[#FF3B30] border border-[#FF3B30]/20";
+        lexBadge.className = "px-3 py-1 text-xs font-bold rounded-full bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20";
         lexBadge.innerText = `${lexErrors.length} Error(es) Léxico(s)`;
-
-        stepIcon2.className = "w-8 h-8 rounded-xl bg-[#FF3B30] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm";
+        stepIcon2.className = "w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#FF3B30] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm";
         stepIcon2.innerText = "✕";
-        stepText2.innerText = `${lexErrors.length} símbolo(s) no reconocidos`;
+        stepText2.innerText = "Error Léxico";
       } else {
-        lexBadge.className = "px-3 py-1 text-xs font-bold rounded-full bg-emerald-500/10 text-emerald-700 border border-emerald-500/20";
+        lexBadge.className = "px-3 py-1 text-xs font-bold rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20";
         lexBadge.innerText = "0 Errores Léxicos";
-
-        stepIcon2.className = "w-8 h-8 rounded-xl bg-[#34C759] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm";
+        stepIcon2.className = "w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#34C759] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm";
         stepIcon2.innerText = "✓";
-        const tokCount = tokens.filter(t => t.type !== TOKENS.EOF).length;
-        stepText2.innerText = `${tokCount} tokens reconocidos sin error`;
+        stepText2.innerText = `${tokens.filter(t => t.type !== TOKENS.EOF).length} Tokens OK`;
       }
 
-      // 2. Estado Sintáctico
+      // Estado Sintáctico & Semántico
       if (syntaxError) {
-        // CASO ERROR
+        // Fallo Sintáctico
         banner.className = "p-4 sm:p-5 rounded-[26px] border transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-rose-500/10 border-rose-500/25 shadow-apple-error";
         bannerIcon.className = "w-10 h-10 rounded-full bg-[#FF3B30] text-white flex items-center justify-center shrink-0 shadow-sm";
-        bannerIcon.innerHTML = `
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        `;
-        bannerTitle.innerText = "Sentencia Rechazada por la Gramática";
-        bannerDesc.innerText = "La secuencia de tokens no sigue el orden o formato establecido por el compilador.";
+        bannerIcon.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>`;
+        bannerTitle.innerText = "Sentencia Rechazada (Fallo Sintáctico)";
+        bannerDesc.innerText = "La secuencia de tokens no sigue las reglas gramaticales de la gramática libre de contexto.";
         bannerBadge.className = "px-3.5 py-1 text-xs font-bold rounded-full bg-[#FF3B30] text-white shadow-sm";
         bannerBadge.innerText = "RECHAZADA";
 
-        stepIcon3.className = "w-8 h-8 rounded-xl bg-[#FF3B30] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm";
+        stepIcon3.className = "w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#FF3B30] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm";
         stepIcon3.innerText = "✕";
-        stepText3.innerText = "Error en reglas gramaticales";
+        stepText3.innerText = "Error Sintaxis";
+
+        stepIcon4.className = "w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-slate-400 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm";
+        stepIcon4.innerText = "-";
+        stepText4.innerText = "Bloqueado";
 
         errorContainer.classList.remove("hidden");
         errorMsg.innerText = syntaxError;
 
-        resumenCard.classList.add("hidden");
-        btnCopiar.classList.add("hidden");
+        errorSemContainer.classList.add("hidden");
+        badgeSemState.innerText = "Bloqueado por Sintaxis";
+        badgeSemState.className = "px-3 py-1 text-xs font-bold rounded-full bg-slate-100 dark:bg-white/10 text-slate-500 dark:text-white/50";
 
-        arbolPre.className = "w-full font-mono text-xs p-4 bg-transparent text-[#FF453A] overflow-x-auto leading-relaxed min-h-[160px]";
-        arbolPre.innerText = `[ERROR DE ANÁLISIS SINTÁCTICO]\nNo es posible generar el Árbol Sintáctico (AST).\nCausa del rechazo: ${syntaxError}`;
+        arbolPre.innerText = `[ERROR SINTÁCTICO]\nNo es posible generar el árbol.\nCausa: ${syntaxError}`;
+        renderizarArbolVisual(null);
+        document.getElementById("codigoGeneradoPre").innerText = "-- Compilación detenida por error sintáctico";
 
-      } else {
-        // CASO ÉXITO
-        banner.className = "p-4 sm:p-5 rounded-[26px] border transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-emerald-500/10 border-emerald-500/25 shadow-apple-success";
-        bannerIcon.className = "w-10 h-10 rounded-full bg-[#34C759] text-white flex items-center justify-center shrink-0 shadow-sm";
-        bannerIcon.innerHTML = `
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
-          </svg>
-        `;
-        bannerTitle.innerText = "Sentencia Válida y Confirmada";
-        bannerDesc.innerText = "El código fue aceptado en las etapas léxica y sintáctica conforme a la gramática.";
-        bannerBadge.className = "px-3.5 py-1 text-xs font-bold rounded-full bg-[#34C759] text-white shadow-sm";
-        bannerBadge.innerText = "ACEPTADA";
+      } else if (!semanticResult.isValid) {
+        // Fallo Semántico
+        banner.className = "p-4 sm:p-5 rounded-[26px] border transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-purple-500/10 border-purple-500/25 shadow-apple-error";
+        bannerIcon.className = "w-10 h-10 rounded-full bg-purple-600 text-white flex items-center justify-center shrink-0 shadow-sm";
+        bannerIcon.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>`;
+        bannerTitle.innerText = "Sentencia Rechazada (Fallo Semántico)";
+        bannerDesc.innerText = "La sintaxis es válida pero los valores violan las restricciones de dominio del hotel.";
+        bannerBadge.className = "px-3.5 py-1 text-xs font-bold rounded-full bg-purple-600 text-white shadow-sm";
+        bannerBadge.innerText = "ERROR SEMÁNTICO";
 
-        stepIcon3.className = "w-8 h-8 rounded-xl bg-[#34C759] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm";
+        stepIcon3.className = "w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#34C759] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm";
         stepIcon3.innerText = "✓";
-        stepText3.innerText = "Gramática verificada (100%)";
+        stepText3.innerText = "Sintaxis OK";
+
+        stepIcon4.className = "w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#FF3B30] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm";
+        stepIcon4.innerText = "✕";
+        stepText4.innerText = "Fallo Semántico";
 
         errorContainer.classList.add("hidden");
-        resumenCard.classList.remove("hidden");
-        btnCopiar.classList.remove("hidden");
 
-        document.getElementById("cardCliente").innerText = parseResult.data.cliente;
-        document.getElementById("cardHabitacion").innerText = parseResult.data.habitacion;
-        document.getElementById("cardFecha").innerText = parseResult.data.fecha;
-        document.getElementById("cardNoches").innerText = `${parseResult.data.noches} noche(s)`;
-        document.getElementById("cardPersonas").innerText = `${parseResult.data.personas} persona(s)`;
+        errorSemContainer.classList.remove("hidden");
+        errorSemMsg.innerText = semanticResult.errors.join(" | ");
 
-        const asciiTree = generarArbolAscii(parseResult.ast);
-        arbolPre.className = "w-full font-mono text-xs p-4 bg-transparent text-[#64D2FF] overflow-x-auto leading-relaxed min-h-[220px] whitespace-pre";
-        arbolPre.innerText = asciiTree;
+        badgeSemState.innerText = "Violación Semántica";
+        badgeSemState.className = "px-3 py-1 text-xs font-bold rounded-full bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20";
+
+        // Árbol sí se generó
+        arbolPre.innerText = generarArbolAscii(parseResult.ast);
+        renderizarArbolVisual(parseResult.ast);
+
+        document.getElementById("codigoGeneradoPre").innerText = "-- Generación de código bloqueada por validación semántica inválida.";
+
+      } else {
+        // COMPILACIÓN EXITOSA COMPLETA
+        banner.className = "p-4 sm:p-5 rounded-[26px] border transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-emerald-500/10 border-emerald-500/25 shadow-apple-success";
+        bannerIcon.className = "w-10 h-10 rounded-full bg-[#34C759] text-white flex items-center justify-center shrink-0 shadow-sm";
+        bannerIcon.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>`;
+        bannerTitle.innerText = "Compilación Exitosa (100% Válida)";
+        bannerDesc.innerText = "La sentencia superó el análisis léxico, sintáctico, la validación semántica y generó el código destino.";
+        bannerBadge.className = "px-3.5 py-1 text-xs font-bold rounded-full bg-[#34C759] text-white shadow-sm";
+        bannerBadge.innerText = "CONFIRMADA";
+
+        stepIcon3.className = "w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#34C759] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm";
+        stepIcon3.innerText = "✓";
+        stepText3.innerText = "Sintaxis OK";
+
+        stepIcon4.className = "w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#34C759] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm";
+        stepIcon4.innerText = "✓";
+        stepText4.innerText = "Código Generado";
+
+        errorContainer.classList.add("hidden");
+        errorSemContainer.classList.add("hidden");
+
+        badgeSemState.innerText = "Semántica Válida";
+        badgeSemState.className = "px-3 py-1 text-xs font-bold rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20";
+
+        arbolPre.innerText = generarArbolAscii(parseResult.ast);
+        renderizarArbolVisual(parseResult.ast);
+
+        actualizarVisualizadorCodigo();
+      }
+    }
+
+    /**
+     * CONMUTADOR DE PESTAÑAS DEL ÁRBOL
+     */
+    function setTreeTab(tab) {
+      const visualContainer = document.getElementById("treeVisualContainer");
+      const textContainer = document.getElementById("treeTextContainer");
+      const btnVisual = document.getElementById("btnTabTreeVisual");
+      const btnText = document.getElementById("btnTabTreeText");
+
+      if (tab === 'visual') {
+        visualContainer.classList.remove("hidden");
+        textContainer.classList.add("hidden");
+        btnVisual.className = "px-3 py-1 rounded-full bg-white dark:bg-[#2C2C2E] shadow-sm text-[#0071E3] transition-all";
+        btnText.className = "px-3 py-1 rounded-full text-[#6E6E73] dark:text-white/70 hover:text-[#1D1D1F] dark:hover:text-white transition-all";
+      } else {
+        visualContainer.classList.add("hidden");
+        textContainer.classList.remove("hidden");
+        btnText.className = "px-3 py-1 rounded-full bg-white dark:bg-[#2C2C2E] shadow-sm text-[#0071E3] transition-all";
+        btnVisual.className = "px-3 py-1 rounded-full text-[#6E6E73] dark:text-white/70 hover:text-[#1D1D1F] dark:hover:text-white transition-all";
+      }
+    }
+
+    /**
+     * CONMUTADOR DE PESTAÑAS DE CÓDIGO GENERADO
+     */
+    function setCodeTab(tab) {
+      currentCodeTab = tab;
+      const btnSql = document.getElementById("btnTabCodeGenSQL");
+      const btnJson = document.getElementById("btnTabCodeGenJSON");
+      const label = document.getElementById("labelCodeTitle");
+
+      if (tab === 'sql') {
+        btnSql.className = "px-3 py-1 rounded-full bg-white dark:bg-[#2C2C2E] shadow-sm text-[#0071E3] transition-all";
+        btnJson.className = "px-3 py-1 rounded-full text-[#6E6E73] dark:text-white/70 hover:text-[#1D1D1F] dark:hover:text-white transition-all";
+        label.innerText = "Sentencia SQL DML Compilada";
+      } else {
+        btnJson.className = "px-3 py-1 rounded-full bg-white dark:bg-[#2C2C2E] shadow-sm text-[#0071E3] transition-all";
+        btnSql.className = "px-3 py-1 rounded-full text-[#6E6E73] dark:text-white/70 hover:text-[#1D1D1F] dark:hover:text-white transition-all";
+        label.innerText = "Payload JSON para API REST";
+      }
+
+      actualizarVisualizadorCodigo();
+    }
+
+    function actualizarVisualizadorCodigo() {
+      const codePre = document.getElementById("codigoGeneradoPre");
+      if (!globalCompilationState || !globalCompilationState.codeGen) return;
+
+      if (currentCodeTab === 'sql') {
+        codePre.innerText = globalCompilationState.codeGen.sql;
+      } else {
+        codePre.innerText = globalCompilationState.codeGen.json;
+      }
+    }
+
+    function copiarCodigoDestino() {
+      const codePre = document.getElementById("codigoGeneradoPre").innerText;
+      if (!codePre) return;
+
+      navigator.clipboard.writeText(codePre).then(() => {
+        mostrarToast(currentCodeTab === 'sql' ? "Consulta SQL copiada" : "Payload JSON copiado");
+      });
+    }
+
+    function copiarArbolTexto() {
+      const arbol = document.getElementById("arbolSintacticoPre").innerText;
+      if (!arbol) return;
+
+      navigator.clipboard.writeText(arbol).then(() => {
+        mostrarToast("Árbol sintáctico copiado");
+      });
+    }
+
+    /**
+     * EXPORTAR REPORTE COMPLETO EN JSON
+     */
+    function exportarAuditoriaJSON() {
+      if (!globalCompilationState) return;
+
+      const report = {
+        meta: {
+          project: "HotelSys Compiler",
+          version: "2.0.0",
+          author: "carlossavero13",
+          exportedAt: new Date().toISOString(),
+          compilationTimeMs: globalCompilationState.elapsed
+        },
+        source: globalCompilationState.input,
+        tokens: globalCompilationState.tokens.filter(t => t.type !== TOKENS.EOF),
+        lexicalStatus: {
+          errorsCount: globalCompilationState.lexErrors.length,
+          errors: globalCompilationState.lexErrors
+        },
+        ast: globalCompilationState.parseResult ? globalCompilationState.parseResult.ast : null,
+        semanticAnalysis: globalCompilationState.semanticResult,
+        symbolTable: globalCompilationState.tablaSimbolos,
+        generatedCode: globalCompilationState.codeGen
+      };
+
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(report, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `auditoria_reserva_${Date.now()}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+
+      mostrarToast("Reporte de auditoría descargado");
+    }
+
+    /**
+     * CONMUTADOR DE TEMA (DARK / LIGHT MODE)
+     */
+    function toggleDarkMode() {
+      const html = document.documentElement;
+      const isDark = html.classList.toggle('dark');
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      mostrarToast(isDark ? "Modo Oscuro Activado" : "Modo Claro Activado");
+    }
+
+    function initTheme() {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
       }
     }
 
@@ -938,10 +1462,10 @@
     const SAMPLES = {
       valid: "RESERVA CLIENTE=CARLOS HABITACION=H203 FECHA=2026-10-15 NOCHES=3 PERSONAS=2",
       valid2: "RESERVA CLIENTE=MARIA99 HABITACION=H504 FECHA=2026-12-31 NOCHES=5 PERSONAS=4",
+      err_sem_fecha: "RESERVA CLIENTE=CARLOS HABITACION=H203 FECHA=2026-02-30 NOCHES=3 PERSONAS=2",
+      err_sem_noches: "RESERVA CLIENTE=CARLOS HABITACION=H203 FECHA=2026-10-15 NOCHES=0 PERSONAS=2",
       err_hab: "RESERVA CLIENTE=CARLOS HABITACION=H20 FECHA=2026-10-15 NOCHES=3 PERSONAS=2",
-      err_fecha: "RESERVA CLIENTE=CARLOS HABITACION=H203 FECHA=15-10-2026 NOCHES=3 PERSONAS=2",
-      err_lex: "RESERVA CLIENTE=CARLOS@# HABITACION=H203 FECHA=2026-10-15 NOCHES=3 PERSONAS=2",
-      err_missing: "RESERVA CLIENTE=CARLOS HABITACION=H203 FECHA=2026-10-15 PERSONAS=2"
+      err_lex: "RESERVA CLIENTE=CARLOS@# HABITACION=H203 FECHA=2026-10-15 NOCHES=3 PERSONAS=2"
     };
 
     function loadSample(key) {
@@ -955,23 +1479,12 @@
 
     function reiniciarTodo() {
       loadSample('valid');
-      mostrarToast("Estado inicial restaurado");
+      mostrarToast("Estado restaurado al ejemplo por defecto");
     }
 
     function actualizarContador() {
       const val = document.getElementById("cadenaReserva").value;
       document.getElementById("charCount").innerText = `${val.length} caracteres`;
-    }
-
-    function copiarArbolTexto() {
-      const arbol = document.getElementById("arbolSintacticoPre").innerText;
-      if (!arbol) return;
-
-      navigator.clipboard.writeText(arbol).then(() => {
-        mostrarToast("Árbol sintáctico copiado");
-      }).catch(() => {
-        mostrarToast("Error al copiar");
-      });
     }
 
     function mostrarToast(msg) {
@@ -997,6 +1510,7 @@
     document.getElementById("cadenaReserva").addEventListener("input", actualizarContador);
 
     window.addEventListener("DOMContentLoaded", () => {
+      initTheme();
       actualizarContador();
       ejecutarAnalisis();
     });
