@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full">
+<html lang="es" class="h-full scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HotelSys • Compilador Profesional de Reservas</title>
-  <!-- Tailwind CSS CDN con soporte de Dark Mode por clase -->
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -60,10 +60,8 @@
     * {
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
-      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
     }
 
-    /* Fondo blueprint sutil en modo claro */
     .bg-grid-light {
       background-size: 32px 32px;
       background-image: 
@@ -71,7 +69,6 @@
         linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
     }
 
-    /* Fondo blueprint sutil en modo oscuro */
     .dark .bg-grid-dark {
       background-size: 32px 32px;
       background-image: 
@@ -79,7 +76,6 @@
         linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
     }
 
-    /* Scrollbars ultradelgadas */
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -96,16 +92,16 @@
     }
   </style>
 </head>
-<body class="bg-[#F5F5F7] dark:bg-[#0A0A0C] bg-grid-light dark:bg-grid-dark text-[#1D1D1F] dark:text-[#F5F5F7] min-h-screen flex flex-col relative overflow-x-hidden selection:bg-[#0071E3] selection:text-white">
+<body class="bg-[#F5F5F7] dark:bg-[#0A0A0C] bg-grid-light dark:bg-grid-dark text-[#1D1D1F] dark:text-[#F5F5F7] min-h-screen flex flex-col lg:flex-row relative overflow-x-hidden selection:bg-[#0071E3] selection:text-white">
 
   <!-- ======================================================== -->
-  <!-- 1. BARRA SUPERIOR FLOTANTE ESTILO APPLE ISLAND           -->
+  <!-- BARRA LATERAL (SIDEBAR DE NAVEGACIÓN ESTILO macOS/iPadOS)-->
   <!-- ======================================================== -->
-  <header class="sticky top-3.5 z-40 px-4 sm:px-6 max-w-7xl w-full mx-auto">
-    <nav class="bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-2xl border border-white/90 dark:border-white/10 rounded-full px-5 py-3 shadow-apple-card dark:shadow-apple-card-dark flex items-center justify-between">
-      
-      <!-- Logo e Identidad -->
-      <div class="flex items-center space-x-3.5">
+  <aside class="hidden lg:flex flex-col w-72 h-screen sticky top-0 bg-white/75 dark:bg-[#161618]/80 backdrop-blur-2xl border-r border-black/[0.06] dark:border-white/10 p-5 z-40 shrink-0 justify-between overflow-y-auto">
+    
+    <div class="space-y-6">
+      <!-- Identidad Visual -->
+      <div class="flex items-center space-x-3 pb-3 border-b border-black/[0.06] dark:border-white/10">
         <div class="w-10 h-10 rounded-[14px] bg-gradient-to-tr from-[#0071E3] via-[#5856D6] to-[#AF52DE] p-[1.5px] shadow-sm flex items-center justify-center shrink-0">
           <div class="w-full h-full bg-[#0071E3] rounded-[13px] flex items-center justify-center text-white">
             <svg class="w-5 h-5 drop-shadow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -114,639 +110,656 @@
           </div>
         </div>
         <div>
-          <div class="flex items-center gap-2">
-            <h1 class="text-[15px] sm:text-base font-bold tracking-tight text-[#1D1D1F] dark:text-white">
-              HotelSys <span class="text-[#0071E3]">Compiler</span>
-            </h1>
-            <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-black/[0.04] dark:bg-white/10 text-[#6E6E73] dark:text-white/70 border border-black/5 dark:border-white/5">
-              Pipeline v2.0
-            </span>
-          </div>
-          <p class="text-[11px] text-[#86868B] dark:text-white/50 hidden sm:block">Léxico • Sintáctico • Semántico • Generación de Código SQL/JSON</p>
+          <h1 class="text-base font-bold tracking-tight text-[#1D1D1F] dark:text-white">
+            HotelSys <span class="text-[#0071E3]">Compiler</span>
+          </h1>
+          <span class="text-[10px] font-semibold text-[#86868B] dark:text-white/50 block font-mono">
+            Pipeline Formal v2.0
+          </span>
         </div>
       </div>
 
-      <!-- Controles: Exportar, Modo Oscuro y Reinicio -->
-      <div class="flex items-center space-x-2">
-        
-        <!-- Botón Acceso Rápido a Autómatas -->
-        <a
-          href="#seccionAutomatas"
-          class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-indigo-500/10 dark:bg-indigo-400/15 hover:bg-indigo-500/20 text-xs font-semibold text-indigo-700 dark:text-indigo-300 transition-all active:scale-95 border border-indigo-500/20 dark:border-indigo-400/30"
-          title="Ver Modelos Formales de Autómatas (AFD y AP)"
-        >
-          <svg class="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
-          </svg>
-          <span class="hidden sm:inline">Modelos de</span> Autómatas
+      <!-- Menú de Secciones de Compilación -->
+      <nav class="space-y-1 text-xs font-semibold">
+        <span class="text-[10px] uppercase font-bold tracking-wider text-[#86868B] dark:text-white/40 px-3 block mb-2">
+          Fases del Compilador
+        </span>
+
+        <!-- 1. Entrada -->
+        <a href="#sec-entrada" id="nav-sec-entrada" class="nav-item flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-[#1D1D1F] dark:text-white hover:bg-black/[0.04] dark:hover:bg-white/10 transition-all">
+          <div class="flex items-center gap-2.5">
+            <span class="w-2 h-2 rounded-full bg-[#0071E3]"></span>
+            <span>1. Código Fuente</span>
+          </div>
+          <span class="text-[10px] font-mono text-[#86868B] dark:text-white/40">Entrada</span>
         </a>
 
-        <!-- Botón Exportar Reporte JSON -->
-        <button
-          onclick="exportarAuditoriaJSON()"
-          class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/[0.04] dark:bg-white/10 hover:bg-black/[0.08] dark:hover:bg-white/15 text-xs font-semibold text-[#1D1D1F] dark:text-white transition-all active:scale-95 border border-black/5 dark:border-white/10"
-          title="Descargar Auditoría Completa"
-        >
+        <!-- 2. Léxico -->
+        <a href="#sec-lexico" id="nav-sec-lexico" class="nav-item flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-[#6E6E73] dark:text-white/70 hover:bg-black/[0.04] dark:hover:bg-white/10 transition-all">
+          <div class="flex items-center gap-2.5">
+            <span class="w-2 h-2 rounded-full bg-[#5856D6]"></span>
+            <span>2. Análisis Léxico</span>
+          </div>
+          <span id="navBadgeTokens" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#0071E3]/10 text-[#0071E3] font-bold">11 Tok</span>
+        </a>
+
+        <!-- 3. Sintáctico -->
+        <a href="#sec-sintactico" id="nav-sec-sintactico" class="nav-item flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-[#6E6E73] dark:text-white/70 hover:bg-black/[0.04] dark:hover:bg-white/10 transition-all">
+          <div class="flex items-center gap-2.5">
+            <span class="w-2 h-2 rounded-full bg-[#AF52DE]"></span>
+            <span>3. Análisis Sintáctico</span>
+          </div>
+          <span class="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-bold">AST</span>
+        </a>
+
+        <!-- 4. Semántico & Símbolos -->
+        <a href="#sec-semantico" id="nav-sec-semantico" class="nav-item flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-[#6E6E73] dark:text-white/70 hover:bg-black/[0.04] dark:hover:bg-white/10 transition-all">
+          <div class="flex items-center gap-2.5">
+            <span class="w-2 h-2 rounded-full bg-[#00C7BE]"></span>
+            <span>4. Semántica & Símbolos</span>
+          </div>
+          <span class="text-[10px] font-mono text-[#86868B] dark:text-white/40">Memoria</span>
+        </a>
+
+        <!-- 5. Código Destino -->
+        <a href="#sec-codigo" id="nav-sec-codigo" class="nav-item flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-[#6E6E73] dark:text-white/70 hover:bg-black/[0.04] dark:hover:bg-white/10 transition-all">
+          <div class="flex items-center gap-2.5">
+            <span class="w-2 h-2 rounded-full bg-[#34C759]"></span>
+            <span>5. Código SQL & JSON</span>
+          </div>
+          <span class="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 font-bold">Destino</span>
+        </a>
+
+        <!-- 6. Modelos de Autómatas -->
+        <span class="text-[10px] uppercase font-bold tracking-wider text-[#86868B] dark:text-white/40 px-3 block pt-4 mb-2">
+          Teoría de la Computación
+        </span>
+        <a href="#sec-automatas" id="nav-sec-automatas" class="nav-item flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-[#6E6E73] dark:text-white/70 hover:bg-indigo-500/10 hover:text-indigo-600 dark:hover:text-indigo-300 transition-all">
+          <div class="flex items-center gap-2.5">
+            <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
+            <span>Modelos de Autómatas</span>
+          </div>
+          <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-bold">AFD & AP</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Controles Inferiores del Sidebar -->
+    <div class="pt-4 border-t border-black/[0.06] dark:border-white/10 space-y-2 text-xs">
+      
+      <!-- Exportar Auditoría -->
+      <button onclick="exportarAuditoriaJSON()" class="w-full flex items-center justify-between px-3.5 py-2 rounded-2xl bg-black/[0.03] dark:bg-white/5 hover:bg-black/[0.06] dark:hover:bg-white/10 font-semibold text-[#1D1D1F] dark:text-white transition-all">
+        <span class="flex items-center gap-2">
           <svg class="w-3.5 h-3.5 text-[#0071E3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
           </svg>
-          <span>Exportar</span>
+          Exportar Auditoría
+        </span>
+        <span class="font-mono text-[10px] text-[#86868B]">.JSON</span>
+      </button>
+
+      <!-- Conmutador Tema y Reinicio -->
+      <div class="flex items-center justify-between pt-1">
+        <button onclick="toggleDarkMode()" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/[0.04] dark:bg-white/10 hover:bg-black/[0.08] dark:hover:bg-white/15 text-[#1D1D1F] dark:text-white font-medium transition-all">
+          <span class="dark:hidden">☀️ Claro</span>
+          <span class="hidden dark:inline">🌙 Oscuro</span>
         </button>
 
-        <!-- Conmutador Dark Mode -->
-        <button
-          id="btnThemeToggle"
-          onclick="toggleDarkMode()"
-          class="p-2 rounded-full bg-black/[0.04] dark:bg-white/10 hover:bg-black/[0.08] dark:hover:bg-white/15 text-[#1D1D1F] dark:text-white transition-all active:scale-90 border border-black/5 dark:border-white/10"
-          title="Cambiar Modo Claro/Oscuro"
-        >
-          <svg id="iconSun" class="w-4 h-4 hidden dark:block text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 9H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
-          </svg>
-          <svg id="iconMoon" class="w-4 h-4 block dark:hidden text-[#1D1D1F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
-          </svg>
+        <button onclick="reiniciarTodo()" class="text-[#6E6E73] dark:text-white/60 hover:text-[#1D1D1F] dark:hover:text-white px-2 py-1 rounded-lg text-xs font-medium">
+          Reiniciar
         </button>
-
-        <!-- Botón Reiniciar -->
-        <button onclick="reiniciarTodo()" class="text-xs text-[#6E6E73] dark:text-white/60 hover:text-[#1D1D1F] dark:hover:text-white px-2.5 py-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-all hidden sm:inline-flex items-center gap-1">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-          </svg>
-          <span>Reiniciar</span>
-        </button>
-
       </div>
 
-    </nav>
-  </header>
-
-  <!-- ======================================================== -->
-  <!-- 2. PIPELINE DE 4 FASES DE COMPILACIÓN (STEPPER UX)       -->
-  <!-- ======================================================== -->
-  <section class="max-w-7xl w-full mx-auto px-4 sm:px-6 pt-5 pb-2">
-    <div class="bg-white/70 dark:bg-[#1C1C1E]/70 backdrop-blur-xl border border-white/90 dark:border-white/10 rounded-[24px] p-3.5 sm:p-4 shadow-apple-sm">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3">
-
-        <!-- Paso 1: Entrada -->
-        <div id="stepCard1" class="flex items-center gap-2.5 p-2.5 rounded-2xl bg-white dark:bg-[#2C2C2E] border border-black/5 dark:border-white/5 shadow-sm transition-all">
-          <div id="stepIcon1" class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#0071E3] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">
-            1
-          </div>
-          <div class="min-w-0">
-            <h4 class="text-xs font-bold text-[#1D1D1F] dark:text-white truncate">1. Entrada</h4>
-            <p class="text-[10px] sm:text-[11px] text-[#86868B] dark:text-white/50 truncate">Código Fuente</p>
-          </div>
-        </div>
-
-        <!-- Paso 2: Léxico -->
-        <div id="stepCard2" class="flex items-center gap-2.5 p-2.5 rounded-2xl bg-white dark:bg-[#2C2C2E] border border-black/5 dark:border-white/5 shadow-sm transition-all">
-          <div id="stepIcon2" class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#34C759] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">
-            ✓
-          </div>
-          <div class="min-w-0">
-            <h4 class="text-xs font-bold text-[#1D1D1F] dark:text-white truncate">2. Léxico</h4>
-            <p id="stepText2" class="text-[10px] sm:text-[11px] text-[#86868B] dark:text-white/50 truncate">Tokens OK</p>
-          </div>
-        </div>
-
-        <!-- Paso 3: Sintáctico -->
-        <div id="stepCard3" class="flex items-center gap-2.5 p-2.5 rounded-2xl bg-white dark:bg-[#2C2C2E] border border-black/5 dark:border-white/5 shadow-sm transition-all">
-          <div id="stepIcon3" class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#34C759] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">
-            ✓
-          </div>
-          <div class="min-w-0">
-            <h4 class="text-xs font-bold text-[#1D1D1F] dark:text-white truncate">3. Sintaxis</h4>
-            <p id="stepText3" class="text-[10px] sm:text-[11px] text-[#86868B] dark:text-white/50 truncate">AST Generado</p>
-          </div>
-        </div>
-
-        <!-- Paso 4: Semántico y Código Destino -->
-        <div id="stepCard4" class="flex items-center gap-2.5 p-2.5 rounded-2xl bg-white dark:bg-[#2C2C2E] border border-black/5 dark:border-white/5 shadow-sm transition-all">
-          <div id="stepIcon4" class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#34C759] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">
-            ✓
-          </div>
-          <div class="min-w-0">
-            <h4 class="text-xs font-bold text-[#1D1D1F] dark:text-white truncate">4. Semántica & SQL</h4>
-            <p id="stepText4" class="text-[10px] sm:text-[11px] text-[#86868B] dark:text-white/50 truncate">Compilado OK</p>
-          </div>
-        </div>
-
-      </div>
     </div>
-  </section>
+
+  </aside>
 
   <!-- ======================================================== -->
-  <!-- 3. CONTENIDO PRINCIPAL                                    -->
+  <!-- BARRA SUPERIOR PARA MÓVILES (NAVBAR SUPERIOR RESPONSIVE) -->
   <!-- ======================================================== -->
-  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 py-4 space-y-6">
-
-    <!-- ======================================================== -->
-    <!-- FASE 1: ENTRADA Y CASOS PREDEFINIDOS                     -->
-    <!-- ======================================================== -->
-    <section class="bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-2xl border border-white/90 dark:border-white/10 rounded-[30px] p-5 sm:p-6 shadow-apple-card dark:shadow-apple-card-dark space-y-4">
-      
-      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pb-3 border-b border-black/[0.06] dark:border-white/10">
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-[#0071E3]"></span>
-            <h2 class="text-base font-bold text-[#1D1D1F] dark:text-white tracking-tight">Fase 1: Entrada y Carga de la Sentencia</h2>
-          </div>
-          <p class="text-xs text-[#6E6E73] dark:text-white/60 mt-0.5">
-            <strong class="text-[#1D1D1F] dark:text-white">Comentario Didáctico:</strong> Punto de ingreso del código fuente en el lenguaje formal de reservas hoteleras. Requiere la instrucción <code class="px-1.5 py-0.5 rounded bg-black/[0.04] dark:bg-white/10 text-[#0071E3] font-mono text-[11px]">RESERVA</code> seguida de sus 5 argumentos con operador de asignación (<code class="font-mono text-[#0071E3]">=</code>).
-          </p>
-        </div>
-
-        <!-- Botones de Muestras Rápidas -->
-        <div class="flex flex-wrap items-center gap-1.5">
-          <span class="text-[11px] font-semibold text-[#86868B] dark:text-white/50 uppercase tracking-wider mr-1">Casos:</span>
-          <button onclick="loadSample('valid')" class="px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-200 dark:border-emerald-800/60 text-xs font-semibold transition-all active:scale-95 flex items-center gap-1">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Correcto 1
-          </button>
-          <button onclick="loadSample('valid2')" class="px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-200 dark:border-emerald-800/60 text-xs font-semibold transition-all active:scale-95 flex items-center gap-1">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Correcto 2
-          </button>
-          <button onclick="loadSample('err_sem_fecha')" class="px-2.5 py-1 rounded-full bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/60 border border-purple-200 dark:border-purple-800/60 text-xs font-semibold transition-all active:scale-95 flex items-center gap-1" title="Sintaxis correcta pero 30 de febrero no existe">
-            <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> Err. Semántico (30 Feb)
-          </button>
-          <button onclick="loadSample('err_sem_noches')" class="px-2.5 py-1 rounded-full bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/60 border border-purple-200 dark:border-purple-800/60 text-xs font-semibold transition-all active:scale-95 flex items-center gap-1" title="0 noches no es una estancia válida">
-            <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> Err. Semántico (0 Noches)
-          </button>
-          <button onclick="loadSample('err_hab')" class="px-2.5 py-1 rounded-full bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 hover:bg-rose-100 dark:hover:bg-rose-900/60 border border-rose-200 dark:border-rose-800/60 text-xs font-semibold transition-all active:scale-95 flex items-center gap-1">
-            <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Err. Habitación
-          </button>
-          <button onclick="loadSample('err_lex')" class="px-2.5 py-1 rounded-full bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/60 border border-amber-200 dark:border-amber-800/60 text-xs font-semibold transition-all active:scale-95 flex items-center gap-1">
-            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Err. Léxico (@)
-          </button>
-        </div>
+  <div class="lg:hidden sticky top-0 z-40 bg-white/80 dark:bg-[#161618]/80 backdrop-blur-2xl border-b border-black/[0.06] dark:border-white/10 px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center space-x-2.5">
+      <div class="w-8 h-8 rounded-xl bg-[#0071E3] flex items-center justify-center text-white font-bold text-xs">
+        H
       </div>
+      <span class="font-bold text-sm text-[#1D1D1F] dark:text-white">HotelSys Compiler</span>
+    </div>
 
-      <!-- Editor de Código -->
-      <div class="space-y-3">
-        <div class="rounded-[22px] bg-[#1C1C1E] dark:bg-[#121214] p-1 border border-black/10 dark:border-white/10 shadow-inner">
-          <div class="px-4 py-2 border-b border-white/10 flex items-center justify-between text-xs text-white/50">
-            <div class="flex items-center space-x-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-[#FF5F56] inline-block"></span>
-              <span class="w-2.5 h-2.5 rounded-full bg-[#FFBD2E] inline-block"></span>
-              <span class="w-2.5 h-2.5 rounded-full bg-[#27C93F] inline-block"></span>
-              <span class="ml-2 font-mono text-[11px] text-white/70">sentencia_reserva.hotel</span>
+    <div class="flex items-center space-x-2">
+      <button onclick="toggleDarkMode()" class="p-1.5 rounded-full bg-black/[0.04] dark:bg-white/10 text-xs">
+        🌓
+      </button>
+      <button onclick="toggleMobileMenu()" class="p-1.5 rounded-lg bg-black/[0.04] dark:bg-white/10 text-[#1D1D1F] dark:text-white">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Menú Desplegable Móvil -->
+  <div id="mobileMenu" class="hidden lg:hidden bg-white/95 dark:bg-[#161618]/95 backdrop-blur-2xl border-b border-black/[0.06] dark:border-white/10 px-4 py-3 space-y-2 text-xs font-semibold">
+    <a href="#sec-entrada" onclick="toggleMobileMenu()" class="block py-1.5 text-[#1D1D1F] dark:text-white">1. Código Fuente</a>
+    <a href="#sec-lexico" onclick="toggleMobileMenu()" class="block py-1.5 text-[#1D1D1F] dark:text-white">2. Análisis Léxico</a>
+    <a href="#sec-sintactico" onclick="toggleMobileMenu()" class="block py-1.5 text-[#1D1D1F] dark:text-white">3. Análisis Sintáctico (AST)</a>
+    <a href="#sec-semantico" onclick="toggleMobileMenu()" class="block py-1.5 text-[#1D1D1F] dark:text-white">4. Semántica & Símbolos</a>
+    <a href="#sec-codigo" onclick="toggleMobileMenu()" class="block py-1.5 text-[#1D1D1F] dark:text-white">5. Código SQL & JSON</a>
+    <a href="#sec-automatas" onclick="toggleMobileMenu()" class="block py-1.5 text-indigo-600 dark:text-indigo-400 font-bold">6. Modelos de Autómatas (AFD & AP)</a>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- CONTENEDOR PRINCIPAL DE CONTENIDO (DERECHA)             -->
+  <!-- ======================================================== -->
+  <div class="flex-1 flex flex-col min-w-0">
+
+    <!-- PIPELINE STEPPER HORIZONTAL DE COMPILACIÓN -->
+    <header class="p-4 sm:p-6 lg:pb-0 max-w-6xl w-full mx-auto">
+      <div class="bg-white/70 dark:bg-[#1C1C1E]/70 backdrop-blur-xl border border-white/90 dark:border-white/10 rounded-[24px] p-3.5 sm:p-4 shadow-apple-sm">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3">
+
+          <div id="stepCard1" class="flex items-center gap-2.5 p-2.5 rounded-2xl bg-white dark:bg-[#2C2C2E] border border-black/5 dark:border-white/5 shadow-sm transition-all">
+            <div id="stepIcon1" class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#0071E3] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">1</div>
+            <div class="min-w-0">
+              <h4 class="text-xs font-bold text-[#1D1D1F] dark:text-white truncate">1. Entrada</h4>
+              <p class="text-[10px] text-[#86868B] dark:text-white/50 truncate">Fuente Formal</p>
             </div>
-            <span id="charCount" class="font-mono text-[11px] text-[#64D2FF]">75 caracteres</span>
           </div>
-          <textarea
-            id="cadenaReserva"
-            rows="3"
-            class="w-full font-mono text-sm sm:text-base p-4 bg-transparent text-[#64D2FF] border-none focus:outline-none placeholder:text-neutral-500 resize-y leading-relaxed tracking-wide"
-            placeholder="Ingrese la sentencia de reserva..."
-            spellcheck="false"
-          >RESERVA CLIENTE=CARLOS HABITACION=H203 FECHA=2026-10-15 NOCHES=3 PERSONAS=2</textarea>
-        </div>
 
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p class="text-xs text-[#86868B] dark:text-white/50 flex items-center gap-1.5">
-            <svg class="w-4 h-4 text-[#0071E3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-            Espaciado flexible y saltos de línea soportados.
-          </p>
-
-          <button
-            id="btnValidar"
-            onclick="ejecutarAnalisis()"
-            class="w-full sm:w-auto min-w-[220px] py-3 px-8 rounded-full bg-[#0071E3] hover:bg-[#0077ED] text-white font-semibold text-sm shadow-apple-glow active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2"
-          >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-            <span>Compilar Sentencia Completa</span>
-          </button>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- ======================================================== -->
-    <!-- BANNER DE DIAGNÓSTICO GLOBAL                            -->
-    <!-- ======================================================== -->
-    <div id="statusBanner" class="p-4 sm:p-5 rounded-[26px] border transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-emerald-500/10 border-emerald-500/25 shadow-apple-success">
-      <div class="flex items-center space-x-3.5">
-        <div id="statusBannerIcon" class="w-10 h-10 rounded-full bg-[#34C759] text-white flex items-center justify-center shrink-0 shadow-sm">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
-          </svg>
-        </div>
-        <div>
-          <h4 id="statusBannerTitle" class="font-bold text-sm sm:text-base tracking-tight text-[#1D1D1F] dark:text-white">Compilación Exitosa (100% Válida)</h4>
-          <p id="statusBannerDesc" class="text-xs text-[#6E6E73] dark:text-white/60">La sentencia superó el análisis léxico, sintáctico, la validación semántica y generó el código destino.</p>
-        </div>
-      </div>
-      <div class="flex items-center gap-2 self-start sm:self-auto">
-        <span id="statTime" class="text-xs font-mono font-bold px-3 py-1 rounded-full bg-white/70 dark:bg-white/10 text-[#1D1D1F] dark:text-white border border-black/5 dark:border-white/10">
-          &lt; 1 ms
-        </span>
-        <span id="statusBannerBadge" class="px-3.5 py-1 text-xs font-bold rounded-full bg-[#34C759] text-white shadow-sm">
-          CONFIRMADA
-        </span>
-      </div>
-    </div>
-
-    <!-- ======================================================== -->
-    <!-- FASE 2: ANÁLISIS LÉXICO (SCANNER & TOKENS)               -->
-    <!-- ======================================================== -->
-    <section class="bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-2xl border border-white/90 dark:border-white/10 rounded-[30px] p-5 sm:p-6 shadow-apple-card dark:shadow-apple-card-dark space-y-4">
-      
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-black/[0.06] dark:border-white/10">
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-[#5856D6]"></span>
-            <h3 class="text-base font-bold text-[#1D1D1F] dark:text-white tracking-tight">Fase 2: Análisis Léxico (Scanner / Tokenizer)</h3>
+          <div id="stepCard2" class="flex items-center gap-2.5 p-2.5 rounded-2xl bg-white dark:bg-[#2C2C2E] border border-black/5 dark:border-white/5 shadow-sm transition-all">
+            <div id="stepIcon2" class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#34C759] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">✓</div>
+            <div class="min-w-0">
+              <h4 class="text-xs font-bold text-[#1D1D1F] dark:text-white truncate">2. Léxico</h4>
+              <p id="stepText2" class="text-[10px] text-[#86868B] dark:text-white/50 truncate">Tokens OK</p>
+            </div>
           </div>
-          <p class="text-xs text-[#6E6E73] dark:text-white/60 mt-0.5">
-            <strong class="text-[#1D1D1F] dark:text-white">Comentario Didáctico:</strong> Escanea el flujo de caracteres para identificar y etiquetar cada componente atómico según patrones de expresiones regulares.
-          </p>
-        </div>
 
-        <div class="flex items-center gap-2">
-          <span id="badgeLexerCount" class="px-3 py-1 text-xs font-bold rounded-full bg-[#0071E3]/10 text-[#0071E3] border border-[#0071E3]/20">
-            11 Tokens
-          </span>
-          <span id="badgeLexerState" class="px-3 py-1 text-xs font-bold rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
-            0 Errores Léxicos
-          </span>
-        </div>
-      </div>
-
-      <!-- Tabla de Tokens -->
-      <div class="overflow-x-auto rounded-[20px] border border-black/5 dark:border-white/10 max-h-64 overflow-y-auto">
-        <table class="w-full text-left text-xs sm:text-sm">
-          <thead class="bg-black/[0.03] dark:bg-white/[0.05] text-[#86868B] dark:text-white/50 uppercase font-mono text-[11px] sticky top-0 z-10 backdrop-blur-md border-b border-black/5 dark:border-white/10">
-            <tr>
-              <th scope="col" class="py-2.5 px-4 font-bold text-center w-12">#</th>
-              <th scope="col" class="py-2.5 px-4 font-bold">Lexema</th>
-              <th scope="col" class="py-2.5 px-4 font-bold">Token Identificado</th>
-              <th scope="col" class="py-2.5 px-4 font-bold">Categoría Léxica</th>
-              <th scope="col" class="py-2.5 px-4 font-bold text-center">Posición</th>
-            </tr>
-          </thead>
-          <tbody id="tablaTokensBody" class="divide-y divide-black/[0.04] dark:divide-white/[0.05] font-mono">
-            <!-- Rellenado dinámicamente -->
-          </tbody>
-        </table>
-      </div>
-
-    </section>
-
-    <!-- ======================================================== -->
-    <!-- FASE 3: ANÁLISIS SINTÁCTICO (PARSER & ÁRBOL AST)        -->
-    <!-- ======================================================== -->
-    <section class="bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-2xl border border-white/90 dark:border-white/10 rounded-[30px] p-5 sm:p-6 shadow-apple-card dark:shadow-apple-card-dark space-y-4">
-      
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-black/[0.06] dark:border-white/10">
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-[#AF52DE]"></span>
-            <h3 class="text-base font-bold text-[#1D1D1F] dark:text-white tracking-tight">Fase 3: Análisis Sintáctico (Parser & AST)</h3>
+          <div id="stepCard3" class="flex items-center gap-2.5 p-2.5 rounded-2xl bg-white dark:bg-[#2C2C2E] border border-black/5 dark:border-white/5 shadow-sm transition-all">
+            <div id="stepIcon3" class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#34C759] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">✓</div>
+            <div class="min-w-0">
+              <h4 class="text-xs font-bold text-[#1D1D1F] dark:text-white truncate">3. Sintaxis</h4>
+              <p id="stepText3" class="text-[10px] text-[#86868B] dark:text-white/50 truncate">AST Generado</p>
+            </div>
           </div>
-          <p class="text-xs text-[#6E6E73] dark:text-white/60 mt-0.5">
-            <strong class="text-[#1D1D1F] dark:text-white">Comentario Didáctico:</strong> Evalúa si la secuencia de tokens satisface la Gramática Libre de Contexto (GLC) y construye el Árbol de Derivación Sintáctica (AST).
-          </p>
-        </div>
 
-        <!-- Conmutador entre Vista Gráfica de Nodos y Vista de Texto -->
-        <div class="flex items-center p-1 rounded-full bg-black/[0.04] dark:bg-white/10 border border-black/5 dark:border-white/5 text-xs font-semibold">
-          <button id="btnTabTreeVisual" onclick="setTreeTab('visual')" class="px-3 py-1 rounded-full bg-white dark:bg-[#2C2C2E] shadow-sm text-[#0071E3] transition-all">
-            🌳 Árbol Gráfico
-          </button>
-          <button id="btnTabTreeText" onclick="setTreeTab('text')" class="px-3 py-1 rounded-full text-[#6E6E73] dark:text-white/70 hover:text-[#1D1D1F] dark:hover:text-white transition-all">
-            📜 Vista Monospace
-          </button>
+          <div id="stepCard4" class="flex items-center gap-2.5 p-2.5 rounded-2xl bg-white dark:bg-[#2C2C2E] border border-black/5 dark:border-white/5 shadow-sm transition-all">
+            <div id="stepIcon4" class="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-[#34C759] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">✓</div>
+            <div class="min-w-0">
+              <h4 class="text-xs font-bold text-[#1D1D1F] dark:text-white truncate">4. Semántica & SQL</h4>
+              <p id="stepText4" class="text-[10px] text-[#86868B] dark:text-white/50 truncate">Compilado OK</p>
+            </div>
+          </div>
+
         </div>
       </div>
+    </header>
 
-      <!-- Alerta de Error Sintáctico (Oculto si OK) -->
-      <div id="errorSintacticoContainer" class="hidden p-5 rounded-[22px] bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-[#1D1D1F] dark:text-white space-y-2">
-        <div class="flex items-start space-x-3.5">
-          <div class="p-2 bg-[#FF3B30] text-white rounded-full shrink-0 shadow-sm mt-0.5">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-            </svg>
-          </div>
-          <div class="space-y-1">
-            <h4 class="font-bold text-sm text-[#FF3B30]">Discrepancia Gramatical Detectada</h4>
-            <p id="errorSintacticoMensaje" class="text-xs sm:text-sm text-[#1D1D1F] dark:text-white/90 leading-relaxed font-mono">
-              <!-- Mensaje dinámico de error -->
+    <!-- CUERPO PRINCIPAL CON TODAS LAS SECCIONES -->
+    <main class="flex-grow max-w-6xl w-full mx-auto p-4 sm:p-6 space-y-6">
+
+      <!-- ======================================================== -->
+      <!-- SECCIÓN 1: ENTRADA Y CASOS PREDEFINIDOS                 -->
+      <!-- ======================================================== -->
+      <section id="sec-entrada" class="scroll-mt-6 bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-2xl border border-white/90 dark:border-white/10 rounded-[30px] p-5 sm:p-6 shadow-apple-card dark:shadow-apple-card-dark space-y-4">
+        
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 pb-3 border-b border-black/[0.06] dark:border-white/10">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#0071E3]"></span>
+              <h2 class="text-base font-bold text-[#1D1D1F] dark:text-white tracking-tight">Fase 1: Entrada y Carga de la Sentencia</h2>
+            </div>
+            <p class="text-xs text-[#6E6E73] dark:text-white/60 mt-0.5">
+              <strong class="text-[#1D1D1F] dark:text-white">Comentario Didáctico:</strong> Punto de ingreso del código fuente en el lenguaje formal de reservas hoteleras. Requiere la instrucción <code class="px-1.5 py-0.5 rounded bg-black/[0.04] dark:bg-white/10 text-[#0071E3] font-mono text-[11px]">RESERVA</code> seguida de sus 5 argumentos con operador de asignación (<code class="font-mono text-[#0071E3]">=</code>).
             </p>
           </div>
-        </div>
-      </div>
 
-      <!-- CONTENEDOR 1: VISTA ÁRBOL GRÁFICO INTERACTIVO -->
-      <div id="treeVisualContainer" class="p-4 sm:p-6 rounded-[24px] bg-slate-50/70 dark:bg-[#121214] border border-black/5 dark:border-white/5 overflow-x-auto">
-        <div id="visualTreeContent" class="min-w-[650px] flex flex-col items-center space-y-4">
-          <!-- Se inyecta dinámicamente el diagrama de nodos SVG/DOM -->
-        </div>
-      </div>
-
-      <!-- CONTENEDOR 2: VISTA MONOSPACE (AST TEXTO CON BOTÓN COPIAR) -->
-      <div id="treeTextContainer" class="hidden space-y-2">
-        <div class="flex items-center justify-between text-xs text-[#86868B] dark:text-white/50 px-1">
-          <span class="font-semibold uppercase tracking-wider text-[11px]">Estructura de Derivación ASCII</span>
-          <button onclick="copiarArbolTexto()" class="text-[#0071E3] hover:underline flex items-center gap-1">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-            </svg>
-            Copiar al Portapapeles
-          </button>
-        </div>
-        <div class="rounded-[22px] bg-[#1C1C1E] dark:bg-[#121214] p-1 border border-black/10 dark:border-white/10 shadow-inner">
-          <pre
-            id="arbolSintacticoPre"
-            class="w-full font-mono text-xs p-4 bg-transparent text-[#64D2FF] overflow-x-auto leading-relaxed min-h-[180px] whitespace-pre"
-          ></pre>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- ======================================================== -->
-    <!-- FASE 4: ANÁLISIS SEMÁNTICO & TABLA DE SÍMBOLOS           -->
-    <!-- ======================================================== -->
-    <section class="bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-2xl border border-white/90 dark:border-white/10 rounded-[30px] p-5 sm:p-6 shadow-apple-card dark:shadow-apple-card-dark space-y-4">
-      
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-black/[0.06] dark:border-white/10">
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-[#00C7BE]"></span>
-            <h3 class="text-base font-bold text-[#1D1D1F] dark:text-white tracking-tight">Fase 4: Análisis Semántico & Tabla de Símbolos</h3>
+          <!-- Botones de Muestras Rápidas -->
+          <div class="flex flex-wrap items-center gap-1.5">
+            <span class="text-[11px] font-semibold text-[#86868B] dark:text-white/50 uppercase tracking-wider mr-1">Casos:</span>
+            <button onclick="loadSample('valid')" class="px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-200 dark:border-emerald-800/60 text-xs font-semibold transition-all active:scale-95 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Correcto 1
+            </button>
+            <button onclick="loadSample('valid2')" class="px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-200 dark:border-emerald-800/60 text-xs font-semibold transition-all active:scale-95 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Correcto 2
+            </button>
+            <button onclick="loadSample('err_sem_fecha')" class="px-2.5 py-1 rounded-full bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/60 border border-purple-200 dark:border-purple-800/60 text-xs font-semibold transition-all active:scale-95 flex items-center gap-1" title="Sintaxis correcta pero 30 de febrero no existe">
+              <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> Err. Semántico (30 Feb)
+            </button>
+            <button onclick="loadSample('err_sem_noches')" class="px-2.5 py-1 rounded-full bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/60 border border-purple-200 dark:border-purple-800/60 text-xs font-semibold transition-all active:scale-95 flex items-center gap-1" title="0 noches no es una estancia válida">
+              <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span> Err. Semántico (0 Noches)
+            </button>
+            <button onclick="loadSample('err_hab')" class="px-2.5 py-1 rounded-full bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 hover:bg-rose-100 dark:hover:bg-rose-900/60 border border-rose-200 dark:border-rose-800/60 text-xs font-semibold transition-all active:scale-95 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Err. Habitación
+            </button>
+            <button onclick="loadSample('err_lex')" class="px-2.5 py-1 rounded-full bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/60 border border-amber-200 dark:border-amber-800/60 text-xs font-semibold transition-all active:scale-95 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Err. Léxico (@)
+            </button>
           </div>
-          <p class="text-xs text-[#6E6E73] dark:text-white/60 mt-0.5">
-            <strong class="text-[#1D1D1F] dark:text-white">Comentario Didáctico:</strong> Comprueba la coherencia lógica de los datos (existencia de la fecha en el calendario, valores mayores a cero) y registra los identificadores en la Tabla de Símbolos con dirección de memoria simulada.
-          </p>
         </div>
 
-        <span id="badgeSemState" class="px-3 py-1 text-xs font-bold rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
-          Semántica Válida
-        </span>
-      </div>
+        <!-- Editor de Código -->
+        <div class="space-y-3">
+          <div class="rounded-[22px] bg-[#1C1C1E] dark:bg-[#121214] p-1 border border-black/10 dark:border-white/10 shadow-inner">
+            <div class="px-4 py-2 border-b border-white/10 flex items-center justify-between text-xs text-white/50">
+              <div class="flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-[#FF5F56] inline-block"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-[#FFBD2E] inline-block"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-[#27C93F] inline-block"></span>
+                <span class="ml-2 font-mono text-[11px] text-white/70">sentencia_reserva.hotel</span>
+              </div>
+              <span id="charCount" class="font-mono text-[11px] text-[#64D2FF]">75 caracteres</span>
+            </div>
+            <textarea
+              id="cadenaReserva"
+              rows="3"
+              class="w-full font-mono text-sm sm:text-base p-4 bg-transparent text-[#64D2FF] border-none focus:outline-none placeholder:text-neutral-500 resize-y leading-relaxed tracking-wide"
+              placeholder="Ingrese la sentencia de reserva..."
+              spellcheck="false"
+            >RESERVA CLIENTE=CARLOS HABITACION=H203 FECHA=2026-10-15 NOCHES=3 PERSONAS=2</textarea>
+          </div>
 
-      <!-- Alerta Semántica en caso de fallo -->
-      <div id="errorSemanticoContainer" class="hidden p-4 rounded-[20px] bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800/60 text-[#1D1D1F] dark:text-white space-y-1">
-        <div class="flex items-start gap-2.5">
-          <span class="p-1 rounded-full bg-purple-600 text-white shrink-0 text-xs">⚠️</span>
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p class="text-xs text-[#86868B] dark:text-white/50 flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-[#0071E3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              Espaciado flexible y saltos de línea soportados.
+            </p>
+
+            <button
+              id="btnValidar"
+              onclick="ejecutarAnalisis()"
+              class="w-full sm:w-auto min-w-[220px] py-3 px-8 rounded-full bg-[#0071E3] hover:bg-[#0077ED] text-white font-semibold text-sm shadow-apple-glow active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <span>Compilar Sentencia Completa</span>
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- BANNER DE DIAGNÓSTICO GLOBAL -->
+      <div id="statusBanner" class="p-4 sm:p-5 rounded-[26px] border transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-emerald-500/10 border-emerald-500/25 shadow-apple-success">
+        <div class="flex items-center space-x-3.5">
+          <div id="statusBannerIcon" class="w-10 h-10 rounded-full bg-[#34C759] text-white flex items-center justify-center shrink-0 shadow-sm">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+            </svg>
+          </div>
           <div>
-            <h4 class="font-bold text-xs sm:text-sm text-purple-800 dark:text-purple-300">Violación de Regla Semántica</h4>
-            <p id="errorSemanticoMensaje" class="text-xs text-purple-900 dark:text-purple-200 font-mono"></p>
+            <h4 id="statusBannerTitle" class="font-bold text-sm sm:text-base tracking-tight text-[#1D1D1F] dark:text-white">Compilación Exitosa (100% Válida)</h4>
+            <p id="statusBannerDesc" class="text-xs text-[#6E6E73] dark:text-white/60">La sentencia superó el análisis léxico, sintáctico, la validación semántica y generó el código destino.</p>
           </div>
+        </div>
+        <div class="flex items-center gap-2 self-start sm:self-auto">
+          <span id="statTime" class="text-xs font-mono font-bold px-3 py-1 rounded-full bg-white/70 dark:bg-white/10 text-[#1D1D1F] dark:text-white border border-black/5 dark:border-white/10">
+            &lt; 1 ms
+          </span>
+          <span id="statusBannerBadge" class="px-3.5 py-1 text-xs font-bold rounded-full bg-[#34C759] text-white shadow-sm">
+            CONFIRMADA
+          </span>
         </div>
       </div>
 
-      <!-- Tabla de Símbolos Formal -->
-      <div class="overflow-x-auto rounded-[20px] border border-black/5 dark:border-white/10 max-h-60 overflow-y-auto">
-        <table class="w-full text-left text-xs sm:text-sm">
-          <thead class="bg-black/[0.03] dark:bg-white/[0.05] text-[#86868B] dark:text-white/50 uppercase font-mono text-[11px] sticky top-0 z-10 backdrop-blur-md border-b border-black/5 dark:border-white/10">
-            <tr>
-              <th scope="col" class="py-2.5 px-3 font-bold text-center w-10">#</th>
-              <th scope="col" class="py-2.5 px-3 font-bold">Símbolo (Lexema)</th>
-              <th scope="col" class="py-2.5 px-3 font-bold">Tipo Inferido</th>
-              <th scope="col" class="py-2.5 px-3 font-bold text-center">Offset Memoria</th>
-              <th scope="col" class="py-2.5 px-3 font-bold">Ámbito (Scope)</th>
-              <th scope="col" class="py-2.5 px-3 font-bold">Valor Semántico / Desglose</th>
-              <th scope="col" class="py-2.5 px-3 font-bold text-center">Validación</th>
-            </tr>
-          </thead>
-          <tbody id="tablaSimbolosBody" class="divide-y divide-black/[0.04] dark:divide-white/[0.05] font-mono text-xs">
-            <!-- Rellenado dinámicamente -->
-          </tbody>
-        </table>
-      </div>
+      <!-- ======================================================== -->
+      <!-- SECCIÓN 2: ANÁLISIS LÉXICO (SCANNER & TOKENS)            -->
+      <!-- ======================================================== -->
+      <section id="sec-lexico" class="scroll-mt-6 bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-2xl border border-white/90 dark:border-white/10 rounded-[30px] p-5 sm:p-6 shadow-apple-card dark:shadow-apple-card-dark space-y-4">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-black/[0.06] dark:border-white/10">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#5856D6]"></span>
+              <h3 class="text-base font-bold text-[#1D1D1F] dark:text-white tracking-tight">Fase 2: Análisis Léxico (Scanner / Tokenizer)</h3>
+            </div>
+            <p class="text-xs text-[#6E6E73] dark:text-white/60 mt-0.5">
+              <strong class="text-[#1D1D1F] dark:text-white">Comentario Didáctico:</strong> Escanea el flujo de caracteres para identificar y etiquetar cada componente atómico según patrones de expresiones regulares.
+            </p>
+          </div>
 
-    </section>
-
-    <!-- ======================================================== -->
-    <!-- FASE 5: GENERACIÓN DE CÓDIGO DESTINO (SQL & REST JSON)   -->
-    <!-- ======================================================== -->
-    <section class="bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-2xl border border-white/90 dark:border-white/10 rounded-[30px] p-5 sm:p-6 shadow-apple-card dark:shadow-apple-card-dark space-y-4">
-      
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-black/[0.06] dark:border-white/10">
-        <div>
           <div class="flex items-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-[#34C759]"></span>
-            <h3 class="text-base font-bold text-[#1D1D1F] dark:text-white tracking-tight">Fase 5: Generación de Código Destino (SQL & JSON API)</h3>
+            <span id="badgeLexerCount" class="px-3 py-1 text-xs font-bold rounded-full bg-[#0071E3]/10 text-[#0071E3] border border-[#0071E3]/20">
+              11 Tokens
+            </span>
+            <span id="badgeLexerState" class="px-3 py-1 text-xs font-bold rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
+              0 Errores Léxicos
+            </span>
           </div>
-          <p class="text-xs text-[#6E6E73] dark:text-white/60 mt-0.5">
-            <strong class="text-[#1D1D1F] dark:text-white">Comentario Didáctico:</strong> Cierre del ciclo de compilación. El analizador traduce la reserva abstracta a código objeto ejecutable: una consulta SQL estructurada y un objeto de transporte JSON para microservicios.
-          </p>
         </div>
 
-        <!-- Pestañas de Código Generado -->
-        <div class="flex items-center p-1 rounded-full bg-black/[0.04] dark:bg-white/10 border border-black/5 dark:border-white/5 text-xs font-semibold">
-          <button id="btnTabCodeGenSQL" onclick="setCodeTab('sql')" class="px-3 py-1 rounded-full bg-white dark:bg-[#2C2C2E] shadow-sm text-[#0071E3] transition-all">
-            Consultas SQL
-          </button>
-          <button id="btnTabCodeGenJSON" onclick="setCodeTab('json')" class="px-3 py-1 rounded-full text-[#6E6E73] dark:text-white/70 hover:text-[#1D1D1F] dark:hover:text-white transition-all">
-            Payload JSON
-          </button>
-        </div>
-      </div>
-
-      <!-- Visualizador de Código Destino -->
-      <div class="space-y-2">
-        <div class="flex items-center justify-between text-xs text-[#86868B] dark:text-white/50 px-1">
-          <span id="labelCodeTitle" class="font-semibold uppercase tracking-wider text-[11px]">Sentencia SQL DML Compilada</span>
-          <button id="btnCopiarCodigo" onclick="copiarCodigoDestino()" class="text-[#0071E3] hover:underline flex items-center gap-1 font-semibold">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-            </svg>
-            Copiar Código Generado
-          </button>
+        <!-- Tabla de Tokens -->
+        <div class="overflow-x-auto rounded-[20px] border border-black/5 dark:border-white/10 max-h-64 overflow-y-auto">
+          <table class="w-full text-left text-xs sm:text-sm">
+            <thead class="bg-black/[0.03] dark:bg-white/[0.05] text-[#86868B] dark:text-white/50 uppercase font-mono text-[11px] sticky top-0 z-10 backdrop-blur-md border-b border-black/5 dark:border-white/10">
+              <tr>
+                <th scope="col" class="py-2.5 px-4 font-bold text-center w-12">#</th>
+                <th scope="col" class="py-2.5 px-4 font-bold">Lexema</th>
+                <th scope="col" class="py-2.5 px-4 font-bold">Token Identificado</th>
+                <th scope="col" class="py-2.5 px-4 font-bold">Categoría Léxica</th>
+                <th scope="col" class="py-2.5 px-4 font-bold text-center">Posición</th>
+              </tr>
+            </thead>
+            <tbody id="tablaTokensBody" class="divide-y divide-black/[0.04] dark:divide-white/[0.05] font-mono">
+              <!-- Rellenado dinámicamente -->
+            </tbody>
+          </table>
         </div>
 
-        <div class="rounded-[22px] bg-[#1C1C1E] dark:bg-[#121214] p-1 border border-black/10 dark:border-white/10 shadow-inner">
-          <pre
-            id="codigoGeneradoPre"
-            class="w-full font-mono text-xs sm:text-sm p-4 bg-transparent text-[#34C759] overflow-x-auto leading-relaxed min-h-[160px] whitespace-pre"
-          ></pre>
-        </div>
-      </div>
+      </section>
 
-    </section>
-
-    <!-- ======================================================== -->
-    <!-- FASE 6 / TEORÍA: FUNDAMENTACIÓN DE AUTÓMATAS (AFD & AP)  -->
-    <!-- ======================================================== -->
-    <section id="seccionAutomatas" class="bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-2xl border border-indigo-500/20 dark:border-indigo-500/30 rounded-[30px] p-5 sm:p-7 shadow-apple-card dark:shadow-apple-card-dark space-y-6">
-      
-      <!-- Encabezado de la Sección de Autómatas -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-black/[0.06] dark:border-white/10">
-        <div>
-          <div class="flex items-center gap-2">
-            <span class="w-3 h-3 rounded-full bg-indigo-500"></span>
-            <h2 class="text-base sm:text-lg font-bold text-[#1D1D1F] dark:text-white tracking-tight">
-              Fundamentación Teórica: Modelos de Autómatas Implementados
-            </h2>
-          </div>
-          <p class="text-xs text-[#6E6E73] dark:text-white/60 mt-0.5">
-            Mapeo formal del proyecto a la <strong>Jerarquía de Chomsky</strong> (Autómatas Finitos y Autómatas de Pila).
-          </p>
-        </div>
-
-        <span class="px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 text-xs font-bold border border-indigo-500/20 self-start sm:self-auto">
-          Teoría de la Computación
-        </span>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-        <!-- TARJETA 1: AUTÓMATAS FINITOS DETERMINISTAS (AFD) -->
-        <div class="p-5 rounded-[24px] bg-slate-50/80 dark:bg-[#151518] border border-black/5 dark:border-white/5 space-y-4">
-          <div class="flex items-center justify-between">
-            <h3 class="font-bold text-sm text-[#1D1D1F] dark:text-white flex items-center gap-2">
-              <span class="w-6 h-6 rounded-lg bg-[#0071E3] text-white flex items-center justify-center text-xs font-mono font-bold">M1</span>
-              Autómata Finito Determinista (AFD)
-            </h3>
-            <span class="text-[10px] font-mono font-bold bg-[#0071E3]/10 text-[#0071E3] px-2 py-0.5 rounded-full">Fase Léxica (Chomsky Tipo 3)</span>
-          </div>
-
-          <p class="text-xs text-[#6E6E73] dark:text-white/60 leading-relaxed">
-            El <strong>Lexer</strong> está modelado matemáticamente como una 5-tupla formal: <br>
-            <code class="font-mono text-[11px] text-[#0071E3] font-bold bg-white dark:bg-black/30 px-2 py-0.5 rounded border border-black/5 dark:border-white/5 inline-block mt-1">M = (Q, Σ, δ, q₀, F)</code>
-          </p>
-
-          <div class="space-y-1.5 text-xs text-[#3C3C43] dark:text-white/80 font-mono text-[11px]">
-            <p>• <strong>Q</strong>: Conjunto finito de estados {q₀, q₁, q₂, q₃, q₄, q_error}</p>
-            <p>• <strong>Σ</strong>: Alfabeto {Letras [A-Z], Dígitos [0-9], '=', '-'}</p>
-            <p>• <strong>q₀</strong>: Estado inicial de lectura de caracteres</p>
-            <p>• <strong>F</strong>: Estados de aceptación donde se emite cada Token</p>
-          </div>
-
-          <!-- Diagrama de Estados Visual: Reconocedor de Habitación -->
-          <div class="space-y-2 pt-2">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-[#86868B] dark:text-white/50 block">Diagrama de Transición: TOKEN_HAB_ID (H + 3 Dígitos)</span>
-            <div class="p-3.5 rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/5 dark:border-white/10 overflow-x-auto">
-              <div class="flex items-center space-x-1.5 min-w-[340px] text-[11px] font-mono">
-                <!-- q0 -->
-                <div class="px-2.5 py-1 rounded-full bg-slate-200 dark:bg-white/10 text-[#1D1D1F] dark:text-white font-bold border border-black/10">q₀</div>
-                <span class="text-[#0071E3] font-bold">──'H'──▶</span>
-                <!-- q1 -->
-                <div class="px-2.5 py-1 rounded-full bg-slate-200 dark:bg-white/10 text-[#1D1D1F] dark:text-white font-bold border border-black/10">q₁</div>
-                <span class="text-[#0071E3] font-bold">──[0-9]──▶</span>
-                <!-- q2 -->
-                <div class="px-2.5 py-1 rounded-full bg-slate-200 dark:bg-white/10 text-[#1D1D1F] dark:text-white font-bold border border-black/10">q₂</div>
-                <span class="text-[#0071E3] font-bold">──[0-9]──▶</span>
-                <!-- q3 -->
-                <div class="px-2.5 py-1 rounded-full bg-slate-200 dark:bg-white/10 text-[#1D1D1F] dark:text-white font-bold border border-black/10">q₃</div>
-                <span class="text-[#0071E3] font-bold">──[0-9]──▶</span>
-                <!-- q4 Aceptación -->
-                <div class="px-3 py-1 rounded-full bg-emerald-500 text-white font-bold shadow-sm ring-2 ring-emerald-300 dark:ring-emerald-700">((q₄))</div>
-              </div>
-              <p class="text-[10px] text-emerald-600 dark:text-emerald-400 font-mono mt-2">
-                ✓ Al alcanzar ((q₄)) se emite el token <strong>TOKEN_HAB_ID</strong>.
-              </p>
+      <!-- ======================================================== -->
+      <!-- SECCIÓN 3: ANÁLISIS SINTÁCTICO (PARSER & ÁRBOL AST)     -->
+      <!-- ======================================================== -->
+      <section id="sec-sintactico" class="scroll-mt-6 bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-2xl border border-white/90 dark:border-white/10 rounded-[30px] p-5 sm:p-6 shadow-apple-card dark:shadow-apple-card-dark space-y-4">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-black/[0.06] dark:border-white/10">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#AF52DE]"></span>
+              <h3 class="text-base font-bold text-[#1D1D1F] dark:text-white tracking-tight">Fase 3: Análisis Sintáctico (Parser & AST)</h3>
             </div>
+            <p class="text-xs text-[#6E6E73] dark:text-white/60 mt-0.5">
+              <strong class="text-[#1D1D1F] dark:text-white">Comentario Didáctico:</strong> Evalúa si la secuencia de tokens satisface la Gramática Libre de Contexto (GLC) y construye el Árbol de Derivación Sintáctica (AST).
+            </p>
           </div>
 
-          <!-- Diagrama de Estados: Asignación y Error -->
-          <div class="space-y-2">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-[#86868B] dark:text-white/50 block">Diagrama de Transición: TOKEN_IGUAL y Estado Trampa</span>
-            <div class="p-3.5 rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/5 dark:border-white/10 overflow-x-auto text-[11px] font-mono space-y-2">
-              <div class="flex items-center space-x-2">
-                <div class="px-2 py-0.5 rounded-full bg-slate-200 dark:bg-white/10 font-bold">q₀</div>
-                <span class="text-purple-600 dark:text-purple-400 font-bold">──'='──▶</span>
-                <div class="px-2.5 py-0.5 rounded-full bg-purple-600 text-white font-bold ring-2 ring-purple-300 dark:ring-purple-700">((q_op))</div>
-                <span class="text-[10px] text-[#6E6E73] dark:text-white/60">→ Emite TOKEN_IGUAL</span>
-              </div>
-              <div class="flex items-center space-x-2">
-                <div class="px-2 py-0.5 rounded-full bg-slate-200 dark:bg-white/10 font-bold">q₀</div>
-                <span class="text-rose-600 dark:text-rose-400 font-bold">──[@, #, $]──▶</span>
-                <div class="px-2.5 py-0.5 rounded-full bg-rose-600 text-white font-bold ring-2 ring-rose-300 dark:ring-rose-700">((q_err))</div>
-                <span class="text-[10px] text-rose-600 dark:text-rose-400">→ Estado Trampa (TOKEN_ERROR)</span>
-              </div>
+          <div class="flex items-center p-1 rounded-full bg-black/[0.04] dark:bg-white/10 border border-black/5 dark:border-white/5 text-xs font-semibold">
+            <button id="btnTabTreeVisual" onclick="setTreeTab('visual')" class="px-3 py-1 rounded-full bg-white dark:bg-[#2C2C2E] shadow-sm text-[#0071E3] transition-all">
+              🌳 Árbol Gráfico
+            </button>
+            <button id="btnTabTreeText" onclick="setTreeTab('text')" class="px-3 py-1 rounded-full text-[#6E6E73] dark:text-white/70 hover:text-[#1D1D1F] dark:hover:text-white transition-all">
+              📜 Vista Monospace
+            </button>
+          </div>
+        </div>
+
+        <!-- Alerta de Error Sintáctico -->
+        <div id="errorSintacticoContainer" class="hidden p-5 rounded-[22px] bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-[#1D1D1F] dark:text-white space-y-2">
+          <div class="flex items-start space-x-3.5">
+            <div class="p-2 bg-[#FF3B30] text-white rounded-full shrink-0 shadow-sm mt-0.5">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+              </svg>
+            </div>
+            <div class="space-y-1">
+              <h4 class="font-bold text-sm text-[#FF3B30]">Discrepancia Gramatical Detectada</h4>
+              <p id="errorSintacticoMensaje" class="text-xs sm:text-sm text-[#1D1D1F] dark:text-white/90 leading-relaxed font-mono"></p>
             </div>
           </div>
         </div>
 
-        <!-- TARJETA 2: AUTÓMATA DE PILA (PUSH DOWN AUTOMATON) -->
-        <div class="p-5 rounded-[24px] bg-slate-50/80 dark:bg-[#151518] border border-black/5 dark:border-white/5 space-y-4">
-          <div class="flex items-center justify-between">
-            <h3 class="font-bold text-sm text-[#1D1D1F] dark:text-white flex items-center gap-2">
-              <span class="w-6 h-6 rounded-lg bg-[#AF52DE] text-white flex items-center justify-center text-xs font-mono font-bold">M2</span>
-              Autómata de Pila Determinista (AP)
-            </h3>
-            <span class="text-[10px] font-mono font-bold bg-[#AF52DE]/10 text-[#AF52DE] px-2 py-0.5 rounded-full">Fase Sintáctica (Chomsky Tipo 2)</span>
+        <!-- Vista Árbol Gráfico -->
+        <div id="treeVisualContainer" class="p-4 sm:p-6 rounded-[24px] bg-slate-50/70 dark:bg-[#121214] border border-black/5 dark:border-white/5 overflow-x-auto">
+          <div id="visualTreeContent" class="min-w-[650px] flex flex-col items-center space-y-4"></div>
+        </div>
+
+        <!-- Vista Árbol Monospace -->
+        <div id="treeTextContainer" class="hidden space-y-2">
+          <div class="flex items-center justify-between text-xs text-[#86868B] dark:text-white/50 px-1">
+            <span class="font-semibold uppercase tracking-wider text-[11px]">Estructura de Derivación ASCII</span>
+            <button onclick="copiarArbolTexto()" class="text-[#0071E3] hover:underline flex items-center gap-1 font-semibold">
+              Copiar al Portapapeles
+            </button>
+          </div>
+          <div class="rounded-[22px] bg-[#1C1C1E] dark:bg-[#121214] p-1 border border-black/10 dark:border-white/10 shadow-inner">
+            <pre id="arbolSintacticoPre" class="w-full font-mono text-xs p-4 bg-transparent text-[#64D2FF] overflow-x-auto leading-relaxed min-h-[180px] whitespace-pre"></pre>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- SECCIÓN 4: ANÁLISIS SEMÁNTICO & TABLA DE SÍMBOLOS        -->
+      <!-- ======================================================== -->
+      <section id="sec-semantico" class="scroll-mt-6 bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-2xl border border-white/90 dark:border-white/10 rounded-[30px] p-5 sm:p-6 shadow-apple-card dark:shadow-apple-card-dark space-y-4">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-black/[0.06] dark:border-white/10">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#00C7BE]"></span>
+              <h3 class="text-base font-bold text-[#1D1D1F] dark:text-white tracking-tight">Fase 4: Análisis Semántico & Tabla de Símbolos</h3>
+            </div>
+            <p class="text-xs text-[#6E6E73] dark:text-white/60 mt-0.5">
+              <strong class="text-[#1D1D1F] dark:text-white">Comentario Didáctico:</strong> Comprueba la coherencia lógica de los datos (existencia de la fecha en el calendario, valores mayores a cero) y registra los identificadores en la Tabla de Símbolos con dirección de memoria simulada.
+            </p>
           </div>
 
-          <p class="text-xs text-[#6E6E73] dark:text-white/60 leading-relaxed">
-            El <strong>Parser</strong> implementa un <em>Autómata de Pila</em> para reconocer la <strong>Gramática Libre de Contexto (GLC)</strong> mediante una 7-tupla formal: <br>
-            <code class="font-mono text-[11px] text-[#AF52DE] font-bold bg-white dark:bg-black/30 px-2 py-0.5 rounded border border-black/5 dark:border-white/5 inline-block mt-1">M = (Q, Σ, Γ, δ, q₀, Z₀, F)</code>
-          </p>
+          <span id="badgeSemState" class="px-3 py-1 text-xs font-bold rounded-full bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20">
+            Semántica Válida
+          </span>
+        </div>
 
-          <div class="space-y-1.5 text-xs text-[#3C3C43] dark:text-white/80 font-mono text-[11px]">
-            <p>• <strong>Γ (Alfabeto de Pila)</strong>: {&lt;Reserva&gt;, CLIENTE, HABITACION, FECHA, NOCHES, PERSONAS, Z₀}</p>
-            <p>• <strong>Z₀</strong>: Símbolo inicial en el fondo de la pila</p>
-            <p>• <strong>Operaciones</strong>: <em>Push</em> (apilar regla gramatical) y <em>Pop</em> (desapilar token verificado)</p>
+        <!-- Alerta Semántica -->
+        <div id="errorSemanticoContainer" class="hidden p-4 rounded-[20px] bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800/60 text-[#1D1D1F] dark:text-white space-y-1">
+          <div class="flex items-start gap-2.5">
+            <span class="p-1 rounded-full bg-purple-600 text-white shrink-0 text-xs">⚠️</span>
+            <div>
+              <h4 class="font-bold text-xs sm:text-sm text-purple-800 dark:text-purple-300">Violación de Regla Semántica</h4>
+              <p id="errorSemanticoMensaje" class="text-xs text-purple-900 dark:text-purple-200 font-mono"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla de Símbolos -->
+        <div class="overflow-x-auto rounded-[20px] border border-black/5 dark:border-white/10 max-h-60 overflow-y-auto">
+          <table class="w-full text-left text-xs sm:text-sm">
+            <thead class="bg-black/[0.03] dark:bg-white/[0.05] text-[#86868B] dark:text-white/50 uppercase font-mono text-[11px] sticky top-0 z-10 backdrop-blur-md border-b border-black/5 dark:border-white/10">
+              <tr>
+                <th scope="col" class="py-2.5 px-3 font-bold text-center w-10">#</th>
+                <th scope="col" class="py-2.5 px-3 font-bold">Símbolo (Lexema)</th>
+                <th scope="col" class="py-2.5 px-3 font-bold">Tipo Inferido</th>
+                <th scope="col" class="py-2.5 px-3 font-bold text-center">Offset Memoria</th>
+                <th scope="col" class="py-2.5 px-3 font-bold">Ámbito (Scope)</th>
+                <th scope="col" class="py-2.5 px-3 font-bold">Valor Semántico / Desglose</th>
+                <th scope="col" class="py-2.5 px-3 font-bold text-center">Validación</th>
+              </tr>
+            </thead>
+            <tbody id="tablaSimbolosBody" class="divide-y divide-black/[0.04] dark:divide-white/[0.05] font-mono text-xs">
+              <!-- Rellenado dinámicamente -->
+            </tbody>
+          </table>
+        </div>
+
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- SECCIÓN 5: GENERACIÓN DE CÓDIGO (SQL & JSON)             -->
+      <!-- ======================================================== -->
+      <section id="sec-codigo" class="scroll-mt-6 bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-2xl border border-white/90 dark:border-white/10 rounded-[30px] p-5 sm:p-6 shadow-apple-card dark:shadow-apple-card-dark space-y-4">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-black/[0.06] dark:border-white/10">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#34C759]"></span>
+              <h3 class="text-base font-bold text-[#1D1D1F] dark:text-white tracking-tight">Fase 5: Generación de Código Destino (SQL & JSON API)</h3>
+            </div>
+            <p class="text-xs text-[#6E6E73] dark:text-white/60 mt-0.5">
+              <strong class="text-[#1D1D1F] dark:text-white">Comentario Didáctico:</strong> Cierre del ciclo de compilación. Traduce la reserva formal a una consulta SQL estructurada para la base de datos y un objeto JSON para microservicios.
+            </p>
           </div>
 
-          <!-- Simulación Visual de la Pila (Call Stack) -->
-          <div class="space-y-2 pt-2">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-[#86868B] dark:text-white/50 block">Mecanismo de Desapilado de la GLC (Push / Pop)</span>
-            <div class="p-3.5 rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/5 dark:border-white/10 space-y-2 text-xs font-mono">
-              
-              <div class="space-y-1 text-[11px]">
-                <div class="flex items-center justify-between p-2 rounded-xl bg-purple-50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-800/40">
-                  <span class="text-[#AF52DE] font-bold">1. Expansión Inicial:</span>
-                  <span class="text-[#1D1D1F] dark:text-white">Push(&lt;Reserva&gt;) sobre Z₀</span>
+          <div class="flex items-center p-1 rounded-full bg-black/[0.04] dark:bg-white/10 border border-black/5 dark:border-white/5 text-xs font-semibold">
+            <button id="btnTabCodeGenSQL" onclick="setCodeTab('sql')" class="px-3 py-1 rounded-full bg-white dark:bg-[#2C2C2E] shadow-sm text-[#0071E3] transition-all">
+              Consultas SQL
+            </button>
+            <button id="btnTabCodeGenJSON" onclick="setCodeTab('json')" class="px-3 py-1 rounded-full text-[#6E6E73] dark:text-white/70 hover:text-[#1D1D1F] dark:hover:text-white transition-all">
+              Payload JSON
+            </button>
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex items-center justify-between text-xs text-[#86868B] dark:text-white/50 px-1">
+            <span id="labelCodeTitle" class="font-semibold uppercase tracking-wider text-[11px]">Sentencia SQL DML Compilada</span>
+            <button id="btnCopiarCodigo" onclick="copiarCodigoDestino()" class="text-[#0071E3] hover:underline flex items-center gap-1 font-semibold">
+              Copiar Código Generado
+            </button>
+          </div>
+
+          <div class="rounded-[22px] bg-[#1C1C1E] dark:bg-[#121214] p-1 border border-black/10 dark:border-white/10 shadow-inner">
+            <pre id="codigoGeneradoPre" class="w-full font-mono text-xs sm:text-sm p-4 bg-transparent text-[#34C759] overflow-x-auto leading-relaxed min-h-[160px] whitespace-pre"></pre>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- SECCIÓN 6: FUNDAMENTACIÓN DE AUTÓMATAS (AFD & AP)        -->
+      <!-- ======================================================== -->
+      <section id="sec-automatas" class="scroll-mt-6 bg-white/80 dark:bg-[#1C1C1E]/80 backdrop-blur-2xl border border-indigo-500/20 dark:border-indigo-500/30 rounded-[30px] p-5 sm:p-7 shadow-apple-card dark:shadow-apple-card-dark space-y-6">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-black/[0.06] dark:border-white/10">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-indigo-500"></span>
+              <h2 class="text-base sm:text-lg font-bold text-[#1D1D1F] dark:text-white tracking-tight">
+                Fundamentación Teórica: Modelos de Autómatas Implementados
+              </h2>
+            </div>
+            <p class="text-xs text-[#6E6E73] dark:text-white/60 mt-0.5">
+              Mapeo formal del proyecto a la <strong>Jerarquía de Chomsky</strong> (Autómatas Finitos y Autómatas de Pila).
+            </p>
+          </div>
+
+          <span class="px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 text-xs font-bold border border-indigo-500/20 self-start sm:self-auto">
+            Teoría de la Computación
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+          <!-- TARJETA 1: AFD -->
+          <div class="p-5 rounded-[24px] bg-slate-50/80 dark:bg-[#151518] border border-black/5 dark:border-white/5 space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-sm text-[#1D1D1F] dark:text-white flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-[#0071E3] text-white flex items-center justify-center text-xs font-mono font-bold">M1</span>
+                Autómata Finito Determinista (AFD)
+              </h3>
+              <span class="text-[10px] font-mono font-bold bg-[#0071E3]/10 text-[#0071E3] px-2 py-0.5 rounded-full">Fase Léxica (Chomsky Tipo 3)</span>
+            </div>
+
+            <p class="text-xs text-[#6E6E73] dark:text-white/60 leading-relaxed">
+              El <strong>Lexer</strong> está modelado formalmente como una 5-tupla: <br>
+              <code class="font-mono text-[11px] text-[#0071E3] font-bold bg-white dark:bg-black/30 px-2 py-0.5 rounded border border-black/5 dark:border-white/5 inline-block mt-1">M = (Q, Σ, δ, q₀, F)</code>
+            </p>
+
+            <div class="space-y-1.5 text-xs text-[#3C3C43] dark:text-white/80 font-mono text-[11px]">
+              <p>• <strong>Q</strong>: Conjunto finito de estados {q₀, q₁, q₂, q₃, q₄, q_error}</p>
+              <p>• <strong>Σ</strong>: Alfabeto {Letras [A-Z], Dígitos [0-9], '=', '-'}</p>
+              <p>• <strong>q₀</strong>: Estado inicial de lectura de caracteres</p>
+              <p>• <strong>F</strong>: Estados de aceptación donde se emite cada Token</p>
+            </div>
+
+            <!-- Diagrama AFD Habitación -->
+            <div class="space-y-2 pt-2">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-[#86868B] dark:text-white/50 block">Diagrama de Transición: TOKEN_HAB_ID (H + 3 Dígitos)</span>
+              <div class="p-3.5 rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/5 dark:border-white/10 overflow-x-auto">
+                <div class="flex items-center space-x-1.5 min-w-[340px] text-[11px] font-mono">
+                  <div class="px-2.5 py-1 rounded-full bg-slate-200 dark:bg-white/10 text-[#1D1D1F] dark:text-white font-bold border border-black/10">q₀</div>
+                  <span class="text-[#0071E3] font-bold">──'H'──▶</span>
+                  <div class="px-2.5 py-1 rounded-full bg-slate-200 dark:bg-white/10 text-[#1D1D1F] dark:text-white font-bold border border-black/10">q₁</div>
+                  <span class="text-[#0071E3] font-bold">──[0-9]──▶</span>
+                  <div class="px-2.5 py-1 rounded-full bg-slate-200 dark:bg-white/10 text-[#1D1D1F] dark:text-white font-bold border border-black/10">q₂</div>
+                  <span class="text-[#0071E3] font-bold">──[0-9]──▶</span>
+                  <div class="px-2.5 py-1 rounded-full bg-slate-200 dark:bg-white/10 text-[#1D1D1F] dark:text-white font-bold border border-black/10">q₃</div>
+                  <span class="text-[#0071E3] font-bold">──[0-9]──▶</span>
+                  <div class="px-3 py-1 rounded-full bg-emerald-500 text-white font-bold shadow-sm ring-2 ring-emerald-300 dark:ring-emerald-700">((q₄))</div>
                 </div>
-                <div class="flex items-center justify-between p-2 rounded-xl bg-slate-50 dark:bg-white/5 border border-black/5 dark:border-white/5">
-                  <span class="text-[#6E6E73] dark:text-white/60">2. Consumo Token:</span>
-                  <span>match('RESERVA') ➔ Pop('RESERVA')</span>
+                <p class="text-[10px] text-emerald-600 dark:text-emerald-400 font-mono mt-2">
+                  ✓ Al alcanzar ((q₄)) se emite el token <strong>TOKEN_HAB_ID</strong>.
+                </p>
+              </div>
+            </div>
+
+            <!-- Diagrama AFD Asignación y Error -->
+            <div class="space-y-2">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-[#86868B] dark:text-white/50 block">Diagrama de Transición: TOKEN_IGUAL y Estado Trampa</span>
+              <div class="p-3.5 rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/5 dark:border-white/10 overflow-x-auto text-[11px] font-mono space-y-2">
+                <div class="flex items-center space-x-2">
+                  <div class="px-2 py-0.5 rounded-full bg-slate-200 dark:bg-white/10 font-bold">q₀</div>
+                  <span class="text-purple-600 dark:text-purple-400 font-bold">──'='──▶</span>
+                  <div class="px-2.5 py-0.5 rounded-full bg-purple-600 text-white font-bold ring-2 ring-purple-300 dark:ring-purple-700">((q_op))</div>
+                  <span class="text-[10px] text-[#6E6E73] dark:text-white/60">→ Emite TOKEN_IGUAL</span>
                 </div>
-                <div class="flex items-center justify-between p-2 rounded-xl bg-slate-50 dark:bg-white/5 border border-black/5 dark:border-white/5">
-                  <span class="text-[#6E6E73] dark:text-white/60">3. Secuencia de Campos:</span>
-                  <span>Pop(CLIENTE) ➔ Pop(HAB) ➔ Pop(FECHA)...</span>
-                </div>
-                <div class="flex items-center justify-between p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/40 text-emerald-700 dark:text-emerald-300 font-bold">
-                  <span>4. Criterio de Parada:</span>
-                  <span>Pila vacía en Z₀ + EOF ➔ ¡Cadena Aceptada!</span>
+                <div class="flex items-center space-x-2">
+                  <div class="px-2 py-0.5 rounded-full bg-slate-200 dark:bg-white/10 font-bold">q₀</div>
+                  <span class="text-rose-600 dark:text-rose-400 font-bold">──[@, #, $]──▶</span>
+                  <div class="px-2.5 py-0.5 rounded-full bg-rose-600 text-white font-bold ring-2 ring-rose-300 dark:ring-rose-700">((q_err))</div>
+                  <span class="text-[10px] text-rose-600 dark:text-rose-400">→ Estado Trampa (TOKEN_ERROR)</span>
                 </div>
               </div>
-
             </div>
           </div>
 
+          <!-- TARJETA 2: AUTÓMATA DE PILA -->
+          <div class="p-5 rounded-[24px] bg-slate-50/80 dark:bg-[#151518] border border-black/5 dark:border-white/5 space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-sm text-[#1D1D1F] dark:text-white flex items-center gap-2">
+                <span class="w-6 h-6 rounded-lg bg-[#AF52DE] text-white flex items-center justify-center text-xs font-mono font-bold">M2</span>
+                Autómata de Pila Determinista (AP)
+              </h3>
+              <span class="text-[10px] font-mono font-bold bg-[#AF52DE]/10 text-[#AF52DE] px-2 py-0.5 rounded-full">Fase Sintáctica (Chomsky Tipo 2)</span>
+            </div>
+
+            <p class="text-xs text-[#6E6E73] dark:text-white/60 leading-relaxed">
+              El <strong>Parser</strong> implementa un <em>Autómata de Pila</em> para reconocer la <strong>Gramática Libre de Contexto (GLC)</strong> mediante una 7-tupla formal: <br>
+              <code class="font-mono text-[11px] text-[#AF52DE] font-bold bg-white dark:bg-black/30 px-2 py-0.5 rounded border border-black/5 dark:border-white/5 inline-block mt-1">M = (Q, Σ, Γ, δ, q₀, Z₀, F)</code>
+            </p>
+
+            <div class="space-y-1.5 text-xs text-[#3C3C43] dark:text-white/80 font-mono text-[11px]">
+              <p>• <strong>Γ (Alfabeto de Pila)</strong>: {&lt;Reserva&gt;, CLIENTE, HABITACION, FECHA, NOCHES, PERSONAS, Z₀}</p>
+              <p>• <strong>Z₀</strong>: Símbolo inicial en el fondo de la pila</p>
+              <p>• <strong>Operaciones</strong>: <em>Push</em> (apilar regla gramatical) y <em>Pop</em> (desapilar token verificado)</p>
+            </div>
+
+            <!-- Simulación Visual de la Pila -->
+            <div class="space-y-2 pt-2">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-[#86868B] dark:text-white/50 block">Mecanismo de Desapilado de la GLC (Push / Pop)</span>
+              <div class="p-3.5 rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/5 dark:border-white/10 space-y-2 text-xs font-mono">
+                
+                <div class="space-y-1 text-[11px]">
+                  <div class="flex items-center justify-between p-2 rounded-xl bg-purple-50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-800/40">
+                    <span class="text-[#AF52DE] font-bold">1. Expansión Inicial:</span>
+                    <span class="text-[#1D1D1F] dark:text-white">Push(&lt;Reserva&gt;) sobre Z₀</span>
+                  </div>
+                  <div class="flex items-center justify-between p-2 rounded-xl bg-slate-50 dark:bg-white/5 border border-black/5 dark:border-white/5">
+                    <span class="text-[#6E6E73] dark:text-white/60">2. Consumo Token:</span>
+                    <span>match('RESERVA') ➔ Pop('RESERVA')</span>
+                  </div>
+                  <div class="flex items-center justify-between p-2 rounded-xl bg-slate-50 dark:bg-white/5 border border-black/5 dark:border-white/5">
+                    <span class="text-[#6E6E73] dark:text-white/60">3. Secuencia de Campos:</span>
+                    <span>Pop(CLIENTE) ➔ Pop(HAB) ➔ Pop(FECHA)...</span>
+                  </div>
+                  <div class="flex items-center justify-between p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/40 text-emerald-700 dark:text-emerald-300 font-bold">
+                    <span>4. Criterio de Parada:</span>
+                    <span>Pila vacía en Z₀ + EOF ➔ ¡Cadena Aceptada!</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
         </div>
 
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="mt-auto py-6 text-center text-xs text-[#86868B] dark:text-white/40 border-t border-black/5 dark:border-white/10 bg-white/40 dark:bg-black/20 backdrop-blur-md">
+      <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <p>Proyecto de Compiladores e Intérpretes • Pipeline Completo de Traducción Formal</p>
+        <p class="font-mono text-[11px]">Diseño Apple Human Interface • Vanilla JS • Tailwind CSS</p>
       </div>
+    </footer>
 
-      <!-- Resumen Comparativo de Chomsky -->
-      <div class="p-4 rounded-2xl bg-white dark:bg-[#1C1C1E] border border-black/5 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-        <div>
-          <span class="font-bold text-[#1D1D1F] dark:text-white">¿Por qué usamos dos autómatas distintos?</span>
-          <p class="text-[#6E6E73] dark:text-white/60 text-[11px] mt-0.5">
-            Los AFD no tienen memoria para validar que <em>CLIENTE</em> anteceda estrictamente a <em>HABITACION</em> y <em>FECHA</em>. Por ello, la combinación de <strong>AFD (Léxico)</strong> + <strong>Autómata de Pila (Sintáctico)</strong> conforma la arquitectura canónica de un compilador.
-          </p>
-        </div>
-        <span class="px-3 py-1 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-bold font-mono text-[11px] shrink-0 border border-emerald-500/20">
-          Chomsky: Tipo 3 ➔ Tipo 2
-        </span>
-      </div>
+  </div>
 
-    </section>
-
-  </main>
-
-  <!-- ======================================================== -->
-  <!-- 4. PIE DE PÁGINA                                         -->
-  <!-- ======================================================== -->
-  <footer class="mt-auto py-6 text-center text-xs text-[#86868B] dark:text-white/40 border-t border-black/5 dark:border-white/10 bg-white/40 dark:bg-black/20 backdrop-blur-md">
-    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-      <p>Proyecto de Compiladores e Intérpretes • Pipeline Completo de Traducción Formal</p>
-      <p class="font-mono text-[11px]">Diseño Apple Human Interface • Vanilla JS • Tailwind CSS</p>
-    </div>
-  </footer>
-
-  <!-- ======================================================== -->
-  <!-- TOAST NOTIFICATION FLOTANTE                              -->
-  <!-- ======================================================== -->
+  <!-- TOAST NOTIFICATION FLOTANTE -->
   <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 bg-black/85 dark:bg-white/90 backdrop-blur-2xl text-white dark:text-black text-xs font-semibold px-5 py-2.5 rounded-full shadow-2xl border border-white/10 dark:border-black/10 -translate-y-20 opacity-0 transition-all duration-300 pointer-events-none z-50 flex items-center gap-2">
     <svg class="w-4 h-4 text-[#34C759]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
@@ -755,12 +768,9 @@
   </div>
 
   <!-- ======================================================== -->
-  <!-- LÓGICA JAVASCRIPT: COMPILADOR INTEGRAL                   -->
+  <!-- LÓGICA JAVASCRIPT: COMPILADOR + SCROLLSPY DEL SIDEBAR   -->
   <!-- ======================================================== -->
   <script>
-    /**
-     * DICCIONARIO DE TOKENS
-     */
     const TOKENS = {
       RESERVA: 'TOKEN_RESERVA',
       CLIENTE: 'TOKEN_CLIENTE',
@@ -786,9 +796,6 @@
       'PERSONAS': TOKENS.PERSONAS
     };
 
-    /**
-     * 1. ANALIZADOR LÉXICO (LEXER)
-     */
     class Lexer {
       constructor(input) {
         this.input = input.trim();
@@ -821,7 +828,6 @@
 
           const remaining = this.input.slice(this.position);
 
-          // Fecha (YYYY-MM-DD)
           const dateMatch = remaining.match(/^(\d{4}-\d{2}-\d{2})\b/);
           if (dateMatch) {
             const val = dateMatch[1];
@@ -835,7 +841,6 @@
             continue;
           }
 
-          // Habitación (H seguido de 3 dígitos)
           const roomMatch = remaining.match(/^(H\d{3})\b/);
           if (roomMatch) {
             const val = roomMatch[1];
@@ -849,7 +854,6 @@
             continue;
           }
 
-          // Número entero
           const intMatch = remaining.match(/^(\d+)\b/);
           if (intMatch) {
             const val = intMatch[1];
@@ -863,7 +867,6 @@
             continue;
           }
 
-          // Palabras Reservadas o Identificadores
           const wordMatch = remaining.match(/^([A-Za-z0-9_]+)\b/);
           if (wordMatch) {
             const word = wordMatch[1];
@@ -888,7 +891,6 @@
             continue;
           }
 
-          // Carácter inválido
           this.tokens.push({
             type: TOKENS.ERROR,
             value: char,
@@ -917,9 +919,6 @@
       }
     }
 
-    /**
-     * 2. ANALIZADOR SINTÁCTICO (PARSER)
-     */
     class Parser {
       constructor(tokens) {
         this.tokens = tokens;
@@ -1002,14 +1001,10 @@
       }
     }
 
-    /**
-     * 3. ANALIZADOR SEMÁNTICO (SEMANTIC ANALYZER)
-     */
     function analizarSemantica(data) {
       const errors = [];
       const warnings = [];
 
-      // Validar Noches
       const nochesNum = parseInt(data.noches, 10);
       if (isNaN(nochesNum) || nochesNum <= 0) {
         errors.push(`La cantidad de noches debe ser un número entero mayor a 0 (recibido: ${data.noches}).`);
@@ -1017,7 +1012,6 @@
         warnings.push(`Estancia prolongada (${nochesNum} noches).`);
       }
 
-      // Validar Personas
       const personasNum = parseInt(data.personas, 10);
       if (isNaN(personasNum) || personasNum <= 0) {
         errors.push(`La cantidad de personas debe ser al menos 1 huésped (recibido: ${data.personas}).`);
@@ -1025,7 +1019,6 @@
         warnings.push(`Ocupación grupal (${personasNum} personas).`);
       }
 
-      // Validar Fecha Real en Calendario
       const parts = data.fecha.split('-');
       const y = parseInt(parts[0], 10);
       const m = parseInt(parts[1], 10);
@@ -1040,7 +1033,6 @@
         }
       }
 
-      // Desglose Semántico de Habitación
       const floor = parseInt(data.habitacion.charAt(1), 10);
       const roomNum = parseInt(data.habitacion.slice(2), 10);
 
@@ -1058,14 +1050,9 @@
       };
     }
 
-    /**
-     * 4. GENERADOR DE CÓDIGO DESTINO (CODE GENERATOR)
-     */
     function generarCodigoDestino(data, semDetails) {
-      // Sentencia SQL DML
       const sql = `-- Código Destino Generado por HotelSys Compiler\nINSERT INTO reservas (\n  cliente_nombre,\n  habitacion_codigo,\n  piso_nivel,\n  habitacion_numero,\n  fecha_llegada,\n  total_noches,\n  total_personas,\n  estado_reserva\n) VALUES (\n  '${data.cliente}',\n  '${data.habitacion}',\n  ${semDetails.pisoNum},\n  ${semDetails.numero},\n  '${data.fecha}',\n  ${semDetails.nochesInt},\n  ${semDetails.personasInt},\n  'CONFIRMADA'\n);`;
 
-      // Payload JSON para API REST
       const json = JSON.stringify({
         compiler: "HotelSys Compiler v2.0",
         timestamp: new Date().toISOString(),
@@ -1092,62 +1079,16 @@
       return { sql, json };
     }
 
-    /**
-     * 5. TABLA DE SÍMBOLOS
-     */
     function construirTablaSimbolos(data, semDetails, semValid) {
       return [
-        {
-          id: 1,
-          simbolo: data.cliente,
-          tipo: 'VARCHAR(60)',
-          offset: '0x0040',
-          scope: 'Scope_Reserva',
-          valorSem: `Titular Huésped: "${data.cliente}"`,
-          estado: 'Válido'
-        },
-        {
-          id: 2,
-          simbolo: data.habitacion,
-          tipo: 'ROOM_ID',
-          offset: '0x0048',
-          scope: 'Scope_Reserva',
-          valorSem: `${semDetails.piso}, Habitación ${semDetails.numero}`,
-          estado: 'Válido'
-        },
-        {
-          id: 3,
-          simbolo: data.fecha,
-          tipo: 'DATE_ISO8601',
-          offset: '0x0050',
-          scope: 'Scope_Reserva',
-          valorSem: `Fecha Calendario: ${data.fecha}`,
-          estado: semValid ? 'Válido' : 'Inválido'
-        },
-        {
-          id: 4,
-          simbolo: data.noches,
-          tipo: 'INT_POSITIVE',
-          offset: '0x0058',
-          scope: 'Scope_Reserva',
-          valorSem: `${semDetails.nochesInt} noche(s) estancia`,
-          estado: semDetails.nochesInt > 0 ? 'Válido' : 'Inválido'
-        },
-        {
-          id: 5,
-          simbolo: data.personas,
-          tipo: 'INT_POSITIVE',
-          offset: '0x0060',
-          scope: 'Scope_Reserva',
-          valorSem: `${semDetails.personasInt} persona(s) ocupación`,
-          estado: semDetails.personasInt > 0 ? 'Válido' : 'Inválido'
-        }
+        { id: 1, simbolo: data.cliente, tipo: 'VARCHAR(60)', offset: '0x0040', scope: 'Scope_Reserva', valorSem: `Titular Huésped: "${data.cliente}"`, estado: 'Válido' },
+        { id: 2, simbolo: data.habitacion, tipo: 'ROOM_ID', offset: '0x0048', scope: 'Scope_Reserva', valorSem: `${semDetails.piso}, Habitación ${semDetails.numero}`, estado: 'Válido' },
+        { id: 3, simbolo: data.fecha, tipo: 'DATE_ISO8601', offset: '0x0050', scope: 'Scope_Reserva', valorSem: `Fecha Calendario: ${data.fecha}`, estado: semValid ? 'Válido' : 'Inválido' },
+        { id: 4, simbolo: data.noches, tipo: 'INT_POSITIVE', offset: '0x0058', scope: 'Scope_Reserva', valorSem: `${semDetails.nochesInt} noche(s) estancia`, estado: semDetails.nochesInt > 0 ? 'Válido' : 'Inválido' },
+        { id: 5, simbolo: data.personas, tipo: 'INT_POSITIVE', offset: '0x0060', scope: 'Scope_Reserva', valorSem: `${semDetails.personasInt} persona(s) ocupación`, estado: semDetails.personasInt > 0 ? 'Válido' : 'Inválido' }
       ];
     }
 
-    /**
-     * GENERADOR DEL ÁRBOL SINTÁCTICO EN TEXTO
-     */
     function generarArbolAscii(ast) {
       if (!ast) return "No hay árbol disponible.";
 
@@ -1169,23 +1110,15 @@
       return tree;
     }
 
-    /**
-     * GENERADOR DEL ÁRBOL GRÁFICO INTERACTIVO DE NODOS
-     */
     function renderizarArbolVisual(ast) {
       const container = document.getElementById("visualTreeContent");
       container.innerHTML = "";
 
       if (!ast) {
-        container.innerHTML = `
-          <div class="py-10 text-center text-rose-500 font-mono text-xs">
-            [Árbol No Disponible] - Ocurrió un error en la fase sintáctica.
-          </div>
-        `;
+        container.innerHTML = `<div class="py-10 text-center text-rose-500 font-mono text-xs">[Árbol No Disponible] - Ocurrió un error en la fase sintáctica.</div>`;
         return;
       }
 
-      // Nodo Raíz
       const rootHtml = `
         <div class="flex flex-col items-center">
           <div class="px-5 py-2.5 rounded-2xl bg-[#0071E3] text-white shadow-md font-mono text-xs font-bold flex items-center gap-2 border border-blue-400/30">
@@ -1200,7 +1133,6 @@
         </div>
       `;
 
-      // Hijos (Campos)
       let childrenHtml = `<div class="grid grid-cols-1 sm:grid-cols-5 gap-3 w-full">`;
 
       ast.fields.forEach(field => {
@@ -1223,13 +1155,9 @@
       });
 
       childrenHtml += `</div>`;
-
       container.innerHTML = rootHtml + childrenHtml;
     }
 
-    /**
-     * CONTROLADOR PRINCIPAL DE COMPILACIÓN
-     */
     let globalCompilationState = null;
     let currentCodeTab = 'sql';
 
@@ -1237,12 +1165,10 @@
       const startTime = performance.now();
       const input = document.getElementById("cadenaReserva").value;
 
-      // Fase 1 & 2: Léxico
       const lexer = new Lexer(input);
       const { tokens, errors: lexErrors } = lexer.tokenize();
       renderizarTablaTokens(tokens);
 
-      // Fase 3: Sintáctico
       const parser = new Parser(tokens);
       let parseResult = null;
       let syntaxError = null;
@@ -1253,13 +1179,11 @@
         syntaxError = err.message;
       }
 
-      // Fase 4: Semántico
       let semanticResult = { isValid: false, errors: [], warnings: [], semanticDetails: { piso: '-', pisoNum: 0, numero: 0, nochesInt: 0, personasInt: 0 } };
       if (parseResult) {
         semanticResult = analizarSemantica(parseResult.data);
       }
 
-      // Fase 5: Generación de Código
       let codeGen = { sql: "-- No generado", json: "{}" };
       let tablaSimbolos = [];
       if (parseResult && semanticResult.isValid) {
@@ -1275,7 +1199,6 @@
       const elapsed = Math.max(0.1, (endTime - startTime)).toFixed(1);
       document.getElementById("statTime").innerText = `${elapsed} ms`;
 
-      // Guardar estado global para exportar y cambiar de pestañas
       globalCompilationState = {
         input,
         tokens,
@@ -1288,7 +1211,6 @@
         elapsed
       };
 
-      // Actualizar visualizaciones
       actualizarVistas();
     }
 
@@ -1298,6 +1220,8 @@
 
       const displayTokens = tokens.filter(t => t.type !== TOKENS.EOF);
       document.getElementById("badgeLexerCount").innerText = `${displayTokens.length} Tokens`;
+      const navBadge = document.getElementById("navBadgeTokens");
+      if (navBadge) navBadge.innerText = `${displayTokens.length} Tok`;
 
       if (displayTokens.length === 0) {
         tbody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-[#86868B] dark:text-white/40">No hay tokens ingresados.</td></tr>`;
@@ -1384,7 +1308,6 @@
       const errorSemMsg = document.getElementById("errorSemanticoMensaje");
       const badgeSemState = document.getElementById("badgeSemState");
 
-      // Steppers
       const stepIcon2 = document.getElementById("stepIcon2");
       const stepText2 = document.getElementById("stepText2");
       const stepIcon3 = document.getElementById("stepIcon3");
@@ -1392,7 +1315,6 @@
       const stepIcon4 = document.getElementById("stepIcon4");
       const stepText4 = document.getElementById("stepText4");
 
-      // Estado Léxico
       if (lexErrors.length > 0) {
         lexBadge.className = "px-3 py-1 text-xs font-bold rounded-full bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20";
         lexBadge.innerText = `${lexErrors.length} Error(es) Léxico(s)`;
@@ -1407,9 +1329,7 @@
         stepText2.innerText = `${tokens.filter(t => t.type !== TOKENS.EOF).length} Tokens OK`;
       }
 
-      // Estado Sintáctico & Semántico
       if (syntaxError) {
-        // Fallo Sintáctico
         banner.className = "p-4 sm:p-5 rounded-[26px] border transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-rose-500/10 border-rose-500/25 shadow-apple-error";
         bannerIcon.className = "w-10 h-10 rounded-full bg-[#FF3B30] text-white flex items-center justify-center shrink-0 shadow-sm";
         bannerIcon.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path></svg>`;
@@ -1428,7 +1348,6 @@
 
         errorContainer.classList.remove("hidden");
         errorMsg.innerText = syntaxError;
-
         errorSemContainer.classList.add("hidden");
         badgeSemState.innerText = "Bloqueado por Sintaxis";
         badgeSemState.className = "px-3 py-1 text-xs font-bold rounded-full bg-slate-100 dark:bg-white/10 text-slate-500 dark:text-white/50";
@@ -1438,7 +1357,6 @@
         document.getElementById("codigoGeneradoPre").innerText = "-- Compilación detenida por error sintáctico";
 
       } else if (!semanticResult.isValid) {
-        // Fallo Semántico
         banner.className = "p-4 sm:p-5 rounded-[26px] border transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-purple-500/10 border-purple-500/25 shadow-apple-error";
         bannerIcon.className = "w-10 h-10 rounded-full bg-purple-600 text-white flex items-center justify-center shrink-0 shadow-sm";
         bannerIcon.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>`;
@@ -1456,21 +1374,17 @@
         stepText4.innerText = "Fallo Semántico";
 
         errorContainer.classList.add("hidden");
-
         errorSemContainer.classList.remove("hidden");
         errorSemMsg.innerText = semanticResult.errors.join(" | ");
 
         badgeSemState.innerText = "Violación Semántica";
         badgeSemState.className = "px-3 py-1 text-xs font-bold rounded-full bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20";
 
-        // Árbol sí se generó
         arbolPre.innerText = generarArbolAscii(parseResult.ast);
         renderizarArbolVisual(parseResult.ast);
-
         document.getElementById("codigoGeneradoPre").innerText = "-- Generación de código bloqueada por validación semántica inválida.";
 
       } else {
-        // COMPILACIÓN EXITOSA COMPLETA
         banner.className = "p-4 sm:p-5 rounded-[26px] border transition-all duration-300 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-emerald-500/10 border-emerald-500/25 shadow-apple-success";
         bannerIcon.className = "w-10 h-10 rounded-full bg-[#34C759] text-white flex items-center justify-center shrink-0 shadow-sm";
         bannerIcon.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>`;
@@ -1500,9 +1414,6 @@
       }
     }
 
-    /**
-     * CONMUTADOR DE PESTAÑAS DEL ÁRBOL
-     */
     function setTreeTab(tab) {
       const visualContainer = document.getElementById("treeVisualContainer");
       const textContainer = document.getElementById("treeTextContainer");
@@ -1522,9 +1433,6 @@
       }
     }
 
-    /**
-     * CONMUTADOR DE PESTAÑAS DE CÓDIGO GENERADO
-     */
     function setCodeTab(tab) {
       currentCodeTab = tab;
       const btnSql = document.getElementById("btnTabCodeGenSQL");
@@ -1573,9 +1481,6 @@
       });
     }
 
-    /**
-     * EXPORTAR REPORTE COMPLETO EN JSON
-     */
     function exportarAuditoriaJSON() {
       if (!globalCompilationState) return;
 
@@ -1610,9 +1515,6 @@
       mostrarToast("Reporte de auditoría descargado");
     }
 
-    /**
-     * CONMUTADOR DE TEMA (DARK / LIGHT MODE)
-     */
     function toggleDarkMode() {
       const html = document.documentElement;
       const isDark = html.classList.toggle('dark');
@@ -1629,9 +1531,34 @@
       }
     }
 
-    /**
-     * MUESTRAS PRECONFIGURADAS
-     */
+    function toggleMobileMenu() {
+      const menu = document.getElementById("mobileMenu");
+      menu.classList.toggle("hidden");
+    }
+
+    // ScrollSpy para resaltar automáticamente la sección activa en el Sidebar
+    function initScrollSpy() {
+      const sections = document.querySelectorAll("section[id]");
+      const navLinks = document.querySelectorAll(".nav-item");
+
+      window.addEventListener("scroll", () => {
+        let current = "";
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop - 120;
+          if (window.scrollY >= sectionTop) {
+            current = section.getAttribute("id");
+          }
+        });
+
+        navLinks.forEach(link => {
+          link.classList.remove("bg-[#0071E3]/10", "text-[#0071E3]", "dark:text-[#0071E3]", "font-bold");
+          if (link.getAttribute("href") === `#${current}`) {
+            link.classList.add("bg-[#0071E3]/10", "text-[#0071E3]", "dark:text-[#0071E3]", "font-bold");
+          }
+        });
+      });
+    }
+
     const SAMPLES = {
       valid: "RESERVA CLIENTE=CARLOS HABITACION=H203 FECHA=2026-10-15 NOCHES=3 PERSONAS=2",
       valid2: "RESERVA CLIENTE=MARIA99 HABITACION=H504 FECHA=2026-12-31 NOCHES=5 PERSONAS=4",
@@ -1652,7 +1579,7 @@
 
     function reiniciarTodo() {
       loadSample('valid');
-      mostrarToast("Estado restaurado al ejemplo por defecto");
+      mostrarToast("Estado restaurado al ejemplo inicial");
     }
 
     function actualizarContador() {
@@ -1686,6 +1613,7 @@
       initTheme();
       actualizarContador();
       ejecutarAnalisis();
+      initScrollSpy();
     });
   </script>
 </body>
