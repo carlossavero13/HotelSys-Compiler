@@ -1,0 +1,22 @@
+{
+  "timestamp": "2026-11-05T19:23:58.072Z",
+  "browser": {
+    "name": "chrome",
+    "version": "156.0.8078.80"
+  },
+  "checks": [
+    "valid request",
+    "16 displayed tokens",
+    "LEX01 blocks output",
+    "SYN01 blocks output",
+    "RS03 blocks output",
+    "parameterized SQL",
+    "40-case browser battery",
+    "mobile no horizontal overflow",
+    "mobile navigation",
+    "clear invalidates stale results",
+    "theme toggle",
+    "no browser console errors"
+  ],
+  "passed": 12
+}

@@ -1,0 +1,38 @@
+{
+  "name": "hotelsys-compiler",
+  "version": "3.0.0",
+  "private": true,
+  "description": "HotelSys Compiler v3.0 – Compilador DSL con ANTLR4 para reservas hoteleras",
+  "type": "module",
+  "scripts": {
+    "generate": "node scripts/generate.mjs",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "benchmark": "node scripts/benchmark.mjs",
+    "test:ui": "node scripts/selenium.mjs"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.6.2",
+    "postcss": "^8.5.32",
+    "selenium-webdriver": "^4.51.0",
+    "tailwindcss": "^3.4.19",
+    "vite": "^6.0.0",
+    "vitest": "^5.1.0"
+  },
+  "dependencies": {
+    "antlr4": "4.13.2"
+  },
+  "keywords": [
+    "compiler",
+    "antlr",
+    "hotel",
+    "dsl"
+  ],
+  "author": "Carlo Savero",
+  "license": "MIT",
+  "engines": {
+    "node": "24.x"
+  }
+}

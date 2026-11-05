@@ -1,0 +1,9 @@
+* text=auto
+*.js text eol=lf
+*.g4 text eol=lf
+*.interp text eol=lf
+*.tokens text eol=lf
+*.yml text eol=lf
+# Preserve exact tool output and the original prototype snapshot.
+src/generated/** -whitespace
+docs/prototype-v2.html -whitespace

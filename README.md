@@ -1,91 +1,75 @@
-# HotelSys Compiler • Compilador Profesional de Reservas Hoteleras
+# HotelSys Compiler v3.0
 
-Sistema integral de compilación y traducción de lenguaje formal en un solo archivo (**HTML5 + Tailwind CSS + JavaScript puro**), implementado bajo las directrices de diseño **Apple Human Interface (iOS 18)** con soporte para **Modo Claro / Modo Oscuro (OLED Black)**.
+Compilador académico de solicitudes hoteleras: ANTLR4 **4.13.2**, JavaScript ES6+, HTML5, Tailwind CSS local y Vite. Control de versiones: **GitHub**. Despliegue estático: **Vercel**.
 
----
+## Ejecutar
 
-## 🌐 Enlaces del Proyecto
+Requiere Node.js 24 y npm. Java no es necesario para ejecutar, probar o desplegar.
 
-* 💻 **Repositorio en GitHub**: [https://github.com/carlossavero13/HotelSys-Compiler](https://github.com/carlossavero13/HotelSys-Compiler)
-* 🚀 **Servidor Local Activo**: [http://localhost:3000](http://localhost:3000)
-
----
-
-## 🏗️ Las 5 Fases del Ciclo de Compilación
-
-A diferencia de un simple validador sintáctico, este proyecto implementa el **pipeline completo de un compilador formal**:
-
-```
-[ Sentencia Fuente ] 
-         │
-         ▼
-[ Fase 1: Entrada y Normalización ]
-         │
-         ▼
-[ Fase 2: Análisis Léxico (Scanner / Tokenizer) ] ──▶ (11 Tokens & Posiciones)
-         │
-         ▼
-[ Fase 3: Análisis Sintáctico (Parser GLC) ] ──────▶ (Árbol Gráfico AST & ASCII)
-         │
-         ▼
-[ Fase 4: Análisis Semántico & Tabla de Símbolos ] ─▶ (Offset de Memoria & Reglas)
-         │
-         ▼
-[ Fase 5: Generación de Código Destino ] ──────────▶ (SQL DML & Payload REST JSON)
+```sh
+npm ci
+npm run dev
+npm test
+npm run benchmark
+npm run build
+npm run preview
+npm run test:ui
 ```
 
----
+`npm run test:ui` inicia una vista previa local en 4175 y usa Chrome headless con Selenium. Requiere Chrome y un controlador compatible (Selenium Manager lo descarga si hay red). Capturas y reporte en `docs/evidence/`. `node server.js` se conserva como acceso al servidor Vite local.
 
-### 1. Fase 1: Entrada y Carga de la Sentencia
-* Editor monospace tipo *macOS/Xcode* con conteo de caracteres.
-* Casos de prueba en 1 clic para sustentación inmediata (`Correcto 1`, `Correcto 2`, `Err. Semántico 30 Feb`, `Err. Semántico 0 Noches`, `Err. Habitación`, `Err. Léxico`).
+## Regenerar ANTLR
 
-### 2. Fase 2: Análisis Léxico (Scanner)
-* Expresiones regulares que identifican palabras clave, identificadores, códigos de habitación, fechas y enteros.
-* Tabla estilizada con índices y posiciones del texto.
+Instalar Java 11+ y configurar JAVA_HOME. Ejecutar:
 
-### 3. Fase 3: Análisis Sintáctico (Parser)
-* Conmutador con pestañas:
-  * **🌳 Árbol Gráfico**: Diagrama de nodos interactivo con niveles jerárquicos (Raíz, No-Terminales, Hojas).
-  * **📜 Vista Monospace**: Estructura en texto ASCII con botón para copiar al portapapeles.
+```sh
+npm run generate
+```
 
-### 4. Fase 4: Análisis Semántico & Tabla de Símbolos
-* **Diferenciación Teórica Clave**:
-  * Un analizador sintáctico aprueba `FECHA=2026-02-30` o `NOCHES=0` porque cumplen la forma `YYYY-MM-DD` y `ENTERO`.
-  * El **Analizador Semántico** detecta que el 30 de febrero no existe en el calendario y que una estancia hotelera no puede tener 0 noches.
-* **Tabla de Símbolos**: Registra cada lexema con su tipo de dato (`VARCHAR`, `ROOM_ID`, `DATE_ISO8601`, `INT_POSITIVE`), dirección simulada en memoria (`0x0040`, `0x0048`, `0x0050`...), ámbito (*scope*) y valor semántico.
+El script descarga el generador oficial 4.13.2 a `tools/` si falta y ejecuta:
 
-### 5. Fase 5: Generación de Código Destino (Code Generation)
-* Traduce la reserva a:
-  * **SQL DML**: Sentencia `INSERT INTO reservas (...) VALUES (...)` lista para la base de datos relacional del hotel.
-  * **Payload JSON**: Objeto estructurado para consumo inmediato en APIs REST / Microservicios.
+```sh
+java -jar tools/antlr-4.13.2-complete.jar -Dlanguage=JavaScript -visitor -o src/generated -Xexact-output-dir grammar/HotelSys.g4
+```
 
----
+El runtime `antlr4` está fijado a **4.13.2**. Versionar `src/generated/`, `grammar/` y `package-lock.json`. No editar a mano los analizadores generados. Java y los binarios locales de `tools/` no se publican. Fuentes oficiales: https://www.antlr.org/download.html y https://github.com/antlr/antlr4/blob/master/doc/javascript-target.md.
 
-## 📐 Fundamentación Formal de Autómatas
+## Lenguaje
 
-El proyecto implementa explícitamente la **Jerarquía de Chomsky**:
+```text
+RESERVA CLIENTE=CARLOS HABITACION=H203 FECHA=2026-12-15 NOCHES=3 PERSONAS=2
+```
 
-### 1. Autómata Finito Determinista (AFD) — Nivel 3 (Fase Léxica)
-* **Definición Formal**: $M = (Q, \Sigma, \delta, q_0, F)$
-* **Función de Transición ($\delta$)**: Reconoce cada token caracter por caracter.
-  * Reconocedor de Habitación: `(q0) --'H'--> (q1) --dígito--> (q2) --dígito--> (q3) --dígito--> ((q4: TOKEN_HAB_ID))`
-  * Reconocedor de Operador: `(q0) --'='--> ((q_op: TOKEN_IGUAL))`
-  * Manejo de Errores: Cualquier símbolo no perteneciente al alfabeto cae en un estado sumidero / trampa emitiendo `TOKEN_ERROR`.
+Cinco campos en orden fijo, 16 tokens significativos, 11 categorías. Cliente `[A-Z]+`; habitación `H[0-9]{3}`; fecha `YYYY-MM-DD`; enteros `[0-9]+`. Las palabras reservadas tienen precedencia y no pueden usarse como nombre de cliente. Espacios, tabulaciones y saltos de línea se permiten entre tokens. EOF impide aceptar contenido sobrante.
 
-### 2. Autómata de Pila (AP) — Nivel 2 (Fase Sintáctica)
-* **Definición Formal**: $M = (Q, \Sigma, \Gamma, \delta, q_0, Z_0, F)$
-* **Alfabeto de Pila ($\Gamma$)**: Contiene los no-terminales de la Gramática Libre de Contexto (GLC).
-* **Mecanismo Push / Pop**:
-  1. Apila la regla de producción `<Reserva>`.
-  2. A medida que el lexer entrega cada token (`RESERVA`, `CLIENTE`, `HABITACION`...), el parser realiza `match()` desapilando los elementos de la memoria auxiliar (la pila de llamadas del sistema).
-  3. Si la pila queda reducida al símbolo base $Z_0$ y se alcanza el token `EOF`, la cadena es **Aceptada Formalmente**.
-  * **Payload JSON**: Objeto estructurado para consumo inmediato en APIs REST / Microservicios.
+`src/compiler/index.js` exporta `compile(input, {referenceDate, rooms})`. Fecha predeterminada: fecha civil de **America/Lima**. La batería fija `2026-11-05`; el editor permite otra fecha. Se rechazan enteros fuera del rango seguro de JavaScript. El catálogo es explícito y configurable; no se infiere la existencia de una habitación a partir de su piso.
 
----
+RS01: existencia calendario. RS02: fecha igual/posterior a referencia. RS03: noches positivas. RS04: personas positivas. RS05: habitación existente y capacidad suficiente.
 
-## 🎨 Características UI / UX Apple
+Un error léxico o sintáctico bloquea AST, semántica y salidas. Un error semántico bloquea SQL/JSON de negocio. El árbol recuperado por ANTLR puede mostrarse para diagnóstico, nunca constituye aceptación. SQL contiene placeholders y un arreglo separado de parámetros; no se ejecuta. **SOLICITUD VÁLIDA no equivale a RESERVA CONFIRMADA**.
 
-* **Conmutador de Tema (Modo Claro / Modo Oscuro)**: Persistencia en `localStorage` con acabado titanio y negro profundo.
-* **Descarga de Auditoría (.json)**: Genera y descarga el informe técnico completo de la compilación en un archivo JSON.
-* **Notificaciones Toast estilo Dynamic Island**.
+## Organización
+
+- `grammar/`: especificación fuente.
+- `src/generated/`: lexer, parser y visitor oficiales en JavaScript.
+- `src/compiler/`: orquestación, AST, árboles y autómatas educativos.
+- `src/semantic/`: cinco reglas, fecha y catálogo.
+- `src/codegen/`: traducción SQL/JSON.
+- `src/reference/legacy.js`: lexer/parser manuales originales y funciones originales, preservados como referencia.
+- `src/ui/`: panel basado en la referencia visual del usuario, navegación, tablas, exportación, temas.
+- `src/metrics/`: 40 casos, evaluación y trazabilidad.
+- `tests/`: Vitest. `scripts/selenium.mjs`: navegador escritorio/móvil.
+- `docs/`: análisis, diseño, evaluación y evidencia. `prototype-v2.html`: prototipo original completo.
+
+## GitHub → Vercel
+
+1. Revisar cambios en rama, ejecutar `npm test` y `npm run build`.
+2. Subir la rama al repositorio GitHub y abrir una revisión de cambios.
+3. Importar/conectar el repositorio en Vercel. Framework: Vite; comando: `npm run build`; salida: `dist`; raíz: directorio del proyecto.
+4. Verificar la URL de Preview: solicitud válida, los tres tipos de error, pruebas y móvil. Después integrar a la rama de producción configurada en Vercel.
+
+`vercel.json` explicita construcción y salida. No requiere servidor, base de datos ni secretos. La existencia de esta configuración no demuestra que un despliegue remoto haya concluido: esa comprobación requiere una URL de Vercel. GitHub Actions regenera ANTLR, comprueba diferencias, ejecuta Vitest, mide y construye.
+
+## Evidencias y límites
+
+Ver `docs/ANALYSIS.md`, `docs/DESIGN.md`, `docs/VALIDATION.md` y `docs/TRACEABILITY.md`. Las mediciones son locales y no se extrapolan a personas ni a producción. Los enunciados literales RF01–RF12 / RNF01–RNF08 y las figuras originales del Word no se adjuntaron; sus IDs se muestran como pendientes de cotejo. No se inventa su contenido.

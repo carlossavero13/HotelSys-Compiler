@@ -14,3 +14,9 @@ Desktop.ini
 # IDEs
 .vscode/
 .idea/
+
+# Build and local tooling
+dist/
+tools/
+.vercel/
+docs/evidence/*.png
