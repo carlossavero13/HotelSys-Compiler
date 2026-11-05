@@ -45,6 +45,16 @@ try {
     16,
   );
   checks.push("16 displayed tokens");
+  assert.equal(
+    (await driver.findElements(By.css("#traceability tbody tr"))).length,
+    20,
+  );
+  assert.match(await driver.findElement(By.id("nfaTable")).getText(), /n6/);
+  assert.match(
+    await driver.findElement(By.id("derivationExamples")).getText(),
+    /LUIS/,
+  );
+  checks.push("Word: 20 requirements, NFA n0–n6 and documented derivations");
   for (const [input, expected] of [
     [BASE + "@", "LEX01"],
     [BASE.replace("CLIENTE=", "CLIENTE "), "SYN01"],
@@ -155,12 +165,10 @@ try {
     JSON.stringify(
       {
         timestamp: new Date().toISOString(),
-        browser: await driver
-          .getCapabilities()
-          .then((c) => ({
-            name: c.get("browserName"),
-            version: c.get("browserVersion"),
-          })),
+        browser: await driver.getCapabilities().then((c) => ({
+          name: c.get("browserName"),
+          version: c.get("browserVersion"),
+        })),
         checks,
         passed: checks.length,
       },

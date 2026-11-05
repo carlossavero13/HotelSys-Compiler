@@ -1,0 +1,170 @@
+{
+  "timestamp": "2026-11-05T19:47:46.918Z",
+  "browser": {
+    "name": "firefox",
+    "version": "159.0.1"
+  },
+  "rows": [
+    {
+      "id": "VALID-01",
+      "passed": true
+    },
+    {
+      "id": "VALID-02",
+      "passed": true
+    },
+    {
+      "id": "VALID-03",
+      "passed": true
+    },
+    {
+      "id": "VALID-04",
+      "passed": true
+    },
+    {
+      "id": "VALID-05",
+      "passed": true
+    },
+    {
+      "id": "VALID-06",
+      "passed": true
+    },
+    {
+      "id": "VALID-07",
+      "passed": true
+    },
+    {
+      "id": "VALID-08",
+      "passed": true
+    },
+    {
+      "id": "VALID-09",
+      "passed": true
+    },
+    {
+      "id": "VALID-10",
+      "passed": true
+    },
+    {
+      "id": "LEXICAL-01",
+      "passed": true
+    },
+    {
+      "id": "LEXICAL-02",
+      "passed": true
+    },
+    {
+      "id": "LEXICAL-03",
+      "passed": true
+    },
+    {
+      "id": "LEXICAL-04",
+      "passed": true
+    },
+    {
+      "id": "LEXICAL-05",
+      "passed": true
+    },
+    {
+      "id": "LEXICAL-06",
+      "passed": true
+    },
+    {
+      "id": "LEXICAL-07",
+      "passed": true
+    },
+    {
+      "id": "LEXICAL-08",
+      "passed": true
+    },
+    {
+      "id": "LEXICAL-09",
+      "passed": true
+    },
+    {
+      "id": "LEXICAL-10",
+      "passed": true
+    },
+    {
+      "id": "SYNTACTIC-01",
+      "passed": true
+    },
+    {
+      "id": "SYNTACTIC-02",
+      "passed": true
+    },
+    {
+      "id": "SYNTACTIC-03",
+      "passed": true
+    },
+    {
+      "id": "SYNTACTIC-04",
+      "passed": true
+    },
+    {
+      "id": "SYNTACTIC-05",
+      "passed": true
+    },
+    {
+      "id": "SYNTACTIC-06",
+      "passed": true
+    },
+    {
+      "id": "SYNTACTIC-07",
+      "passed": true
+    },
+    {
+      "id": "SYNTACTIC-08",
+      "passed": true
+    },
+    {
+      "id": "SYNTACTIC-09",
+      "passed": true
+    },
+    {
+      "id": "SYNTACTIC-10",
+      "passed": true
+    },
+    {
+      "id": "SEMANTIC-01",
+      "passed": true
+    },
+    {
+      "id": "SEMANTIC-02",
+      "passed": true
+    },
+    {
+      "id": "SEMANTIC-03",
+      "passed": true
+    },
+    {
+      "id": "SEMANTIC-04",
+      "passed": true
+    },
+    {
+      "id": "SEMANTIC-05",
+      "passed": true
+    },
+    {
+      "id": "SEMANTIC-06",
+      "passed": true
+    },
+    {
+      "id": "SEMANTIC-07",
+      "passed": true
+    },
+    {
+      "id": "SEMANTIC-08",
+      "passed": true
+    },
+    {
+      "id": "SEMANTIC-09",
+      "passed": true
+    },
+    {
+      "id": "SEMANTIC-10",
+      "passed": true
+    }
+  ],
+  "batteryPassed": true
+}

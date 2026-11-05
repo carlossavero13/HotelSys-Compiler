@@ -11,8 +11,8 @@ Fuente: src/metrics/cases.js. 40 casos: 10 válidos, 10 léxicos, 10 sintáctico
 - Exactitud: casos cuya validez y tipo coinciden con lo esperado en todas las repeticiones / 40.
 - Detección: inválidos rechazados / 30.
 - Tiempo: media de las 400 ejecuciones.
-- Consistencia: casos de clasificación idéntica en diez repeticiones / 40 (no igualdad del tiempo).
-- Cumplimiento funcional: matriz con evidencia por requisito. No se calcula un porcentaje RF/RNF sin los enunciados completos.
+- Consistencia: casos con resultado completo idéntico (tokens, errores, AST, árbol, reglas y salidas, excluyendo elapsed) en diez repeticiones / 40.
+- Cumplimiento: requisitos verificados / 20 requisitos evaluables del Word. Los parciales cuentan en el denominador pero no en el numerador; cada estado señala evidencia y límites. RNF01 utiliza el máximo de todas las ejecuciones (límite 2000 ms), además de la media. Se conservan las duraciones individuales.
 
 ## Referencia comparativa
 
@@ -22,7 +22,7 @@ Si se requiere referencia humana: presentar los 40 casos con orden aleatorizado 
 
 ## Evidencias
 
-`npm test`: batería y regresiones. `npm run test:ui`: Selenium headless Chrome, entrada válida, tres tipos de error, bloqueo, SQL, batería, limpieza, navegación móvil y overflow; genera selenium.json y capturas. `npm run build`: empaquetado estático. Ver los reportes para resultados reales, no la imagen de referencia.
+`npm test`: batería y regresiones. `npm run test:ui`: Selenium headless Chrome, entrada válida, tres tipos de error, bloqueo, SQL, batería, limpieza, navegación móvil y overflow; genera selenium.json y capturas. `npm run test:firefox`: 40 entradas desde la interfaz y batería en Firefox; genera firefox.json. `npm run build`: empaquetado estático. Ver los reportes para resultados reales, no la imagen de referencia.
 
 ## Límites
 

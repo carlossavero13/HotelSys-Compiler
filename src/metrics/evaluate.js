@@ -44,6 +44,7 @@ export function evaluate({ repetitions = 10, engine = compile } = {}) {
       engine(c.input, options),
     );
     const first = runs[0];
+    const signature = ({ elapsed, ...result }) => JSON.stringify(result);
     return {
       ...c,
       obtainedValid: first.valid,
@@ -51,10 +52,10 @@ export function evaluate({ repetitions = 10, engine = compile } = {}) {
       passed: runs.every(
         (r) => r.valid === c.expectedValid && r.type === c.expectedType,
       ),
-      consistent: runs.every(
-        (r) => r.type === first.type && r.valid === first.valid,
-      ),
+      consistent: runs.every((r) => signature(r) === signature(first)),
       meanMs: runs.reduce((s, r) => s + r.elapsed, 0) / repetitions,
+      maxMs: Math.max(...runs.map((r) => r.elapsed)),
+      timingsMs: runs.map((r) => r.elapsed),
     };
   });
   return {
@@ -72,6 +73,10 @@ export function evaluate({ repetitions = 10, engine = compile } = {}) {
     invalidDetection:
       rows.filter((r) => !r.expectedValid && !r.obtainedValid).length / 30,
     meanMs: rows.reduce((s, r) => s + r.meanMs, 0) / 40,
+    maxMs: Math.max(...rows.map((r) => r.maxMs)),
+    performanceLimitMs: 2000,
+    performancePassed: rows.every((r) => r.maxMs <= 2000),
+    consistencyScope: "Resultado completo del pipeline, excepto elapsed",
     consistency: rows.filter((r) => r.consistent).length / 40,
     rows,
   };

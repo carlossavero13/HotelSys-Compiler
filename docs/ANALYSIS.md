@@ -29,4 +29,4 @@ Vite se mantiene para empaquetar el runtime y los módulos. No hay React, Next.j
 
 ## Pendientes externos
 
-No se dispone del Word completo para cotejar diagramas, tres solicitudes originales y enunciados RF/RNF. Los tres ejemplos implementados se derivan de la gramática real. No se da por verificado el despliegue remoto sin URL. Los porcentajes de la imagen son una referencia gráfica, no evidencia.
+Actualización 2026-11-05: Word recibido y cotejado. Se sustituyó el AFND equivalente inicial por el modelo n0–n6 del documento, se incorporaron sus tres solicitudes de derivación, los 20 enunciados RF/RNF y el máximo de 2000 ms. Vercel confirmó el despliegue 89ecf31 y GitHub Actions completó las pruebas. Ver WORD_REVIEW.md para límites y actualizaciones del manuscrito.

@@ -72,4 +72,4 @@ Un error léxico o sintáctico bloquea AST, semántica y salidas. Un error semá
 
 ## Evidencias y límites
 
-Ver `docs/ANALYSIS.md`, `docs/DESIGN.md`, `docs/VALIDATION.md` y `docs/TRACEABILITY.md`. Las mediciones son locales y no se extrapolan a personas ni a producción. Los enunciados literales RF01–RF12 / RNF01–RNF08 y las figuras originales del Word no se adjuntaron; sus IDs se muestran como pendientes de cotejo. No se inventa su contenido.
+Ver `docs/ANALYSIS.md`, `docs/DESIGN.md`, `docs/VALIDATION.md` y `docs/TRACEABILITY.md`. Las mediciones son locales y no se extrapolan a personas ni a producción. Los enunciados RF01–RF12 y RNF01–RNF08 se cotejaron con el Word aportado el 5 de noviembre de 2026. Ver `docs/WORD_REVIEW.md` y la matriz con evidencias y limitaciones; no se modificó ni publicó el documento original.

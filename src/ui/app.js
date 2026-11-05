@@ -1,9 +1,14 @@
+import { WORD_DERIVATIONS } from "../metrics/word-examples.js";
 import "./styles.css";
 import { compile } from "../compiler/index.js";
 import { DEFAULT_ROOMS, limaDate } from "../semantic/rules.js";
 import { CASES, BASE, REFERENCE_DATE } from "../metrics/cases.js";
 import { evaluate, manualCompile } from "../metrics/evaluate.js";
-import { TRACEABILITY } from "../metrics/requirements.js";
+import {
+  TRACEABILITY,
+  requirementSummary,
+  WORD_CASE_MAPPING,
+} from "../metrics/requirements.js";
 import {
   DFA_STATES,
   transition,
@@ -268,6 +273,10 @@ function metrics() {
       report ? `${(report.consistency * 100).toFixed(1)} %` : "—",
     ],
   ];
+  values.push([
+    "Máximo observado (RNF01)",
+    report ? `${report.maxMs.toFixed(3)} ms / 2000 ms` : "Sin ejecutar",
+  ]);
   $("metricSummary").innerHTML = values
     .map(([k, v]) => `<div><dt>${k}</dt><dd><b>${v}</b></dd></div>`)
     .join("");
@@ -338,17 +347,20 @@ function formal() {
     ]),
   );
   $("nfaTable").innerHTML = table(
-    ["Estado", "ε", "H", "0–9", "Otro"],
+    ["Estado", "Entrada", "Destino"],
     [
-      ["s", "{q0}", "∅", "∅", "∅"],
-      ["q0", "∅", "{q1}", "∅", "∅"],
-      ["q1", "∅", "∅", "{q2}", "∅"],
-      ["q2", "∅", "∅", "{q3}", "∅"],
-      ["q3", "∅", "∅", "{q4}", "∅"],
-      ["q4", "∅", "∅", "∅", "∅"],
+      ["n0", "H", "{n1}"],
+      ["n1", "ε", "{n2, n3}"],
+      ["n2", "0,2,4,6,8", "{n4}"],
+      ["n3", "1,3,5,7,9", "{n4}"],
+      ["n4", "0–9", "{n5}"],
+      ["n5", "0–9", "{n6}"],
+      ["n6", "Cualquiera", "∅"],
     ],
   );
-  $("derivationExamples").innerHTML = [CASES[0], CASES[3], CASES[5]]
+  $("derivationExamples").innerHTML = WORD_DERIVATIONS.map((input) => ({
+    input,
+  }))
     .map((c, i) => {
       const result = compile(c.input, { referenceDate: REFERENCE_DATE });
       return `<details ${i === 0 ? "open" : ""}><summary>Derivación ${i + 1} · ${escape(c.input)}</summary><pre>${escape(result.derivations.join("\n⇒ "))}</pre></details>`;
@@ -372,18 +384,17 @@ function formal() {
       r.status,
     ]),
   );
-  $("pendingRequirements").innerHTML = [
-    ...Array.from(
-      { length: 12 },
-      (_, i) => `RF${String(i + 1).padStart(2, "0")}`,
-    ),
-    ...Array.from(
-      { length: 8 },
-      (_, i) => `RNF${String(i + 1).padStart(2, "0")}`,
-    ),
-  ]
-    .map((id) => `<span>${id} · pendiente de cotejo</span>`)
-    .join("");
+  const summary = requirementSummary();
+  $("pendingRequirements").innerHTML = TRACEABILITY.map(
+    (r) =>
+      `<span class="${r.verified ? "good" : "neutral"}">${r.id} · ${r.verified ? "verificado" : "parcial"}</span>`,
+  ).join("");
+  $("requirementSummary").textContent =
+    `${summary.verified}/${summary.total} requisitos verificados (${summary.percentage.toFixed(0)} %), en el alcance de las evidencias registradas.`;
+  $("wordCases").innerHTML = table(
+    ["Caso Word", "Condición", "Prueba vinculada"],
+    WORD_CASE_MAPPING,
+  );
   simulateInput();
 }
 function simulateInput() {

@@ -1,0 +1,7 @@
+// Solicitudes literales de §1.3.8 del documento académico.
+// Son ejemplos sintácticos: H305 puede no existir en el catálogo configurado.
+export const WORD_DERIVATIONS = [
+  "RESERVA CLIENTE=CARLOS HABITACION=H203 FECHA=2026-12-15 NOCHES=3 PERSONAS=2",
+  "RESERVA CLIENTE=ANA HABITACION=H101 FECHA=2026-12-20 NOCHES=2 PERSONAS=1",
+  "RESERVA CLIENTE=LUIS HABITACION=H305 FECHA=2027-01-08 NOCHES=1 PERSONAS=1",
+];

@@ -1,0 +1,82 @@
+[
+  {
+    "id": "RF01",
+    "requirement": "El sistema deberá permitir ingresar solicitudes textuales de reservas hoteleras mediante un editor."
+  },
+  {
+    "id": "RF02",
+    "requirement": "El sistema deberá identificar los tokens y lexemas de las solicitudes mediante un analizador léxico."
+  },
+  {
+    "id": "RF03",
+    "requirement": "El sistema deberá detectar caracteres y patrones que incumplan las reglas léxicas."
+  },
+  {
+    "id": "RF04",
+    "requirement": "El sistema deberá verificar la estructura de las solicitudes mediante una gramática libre de contexto."
+  },
+  {
+    "id": "RF05",
+    "requirement": "El sistema deberá identificar errores sintácticos e indicar su ubicación en la entrada."
+  },
+  {
+    "id": "RF06",
+    "requirement": "El sistema deberá generar un árbol sintáctico y una representación estructurada de las solicitudes válidas."
+  },
+  {
+    "id": "RF07",
+    "requirement": "El sistema deberá comprobar reglas semánticas relacionadas con fechas, noches, habitaciones y ocupantes."
+  },
+  {
+    "id": "RF08",
+    "requirement": "El sistema deberá mostrar mensajes que permitan identificar y corregir errores de validación."
+  },
+  {
+    "id": "RF09",
+    "requirement": "El sistema deberá generar representaciones JSON y SQL parametrizado de las solicitudes válidas."
+  },
+  {
+    "id": "RF10",
+    "requirement": "El sistema deberá permitir ejecutar casos de prueba con entradas correctas e incorrectas."
+  },
+  {
+    "id": "RF11",
+    "requirement": "El sistema deberá registrar el resultado de validación y el tiempo de procesamiento de cada solicitud."
+  },
+  {
+    "id": "RF12",
+    "requirement": "El sistema deberá utilizar un lexer y parser generados automáticamente mediante un metacompilador."
+  },
+  {
+    "id": "RNF01",
+    "requirement": "Rendimiento: el sistema deberá procesar solicitudes individuales en un tiempo máximo de dos segundos bajo las condiciones de prueba definidas."
+  },
+  {
+    "id": "RNF02",
+    "requirement": "Usabilidad: la interfaz deberá distinguir visualmente las etapas de análisis y presentar mensajes comprensibles para el usuario."
+  },
+  {
+    "id": "RNF03",
+    "requirement": "Confiabilidad: el sistema deberá producir resultados equivalentes cuando procese entradas idénticas bajo las mismas condiciones."
+  },
+  {
+    "id": "RNF04",
+    "requirement": "Mantenibilidad: las reglas gramaticales y semánticas deberán permanecer separadas de los componentes de presentación."
+  },
+  {
+    "id": "RNF05",
+    "requirement": "Compatibilidad: la aplicación deberá funcionar en versiones modernas de navegadores basados en Chromium y Firefox."
+  },
+  {
+    "id": "RNF06",
+    "requirement": "Seguridad: las entradas deberán validarse antes de generar representaciones SQL y no deberán ejecutarse consultas directamente desde el navegador."
+  },
+  {
+    "id": "RNF07",
+    "requirement": "Portabilidad: la aplicación deberá poder desplegarse en Vercel manteniendo sus funcionalidades principales."
+  },
+  {
+    "id": "RNF08",
+    "requirement": "Escalabilidad funcional: la estructura del código deberá permitir incorporar nuevos tokens, producciones y reglas semánticas sin reescribir toda la interfaz."
+  }
+]
